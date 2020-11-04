@@ -29,32 +29,21 @@ def flatattrs(attrs):
     return " ".join(attlist)
 
 
-class BaseElement(tuple):
-    def __new__(cls, *children):
-        return tuple.__new__(cls, children)
-
-    @property
-    def children(self):
-        return self
+class BaseElement(list):
+    def __init__(self, *children):
+        super().__init__(children)
 
     def render(self, context):
         """Returns a list of strings which represents the output"""
-        yield from _try_render(self.children, context)
+        yield from _try_render(self, context)
 
 
 class HTMLElement(BaseElement):
     tag = None
 
-    def __new__(cls, *children, **attributes):
-        return super().__new__(cls, attributes, *children)
-
-    @property
-    def children(self):
-        return self[1:]
-
-    @property
-    def attributes(self):
-        return self[0]
+    def __init__(self, *children, **attributes):
+        super().__init__(*children)
+        self.attributes = attributes
 
     def render(self, context):
         assert self.tag is not None
@@ -64,28 +53,29 @@ class HTMLElement(BaseElement):
 
 
 class If(BaseElement):
-    def __new__(cls, condition, true_child, false_child=""):
-        return super().__new__(cls, condition, true_child, false_child)
+    def __init__(self, condition, true_child, false_child=None):
+        super().__init__()
+        self.condition = condition
+        self.true_child = true_child
+        self.false_child = false_child
 
     def render(self, context):
-        if self[0](context):
-            yield from _try_render((self[1],), context)
-        elif len(self) > 2:
-            yield from _try_render((self[2],), context)
+        if self.condition(context):
+            yield from _try_render((self.true_child,), context)
+        elif self.false_child is not None:
+            yield from _try_render((self.false_child,), context)
         else:
             yield ""
 
 
 class Iterate(BaseElement):
-    def __new__(cls, iterator, variablename, *children):
-        return super().__new__(cls, iterator, variablename, *children)
-
-    @property
-    def children(self):
-        return self[2:]
+    def __init__(self, iterator, variablename, *children):
+        super().__init__(*children)
+        self.iterator = iterator
+        self.variablename = variablename
 
     def render(self, context):
         c = dict(context)
-        for obj in self[0]:
-            c[self[1]] = obj
+        for obj in self.iterator:
+            c[self.variablename] = obj
             yield from super().render(c)

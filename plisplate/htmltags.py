@@ -1,4 +1,4 @@
-from pytemplate import HTMLElement
+from .core import HTMLElement
 
 
 class A(HTMLElement):

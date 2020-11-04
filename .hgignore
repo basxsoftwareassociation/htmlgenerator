@@ -1,0 +1,19 @@
+.coverage
+.egg
+__pycache__
+.tox
+.venv
+.vscode
+.pyc
+.eggs
+
+# mercurial backup files
+.orig
+
+# django
+.sqlite3
+^static/
+^media/
+
+# compiled translations
+.mo$
