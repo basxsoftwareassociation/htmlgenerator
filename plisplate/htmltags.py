@@ -517,6 +517,10 @@ class SUP(HTMLElement):
     tag = "sup"
 
 
+class SVG(HTMLElement):
+    tag = "svg"
+
+
 class TABLE(HTMLElement):
     tag = "table"
 

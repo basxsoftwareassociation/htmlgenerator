@@ -25,7 +25,11 @@ def flatattrs(attrs):
         if key[0] == "_":
             key = key[1:]
         key = key.replace("_", "-")
-        attlist.append(f'{key}="{value}"')
+        if isinstance(value, bool):
+            if value is True:
+                attlist.append(f'{key}="{value}"')
+        else:
+            attlist.append(f'{key}="{value}"')
     return " ".join(attlist)
 
 
@@ -33,9 +37,15 @@ class BaseElement(list):
     def __init__(self, *children):
         super().__init__(children)
 
-    def render(self, context):
+    def render_children(self, context):
         """Returns a list of strings which represents the output"""
         yield from _try_render(self, context)
+
+
+class Raw(BaseElement):
+    def render(self, context):
+        for i in self:
+            yield str(i)
 
 
 class HTMLElement(BaseElement):
@@ -48,7 +58,7 @@ class HTMLElement(BaseElement):
     def render(self, context):
         assert self.tag is not None
         yield f"<{self.tag} {flatattrs(self.attributes)}>"
-        yield from super().render(context)
+        yield from super().render_children(context)
         yield f"</{self.tag}>"
 
 
@@ -78,4 +88,4 @@ class Iterate(BaseElement):
         c = dict(context)
         for obj in self.iterator:
             c[self.variablename] = obj
-            yield from super().render(c)
+            yield from super().render_children(c)

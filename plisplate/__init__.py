@@ -1,4 +1,2 @@
-from . import htmltags
-from .core import render
-
-__all__ = ["render", "htmltags"]
+from .core import *  # noqa
+from .htmltags import *  # noqa
