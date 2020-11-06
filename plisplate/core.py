@@ -9,8 +9,10 @@ def _try_render(elements, context):
                 yield htmlescape(element.format(**context))
             else:
                 yield htmlescape(element)
-        else:
+        elif hasattr(element, "render"):
             yield from element.render(context)
+        else:
+            yield htmlescape(str(element))
 
 
 def htmlescape(s):
@@ -27,7 +29,7 @@ def flatattrs(attrs):
         key = key.replace("_", "-")
         if isinstance(value, bool):
             if value is True:
-                attlist.append(f'{key}="{value}"')
+                attlist.append(f"{key}")
         else:
             attlist.append(f'{key}="{value}"')
     return " ".join(attlist)
