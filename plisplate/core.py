@@ -82,12 +82,15 @@ class If(BaseElement):
 
 class Iterate(BaseElement):
     def __init__(self, iterator, variablename, *children):
+        """iterator: can be a python iterator or a callable which accepts the current context as argument and returns an iterator"""
         super().__init__(*children)
         self.iterator = iterator
         self.variablename = variablename
 
     def render(self, context):
         c = dict(context)
+        if callable(self.iterator):
+            self.iterator = self.iterator(c)
         for obj in self.iterator:
             c[self.variablename] = obj
             yield from super().render_children(c)
