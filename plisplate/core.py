@@ -27,7 +27,7 @@ def flatattrs(attrs):
         if key[0] == "_":
             key = key[1:]
         key = key.replace("_", "-")
-        if isinstance(value, bool):
+        if isinstance(value, bool) and key != "value":
             if value is True:
                 attlist.append(f"{key}")
         else:
