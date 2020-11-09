@@ -43,6 +43,9 @@ class BaseElement(list):
         """Returns a list of strings which represents the output"""
         yield from _try_render(self, context)
 
+    def __repr__(self):
+        return f"{self.__class__.__name__}({super().__repr__()})"
+
 
 class Raw(BaseElement):
     def render(self, context):
@@ -63,6 +66,19 @@ class HTMLElement(BaseElement):
         yield from super().render_children(context)
         yield f"</{self.tag}>"
 
+    def __repr__(self):
+        return f"{type(self)}({super().__repr__()})"
+
+
+class VoidElement(HTMLElement):
+    """Wrapper for elements without a closing tag, cannot have children"""
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def render(self, context):
+        yield f"<{self.tag} {flatattrs(self.attributes)} />"
+
 
 class If(BaseElement):
     def __init__(self, condition, true_child, false_child=None):
@@ -80,7 +96,7 @@ class If(BaseElement):
             yield ""
 
 
-class Iterate(BaseElement):
+class Iterator(BaseElement):
     def __init__(self, iterator, variablename, *children):
         """iterator: can be a string which will be looked up in the context, a python iterator or a callable which accepts the current context as argument and returns an iterator"""
         super().__init__(*children)

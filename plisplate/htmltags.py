@@ -1,4 +1,4 @@
-from .core import HTMLElement
+from .core import HTMLElement, VoidElement
 
 
 class A(HTMLElement):
@@ -21,7 +21,7 @@ class APPLET(HTMLElement):
     tag = "applet"
 
 
-class AREA(HTMLElement):
+class AREA(VoidElement):
     tag = "area"
 
 
@@ -41,7 +41,7 @@ class B(HTMLElement):
     tag = "b"
 
 
-class BASE(HTMLElement):
+class BASE(VoidElement):
     tag = "base"
 
 
@@ -77,7 +77,7 @@ class BODY(HTMLElement):
     tag = "body"
 
 
-class BR(HTMLElement):
+class BR(VoidElement):
     tag = "br"
 
 
@@ -105,7 +105,7 @@ class CODE(HTMLElement):
     tag = "code"
 
 
-class COL(HTMLElement):
+class COL(VoidElement):
     tag = "col"
 
 
@@ -113,7 +113,7 @@ class COLGROUP(HTMLElement):
     tag = "colgroup"
 
 
-class COMMAND(HTMLElement):
+class COMMAND(VoidElement):
     tag = "command"
 
 
@@ -177,7 +177,7 @@ class EM(HTMLElement):
     tag = "em"
 
 
-class EMBED(HTMLElement):
+class EMBED(VoidElement):
     tag = "embed"
 
 
@@ -249,7 +249,7 @@ class HGROUP(HTMLElement):
     tag = "hgroup"
 
 
-class HR(HTMLElement):
+class HR(VoidElement):
     tag = "hr"
 
 
@@ -273,12 +273,16 @@ class IMAGE(HTMLElement):
     tag = "image"
 
 
-class IMG(HTMLElement):
+class IMG(VoidElement):
     tag = "img"
 
 
-class INPUT(HTMLElement):
+class INPUT(VoidElement):
     tag = "input"
+
+    def render(self, context):
+        yield "<!DOCTYPE html>"
+        yield from super().render(context)
 
 
 class INS(HTMLElement):
@@ -293,7 +297,7 @@ class KBD(HTMLElement):
     tag = "kbd"
 
 
-class KEYGEN(HTMLElement):
+class KEYGEN(VoidElement):
     tag = "keygen"
 
 
@@ -309,7 +313,7 @@ class LI(HTMLElement):
     tag = "li"
 
 
-class LINK(HTMLElement):
+class LINK(VoidElement):
     tag = "link"
 
 
@@ -341,7 +345,7 @@ class MENUITEM(HTMLElement):
     tag = "menuitem"
 
 
-class META(HTMLElement):
+class META(VoidElement):
     tag = "meta"
 
 
@@ -401,7 +405,7 @@ class P(HTMLElement):
     tag = "p"
 
 
-class PARAM(HTMLElement):
+class PARAM(VoidElement):
     tag = "param"
 
 
@@ -481,7 +485,7 @@ class SMALL(HTMLElement):
     tag = "small"
 
 
-class SOURCE(HTMLElement):
+class SOURCE(VoidElement):
     tag = "source"
 
 
@@ -565,7 +569,7 @@ class TR(HTMLElement):
     tag = "tr"
 
 
-class TRACK(HTMLElement):
+class TRACK(VoidElement):
     tag = "track"
 
 
@@ -589,7 +593,7 @@ class VIDEO(HTMLElement):
     tag = "video"
 
 
-class WBR(HTMLElement):
+class WBR(VoidElement):
     tag = "wbr"
 
 
