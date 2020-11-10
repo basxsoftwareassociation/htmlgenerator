@@ -44,7 +44,8 @@ class BaseElement(list):
         yield from _try_render(self, context)
 
     def __repr__(self):
-        return f"{self.__class__.__name__}({super().__repr__()})"
+        children = ", ".join([i.__repr__() for i in self])
+        return f"{self.__class__.__name__}({children})"
 
 
 class Raw(BaseElement):
@@ -57,17 +58,14 @@ class HTMLElement(BaseElement):
     tag = None
 
     def __init__(self, *children, **attributes):
+        assert self.tag is not None
         super().__init__(*children)
         self.attributes = attributes
 
     def render(self, context):
-        assert self.tag is not None
         yield f"<{self.tag} {flatattrs(self.attributes)}>"
         yield from super().render_children(context)
         yield f"</{self.tag}>"
-
-    def __repr__(self):
-        return f"{type(self)}({super().__repr__()})"
 
 
 class VoidElement(HTMLElement):
