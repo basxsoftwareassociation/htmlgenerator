@@ -15,6 +15,16 @@ def _try_render(elements, context):
             yield htmlescape(str(element))
 
 
+def filter(filter_func, root):
+    def walk(element):
+        for e in element:
+            if isinstance(e, BaseElement) and filter_func(e):
+                yield e
+                yield from walk(e)
+
+    return walk(root)
+
+
 def htmlescape(s):
     return s
 
