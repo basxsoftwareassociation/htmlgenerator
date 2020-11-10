@@ -280,10 +280,6 @@ class IMG(VoidElement):
 class INPUT(VoidElement):
     tag = "input"
 
-    def render(self, context):
-        yield "<!DOCTYPE html>"
-        yield from super().render(context)
-
 
 class INS(HTMLElement):
     tag = "ins"
