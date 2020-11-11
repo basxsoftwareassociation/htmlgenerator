@@ -1,3 +1,6 @@
+import copy
+
+
 def render(root, basecontext):
     return "".join(root.render(basecontext))
 
@@ -13,16 +16,6 @@ def _try_render(elements, context):
             yield from element.render(context)
         else:
             yield htmlescape(str(element))
-
-
-def filter(filter_func, root):
-    def walk(element):
-        for e in element:
-            if isinstance(e, BaseElement) and filter_func(e):
-                yield e
-                yield from walk(e)
-
-    return walk(root)
 
 
 def htmlescape(s):
@@ -52,6 +45,19 @@ class BaseElement(list):
     def render_children(self, context):
         """Returns a list of strings which represents the output"""
         yield from _try_render(self, context)
+
+    def filter(self, filter_func):
+        def walk(element):
+            for e in element:
+                if isinstance(e, BaseElement):
+                    if filter_func(e):
+                        yield e
+                    yield from walk(e)
+
+        return walk(self)
+
+    def copy(self):
+        return copy.deepcopy(self)
 
     def __repr__(self):
         children = ", ".join([i.__repr__() for i in self])
