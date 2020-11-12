@@ -39,9 +39,12 @@ class BaseElement(list):
         super().__init__(children)
 
     def render_children(self, context):
-        """Returns a list of strings which represents the output"""
+        """Returns a generator of strings which represents the output"""
         for element in self:
             yield from _try_render(element, context)
+
+    def render(self, context):
+        yield from self.render_children(context)
 
     def filter(self, filter_func):
         def walk(element):
