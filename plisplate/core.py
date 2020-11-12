@@ -1,25 +1,21 @@
 import copy
 
+from django.utils import html
+
 
 def render(root, basecontext):
     return "".join(root.render(basecontext))
 
 
-def _try_render(elements, context):
-    for element in elements:
-        if isinstance(element, str):
-            if "{" in element or "}" in element:
-                yield htmlescape(element.format(**context))
-            else:
-                yield htmlescape(element)
-        elif hasattr(element, "render"):
-            yield from element.render(context)
-        else:
-            yield htmlescape(str(element))
-
-
-def htmlescape(s):
-    return s
+def _try_render(element, context):
+    if isinstance(element, str):
+        yield html.conditinal_escape(element)
+    elif hasattr(element, "render"):
+        yield from element.render(context)
+    elif callable(element):
+        yield html.conditinal_escape(element(context))
+    else:
+        yield html.conditinal_escape(str(element))
 
 
 def flatattrs(attrs):
@@ -44,7 +40,8 @@ class BaseElement(list):
 
     def render_children(self, context):
         """Returns a list of strings which represents the output"""
-        yield from _try_render(self, context)
+        for element in self:
+            yield from _try_render(element, context)
 
     def filter(self, filter_func):
         def walk(element):
@@ -103,11 +100,9 @@ class If(BaseElement):
 
     def render(self, context):
         if self.condition(context):
-            yield from _try_render((self.true_child,), context)
+            yield from _try_render(self.true_child, context)
         elif self.false_child is not None:
-            yield from _try_render((self.false_child,), context)
-        else:
-            yield ""
+            yield from _try_render(self.false_child, context)
 
 
 class Iterator(BaseElement):
