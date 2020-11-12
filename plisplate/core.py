@@ -9,13 +9,13 @@ def render(root, basecontext):
 
 def _try_render(element, context):
     if isinstance(element, str):
-        yield html.conditinal_escape(element)
+        yield html.conditional_escape(element)
     elif hasattr(element, "render"):
         yield from element.render(context)
     elif callable(element):
-        yield html.conditinal_escape(element(context))
+        yield html.conditional_escape(element(context))
     else:
-        yield html.conditinal_escape(str(element))
+        yield html.conditional_escape(str(element))
 
 
 def flatattrs(attrs):
