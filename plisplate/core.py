@@ -8,6 +8,24 @@ def render(root, basecontext):
     return html.mark_safe("".join(root.render(basecontext)))
 
 
+def resolve_lazy(value):
+    def resolve(context):
+        """Will try to resolve a value dynamically, in the following order:
+        1. Try to call value with the context as only argment
+        2. Try to look up value as a key in the context and returns the val
+        3. Return the value as is
+
+        Use this when writing custom render elements to evaluate parameters which should be calculated at rendering time.
+        """
+        if callable(value):
+            return value(context)
+        if isinstance(value, str) and value in context:
+            return context[value]
+        return value
+
+    return resolve
+
+
 def flatattrs(attrs):
     """Converts a dictionary to a string of HTML-attributes.
     Leading underscores are removed and underscores are replaced with dashes."""
@@ -109,9 +127,9 @@ class VoidElement(HTMLElement):
 
 class If(BaseElement):
     def __init__(self, condition, true_child, false_child=None):
-        """Condition: callable which will be evaluated to True or False. Depending on the result true_child or false_child will be rendered"""
+        """Condition: callable or context variable which will be evaluated to True or False. Depending on the result true_child or false_child will be rendered"""
         super().__init__()
-        self.condition = condition
+        self.condition = resolve_lazy(condition)
         self.true_child = true_child
         self.false_child = false_child
 
@@ -124,19 +142,13 @@ class If(BaseElement):
 
 class Iterator(BaseElement):
     def __init__(self, iterator, variablename, *children):
-        """iterator: can be a string which will be looked up in the context, a python iterator or a callable which accepts the current context as argument and returns an iterator"""
+        """iterator: callable or context variable which returns an iterator"""
         super().__init__(*children)
-        self.iterator = iterator
+        self.iterator = resolve_lazy(iterator)
         self.variablename = variablename
 
     def render(self, context):
-        c = dict(context)
-        if isinstance(self.iterator, str):
-            iterator = context[self.iterator]
-        elif callable(self.iterator):
-            iterator = self.iterator(c)
-        else:
-            iterator = self.iterator
-        for obj in iterator:
-            c[self.variablename] = obj
-            yield from super().render_children(c)
+        localcontext = dict(context)
+        for obj in self.iterator(context):
+            localcontext[self.variablename] = obj
+            yield from super().render_children(localcontext)
