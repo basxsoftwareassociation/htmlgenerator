@@ -5,7 +5,7 @@ from django.utils import html
 
 def render(root, basecontext):
     """ Shortcut to serialize an object tree into a string"""
-    return "".join(root.render(basecontext))
+    return html.mark_safe("".join(root.render(basecontext)))
 
 
 def flatattrs(attrs):
