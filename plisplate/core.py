@@ -82,6 +82,10 @@ class BaseElement(list):
         yield from self.render_children(context)
 
     def filter(self, filter_func):
+        """Walks through the tree (self not including) and yields each element for which a call to filter_func evaluates to True.
+        filter_func expects the element and a tuple of all ancestors as arguments.
+        """
+
         def walk(element, ancestors):
             for e in element:
                 if isinstance(e, BaseElement):
