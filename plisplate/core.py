@@ -82,14 +82,14 @@ class BaseElement(list):
         yield from self.render_children(context)
 
     def filter(self, filter_func):
-        def walk(element):
+        def walk(element, ancestors):
             for e in element:
                 if isinstance(e, BaseElement):
-                    if filter_func(e):
+                    if filter_func(e, ancestors):
                         yield e
-                    yield from walk(e)
+                    yield from walk(e, ancestors=ancestors + (e,))
 
-        return walk(self)
+        return walk(self, (self,))
 
     def copy(self):
         return copy.deepcopy(self)
