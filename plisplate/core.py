@@ -64,8 +64,8 @@ class BaseElement(list):
         if hasattr(element, "render"):
             yield from element.render(context)
         elif callable(element):
-            yield html.conditional_escape(element(context))
-        else:
+            yield html.conditional_escape(element(context) or "")
+        elif element is not None:
             yield html.conditional_escape(str(element))
 
     def render_children(self, context):
