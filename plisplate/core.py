@@ -61,9 +61,7 @@ class BaseElement(list):
         3. If the element is a callable call the element itself with the context as argument and return the result. The output here will not be escaped because it is assumed that a render method does its own escaping (which is true for all elements defined in this package).
         4. Convert the element to a string and return the result.
         """
-        if isinstance(element, str):
-            yield html.conditional_escape(element)
-        elif hasattr(element, "render"):
+        if hasattr(element, "render"):
             yield from element.render(context)
         elif callable(element):
             yield html.conditional_escape(element(context))
