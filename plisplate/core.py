@@ -1,4 +1,6 @@
+import collections
 import copy
+from collections.abc import Iterable
 
 from django.utils import html
 
@@ -6,24 +8,6 @@ from django.utils import html
 def render(root, basecontext):
     """ Shortcut to serialize an object tree into a string"""
     return html.mark_safe("".join(root.render(basecontext)))
-
-
-def resolve_lazy(value):
-    def resolve(context):
-        """Will try to resolve a value dynamically, in the following order:
-        1. Try to call value with the context as only argment
-        2. Try to look up value as a key in the context and returns the val
-        3. Return the value as is
-
-        Use this when writing custom render elements to evaluate parameters which should be calculated at rendering time.
-        """
-        if callable(value):
-            return value(context)
-        if isinstance(value, str) and value in context:
-            return context[value]
-        return value
-
-    return resolve
 
 
 def flatattrs(attrs):
@@ -61,6 +45,8 @@ class BaseElement(list):
         3. If the element is a callable call the element itself with the context as argument and return the result. The output here will not be escaped because it is assumed that a render method does its own escaping (which is true for all elements defined in this package).
         4. Convert the element to a string and return the result.
         """
+        if isinstance(element, Lazy):
+            element = element.resolve(context)
         if hasattr(element, "render"):
             yield from element.render(context)
         elif callable(element):
@@ -101,6 +87,46 @@ class BaseElement(list):
         return f"{self.__class__.__name__}({children})"
 
 
+# TODO: check whether we should use the lazy-evaluation systme of django here.
+class Lazy:
+    """Lazy values will be evaluated at render time. Elements which need to get values a render time need to """
+
+    pass
+
+
+class ContextValue(Lazy):
+    def __init__(self, value):
+        assert isinstance(
+            value, collections.Hashable
+        ), "ContextValue needs to be hashable"
+        self.value = value
+
+    def resolve(self, context):
+        if isinstance(self.value, str):
+            # TODO: Test
+            for accessor in self.value.split("."):
+                if hasattr(context, accessor):
+                    context = getattr(context, accessor)
+                else:
+                    context = context.get(accessor)
+            return context
+        return context[self.value]
+
+
+class ContextFunction(Lazy):
+    def __init__(self, func):
+        assert callable(func), "ContextFunction needs to be callable"
+        self.func = func
+
+    def resolve(self, context):
+        return self.func(context)
+
+
+# shortcuts
+C = ContextValue
+F = ContextFunction
+
+
 class HTMLElement(BaseElement):
     """The base for all HTML tags."""
 
@@ -127,30 +153,87 @@ class VoidElement(HTMLElement):
         yield f"<{self.tag} {flatattrs(self.attributes)} />"
 
 
+class ValueProvider(BaseElement):
+    """Helper class to provide explicit defined values to "marked" child elements
+    The object-generating element needs to subclass this class. Any "direct" child
+    element which inherits from the "ConsumerMixin" attribute will have an attribute
+    (defined by attributename) set with the according value.
+    ("direct" means any level deeper but no nested Object Provider)
+    """
+
+    attributename = None
+
+    def __init__(self, value, *children):
+        """
+        value: value which will be passed to all ConsumerMixin children at render time, can be Lazy
+        attributename: The name through which ConsumerMixin children will be able to access the value
+        """
+        assert self.attributename is not None
+        super().__init__(*children)
+        self.value = value
+
+    @classmethod
+    def ConsumerMixin(cls):
+        if not hasattr(cls, "_ConsumerMixin"):
+            cls._ConsumerMixin = type(
+                f"ObjectConsumer{cls.__name__}", (BaseElement,), {}
+            )
+        return cls._ConsumerMixin
+
+    def _consumerelements(self):
+        return self.filter(
+            lambda elem, ancestors: isinstance(elem, self.ConsumerMixin())
+            and not any(
+                (isinstance(ancestor, type(self)) for ancestor in ancestors[1:])
+            )
+        )
+
+    def render(self, context):
+        value = (
+            self.value.resolve(context) if isinstance(self.value, Lazy) else self.value
+        )
+
+        for element in self._consumerelements():
+            setattr(element, self.attributename, value)
+        return super().render(context)
+
+
 class If(BaseElement):
     def __init__(self, condition, true_child, false_child=None):
-        """Condition: callable or context variable which will be evaluated to True or False. Depending on the result true_child or false_child will be rendered"""
+        """condition: Value which determines which child to render (true_child or false_child. Can also be ContextValue or ContextFunction"""
         super().__init__()
-        self.condition = resolve_lazy(condition)
+        self.condition = condition
         self.true_child = true_child
         self.false_child = false_child
 
     def render(self, context):
-        if self.condition(context):
+        condition = (
+            self.condition.resolve(context)
+            if isinstance(self.condition, Lazy)
+            else self.condition
+        )
+        if condition:
             yield from self._try_render(self.true_child, context)
         elif self.false_child is not None:
             yield from self._try_render(self.false_child, context)
 
 
 class Iterator(BaseElement):
-    def __init__(self, iterator, variablename, *children):
+    def __init__(self, iterator, valueproviderclass, *children):
         """iterator: callable or context variable which returns an iterator"""
+        assert isinstance(iterator, (Iterable, Lazy)) and not isinstance(
+            iterator, str
+        ), "iterator argument needs to be iterable or a Lazy object"
         super().__init__(*children)
-        self.iterator = resolve_lazy(iterator)
-        self.variablename = variablename
+        self.iterator = iterator
+        self.valueprovider = valueproviderclass(None, *children)
 
     def render(self, context):
-        localcontext = dict(context)
-        for obj in self.iterator(context):
-            localcontext[self.variablename] = obj
-            yield from super().render_children(localcontext)
+        iterator = (
+            self.iterator.resolve(context)
+            if isinstance(self.iterator, Lazy)
+            else self.iterator
+        )
+        for obj in iterator:
+            self.valueprovider.value = obj
+            yield from self.valueprovider.render(context)
