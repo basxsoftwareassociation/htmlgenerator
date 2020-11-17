@@ -171,13 +171,13 @@ F = ContextFunction
 class ValueProvider(BaseElement):
     """Helper class to provide explicit defined values to "marked" child elements
     The object-generating element needs to subclass this class. Any "direct" child
-    element which inherits from the "ConsumerElement" attribute will have an attribute
+    element which inherits from the "Binding"-class will have an attribute
     (defined by attributename) set with the according value.
     ("direct" means any level deeper but no nested Object Provider)
     """
 
     attributename = "value"
-    "The name through which ConsumerElement children will be able to access the value, should be changed when subclassed"
+    "The name through which bound children will be able to access the value, should be changed when subclassed"
     _ConsumerBase = type("ValueConsumer", (), {})
 
     def __init__(self, value, *children):
@@ -194,7 +194,9 @@ class ValueProvider(BaseElement):
         cls._ConsumerBase = type(f"{cls.__name__}Consumer", (), {})
 
     @classmethod
-    def ConsumerElement(cls, base=BaseElement):
+    def Binding(cls, base=BaseElement):
+        """Bind an class to this ValueProvider class. All bound instances which are a an decendant of an instance of this class will have the according attribute set
+        before the render function is called."""
         return type(f"{cls.__name__}Consumer", (base, cls._ConsumerBase), {})
 
     def _consumerelements(self):
