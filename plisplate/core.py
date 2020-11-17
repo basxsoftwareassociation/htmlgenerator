@@ -144,12 +144,12 @@ class ContextValue(Lazy):
 
 
 class ContextFunction(Lazy):
-    def __init__(self, element, func):
+    def __init__(self, func):
         assert callable(func), "ContextFunction needs to be callable"
         self.func = func
 
-    def resolve(self, context):
-        return self.func(context)
+    def resolve(self, element, context):
+        return self.func(element, context)
 
 
 class ElementAttribute(Lazy):
@@ -178,6 +178,7 @@ class ValueProvider(BaseElement):
 
     attributename = "value"
     "The name through which ConsumerElement children will be able to access the value, should be changed when subclassed"
+    _ConsumerBase = type("ValueConsumer", (), {})
 
     def __init__(self, value, *children):
         """
@@ -188,14 +189,17 @@ class ValueProvider(BaseElement):
         self.value = value
 
     @classmethod
+    def __init_subclass__(cls, *args, **kwargs):
+        super().__init_subclass__(*args, **kwargs)
+        cls._ConsumerBase = type(f"{cls.__name__}Consumer", (), {})
+
+    @classmethod
     def ConsumerElement(cls, base=BaseElement):
-        if not hasattr(cls, "_Consumer"):
-            cls._Consumer = type(f"ValueConsumer{cls.__name__}", (base,), {})
-        return cls._Consumer
+        return type(f"{cls.__name__}Consumer", (base, cls._ConsumerBase), {})
 
     def _consumerelements(self):
         return self.filter(
-            lambda elem, ancestors: isinstance(elem, self.ConsumerElement())
+            lambda elem, ancestors: isinstance(elem, self._ConsumerBase)
             and not any(
                 (isinstance(ancestor, type(self)) for ancestor in ancestors[1:])
             )
