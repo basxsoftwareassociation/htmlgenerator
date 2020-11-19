@@ -1,4 +1,40 @@
-from .core import HTMLElement, VoidElement
+from .base import BaseElement
+
+
+class HTMLElement(BaseElement):
+    """The base for all HTML tags."""
+
+    tag = None
+
+    def __init__(self, *children, **attributes):
+        assert self.tag is not None
+        super().__init__(*children)
+        self.attributes = attributes
+
+    def render(self, context):
+        yield f"<{self.tag} {flatattrs(self.attributes)}>"
+        yield from super().render_children(context)
+        yield f"</{self.tag}>"
+
+    # mostly for debugging purposes
+    def __repr__(self):
+        children = ", ".join([i.__repr__() for i in self])
+        return (
+            f"{self.__class__.__name__}("
+            + ", ".join([i for i in (flatattrs(self.attributes), children) if i])
+            + ")"
+        )
+
+
+class VoidElement(HTMLElement):
+    """Wrapper for elements without a closing tag, cannot have children"""
+
+    # does not accept children
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def render(self, context):
+        yield f"<{self.tag} {flatattrs(self.attributes)} />"
 
 
 class A(HTMLElement):
@@ -260,7 +296,7 @@ class HTML(HTMLElement):
         super().__init__(
             META(charset="utf-8"),
             META(name="viewport", content="width=device-width, initial-scale=1.0"),
-            *children
+            *children,
         )
 
     def render(self, context):
@@ -602,3 +638,19 @@ class WBR(VoidElement):
 
 class XMP(HTMLElement):
     tag = "xmp"
+
+
+def flatattrs(attrs):
+    """Converts a dictionary to a string of HTML-attributes.
+    Leading underscores are removed and other underscores are replaced with dashes."""
+    attlist = []
+    for key, value in attrs.items():
+        if key[0] == "_":
+            key = key[1:]
+        key = key.replace("_", "-")
+        if isinstance(value, bool) and key != "value":
+            if value is True:
+                attlist.append(f"{key}")
+        else:
+            attlist.append(f'{key}="{value}"')
+    return " ".join(attlist)

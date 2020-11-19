@@ -1,36 +1,24 @@
-import collections
 import copy
+import html
 from collections.abc import Iterable
 
-from django.utils import html
+from .lazy import Lazy, resolve_lazy
+
+# for integration with the django safe string objects, optional
+try:
+    from django.utils.html import mark_safe
+except ImportError:
+    from .safestring import mark_safe
 
 
 def render(root, basecontext):
     """ Shortcut to serialize an object tree into a string"""
-    return html.mark_safe("".join(root.render(basecontext)))
-
-
-def flatattrs(attrs):
-    """Converts a dictionary to a string of HTML-attributes.
-    Leading underscores are removed and underscores are replaced with dashes."""
-    attlist = []
-    for key, value in attrs.items():
-        if key[0] == "_":
-            key = key[1:]
-        key = key.replace("_", "-")
-        if isinstance(value, bool) and key != "value":
-            if value is True:
-                attlist.append(f"{key}")
-        else:
-            attlist.append(f'{key}="{value}"')
-    return " ".join(attlist)
+    return "".join(root.render(basecontext))
 
 
 class BaseElement(list):
     """The base render element
-    Normally all objects used in a render tree should have this class as a base.
-    Exceptions are strings and callables.
-
+    All nodes used in a render tree should have this class as a base. Leaves in the tree may be strings or Lazy objects.
     """
 
     def __init__(self, *children):
@@ -38,36 +26,26 @@ class BaseElement(list):
         super().__init__(children)
 
     def _try_render(self, element, context):
-        """Renders an element. The output will always be escaped but considers djangos safe-strings
-        The following atempts will be made to render an object:
-        1. If the element is a string return it escaped.
-        2. If the element has an attribute 'render' call it with the context as argument and return the result.
-        3. If the element is a callable call the element itself with the context as argument and return the result. The output here will not be escaped because it is assumed that a render method does its own escaping (which is true for all elements defined in this package).
-        4. Convert the element to a string and return the result.
-        """
+        """Renders an element as a generator which yields strings"""
         if isinstance(element, Lazy):
             element = element.resolve(self, context)
         if hasattr(element, "render"):
             yield from element.render(context)
-        elif callable(element):
-            yield html.conditional_escape(element(context) or "")
         elif element is not None:
-            yield html.conditional_escape(str(element))
+            yield conditional_escape(element)
 
     def render_children(self, context):
-        """Renders all elements inside the list. Can be used by subclassing elements if they need to render wrapping code and then the child elements."""
+        """Renders all elements inside the list. Can be used by subclassing elements if they need to controll where child elements are rendered."""
         for element in self:
             yield from self._try_render(element, context)
 
     def render(self, context):
-        """The base implementation whill just render all children.
-        Subclassing methods can use this method to modify the element or its children and use the data from context
-        """
+        """Renders this element and its children. Can be overwritten by subclassing elements."""
         yield from self.render_children(context)
 
     def filter(self, filter_func):
         """Walks through the tree (self not including) and yields each element for which a call to filter_func evaluates to True.
-        filter_func expects the element and a tuple of all ancestors as arguments.
+        filter_func expects an element and a tuple of all ancestors as arguments.
         """
 
         def walk(element, ancestors):
@@ -83,89 +61,19 @@ class BaseElement(list):
         return copy.deepcopy(self)
 
     def __repr__(self):
+        attrs = ", ".join(
+            [
+                i
+                for i in dir(self)
+                if not callable(getattr(self, i)) and not i.startswith("__")
+            ]
+        )
         children = ", ".join([i.__repr__() for i in self])
-        return f"{self.__class__.__name__}({children})"
-
-
-class HTMLElement(BaseElement):
-    """The base for all HTML tags."""
-
-    tag = None
-
-    def __init__(self, *children, **attributes):
-        assert self.tag is not None
-        super().__init__(*children)
-        self.attributes = attributes
-
-    def render(self, context):
-        yield f"<{self.tag} {flatattrs(self.attributes)}>"
-        yield from super().render_children(context)
-        yield f"</{self.tag}>"
-
-
-class VoidElement(HTMLElement):
-    """Wrapper for elements without a closing tag, cannot have children"""
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-    def render(self, context):
-        yield f"<{self.tag} {flatattrs(self.attributes)} />"
-
-
-# TODO: check whether we should use the lazy-evaluation systme of django here.
-class Lazy:
-    """Lazy values will be evaluated at render time. Elements which need to get values a render time need to """
-
-    pass
-
-
-def resolve_lazy(value, element, context):
-    return value.resolve(element, context) if isinstance(value, Lazy) else value
-
-
-class ContextValue(Lazy):
-    def __init__(self, value):
-        assert isinstance(
-            value, collections.Hashable
-        ), "ContextValue needs to be hashable"
-        self.value = value
-
-    def resolve(self, element, context):
-        if isinstance(self.value, str):
-            # TODO: Test
-            for accessor in self.value.split("."):
-                if hasattr(context, accessor):
-                    context = getattr(context, accessor)
-                else:
-                    context = context.get(accessor)
-            return context
-        return context[self.value]
-
-
-class ContextFunction(Lazy):
-    def __init__(self, func):
-        assert callable(func), "ContextFunction needs to be callable"
-        self.func = func
-
-    def resolve(self, element, context):
-        return self.func(element, context)
-
-
-class ElementAttribute(Lazy):
-    """Get an attribute from an element, usefull for consumers of ValueProvider"""
-
-    def __init__(self, attribname):
-        self.attribname = attribname
-
-    def resolve(self, element, context):
-        return getattr(element, self.attribname)
-
-
-# shortcuts
-C = ContextValue
-ATR = ElementAttribute
-F = ContextFunction
+        return (
+            f"{self.__class__.__name__}("
+            + ", ".join([i for i in (attrs, children) if i])
+            + ")"
+        )
 
 
 class ValueProvider(BaseElement):
@@ -230,11 +138,10 @@ class If(BaseElement):
             yield from self._try_render(self.false_child, context)
 
 
-class IteratorValueProvider(ValueProvider):
-    attributename = "loopindex"
-
-
 class Iterator(BaseElement):
+    class IteratorValueProvider(ValueProvider):
+        attributename = "loopindex"
+
     def __init__(self, iterator, valueproviderclass, *children):
         """iterator: callable or context variable which returns an iterator
         valueproviderclass: A class which inherits from valueprovider in order to set the iterator value on child elements when rendering"""
@@ -243,7 +150,7 @@ class Iterator(BaseElement):
         ), "iterator argument needs to be iterable or a Lazy object"
         super().__init__(*children)
         self.iterator = iterator
-        self.valueprovider = IteratorValueProvider(
+        self.valueprovider = Iterator.IteratorValueProvider(
             None, valueproviderclass(None, *children)
         )
 
@@ -252,3 +159,10 @@ class Iterator(BaseElement):
             self.valueprovider.value = i
             self.valueprovider[0].value = obj
             yield from self.valueprovider.render(context)
+
+
+def conditional_escape(value):
+    if hasattr(value, "__html__"):
+        return value.__html__()
+    else:
+        return mark_safe(html.escape(str(value)))
