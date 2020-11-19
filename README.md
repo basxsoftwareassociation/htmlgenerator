@@ -18,4 +18,3 @@ A simple example:
 
     htmlgenerator.render(my_page, {})
 
-
