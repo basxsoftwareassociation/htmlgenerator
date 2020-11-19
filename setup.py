@@ -5,7 +5,6 @@ with open("README.md") as f:
 
 setup(
     name="htmlgenerator",
-    version="0.1",
     description="Declarative HTML templating system with lazy rendering",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -14,7 +13,14 @@ setup(
     author_email="sam@basx.dev",
     license="New BSD License",
     install_requires=[],
-    setup_requires=["setuptools_scm"],
+    setup_requires=["setuptools_autover"],
+    use_autover={
+        "root_version": "0.0",
+        "parse_tag": lambda tag: tag.lstrip("v"),
+        "create_version": lambda ver: "{}.post{}".format(
+            getattr(ver, "latest_version", "0"), ver.distance
+        ),
+    },
     packages=find_packages(),
     zip_safe=False,
     include_package_data=True,

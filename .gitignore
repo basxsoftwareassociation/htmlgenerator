@@ -1,0 +1,11 @@
+**/.coverage
+*.egg-info
+**/__pycache__
+**/.tox
+**/.venv
+**/.vscode
+**/.pyc
+**/.eggs
+
+dist/
+build/
