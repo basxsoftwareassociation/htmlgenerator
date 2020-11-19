@@ -1,10 +1,14 @@
 from setuptools import find_packages, setup
 
+with open("README.md") as f:
+    long_description = f.read()
+
 setup(
     name="htmlgenerator",
     version="0.1",
-    description="Declarative HTML-focused templating system with lazy rendering",
-    long_description="",
+    description="Declarative HTML templating system with lazy rendering",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     url="https://github.com/basxsoftwareassociation/htmlgenerator",
     author="basx Software Association",
     author_email="sam@basx.dev",
@@ -15,7 +19,7 @@ setup(
     zip_safe=False,
     include_package_data=True,
     classifiers=[
-        "Development Status :: Beta",
+        "Development Status :: 4 - Beta",
         "Environment :: Console",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",

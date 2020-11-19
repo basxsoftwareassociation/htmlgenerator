@@ -17,3 +17,5 @@ __pycache__
 
 # compiled translations
 .mo$
+^dist/
+^build/
