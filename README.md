@@ -205,7 +205,7 @@ In order to allow the building of a dynamic page virtual elements need to be use
 
 - ```htmlgenerator.BaseElement```: The base for all elements, can also be used to group elements without generating output by itself
 - ```htmlgenerator.If```: Lazy evaluates the first argument at render time and returns the first child on true and the second child on false
-- ```htmlgenerator.Iterator```: Takes an iterator which can be a lazy value and renders a child element for each iteration
+- ```htmlgenerator.Iterator```: Takes an iterator which can be a lazy value and renders the child element for each iteration
 
 Example:
 
