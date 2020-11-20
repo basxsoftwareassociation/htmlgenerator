@@ -14,13 +14,7 @@ setup(
     license="New BSD License",
     install_requires=[],
     setup_requires=["setuptools_autover"],
-    use_autover={
-        "root_version": "0.0",
-        "parse_tag": lambda tag: tag.lstrip("v"),
-        "create_version": lambda ver: "{}.post{}".format(
-            getattr(ver, "latest_version", "0"), ver.distance
-        ),
-    },
+    version="0.2.2",
     packages=find_packages(),
     zip_safe=False,
     include_package_data=True,
