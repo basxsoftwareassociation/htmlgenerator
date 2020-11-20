@@ -168,9 +168,9 @@ Lazy values
 In order to allow rendering values which are not yet known at construction time but only at render time lazy values can be used.
 By default htmlgenerator comes with the following lazy values:
 
-- ```htmlgenerator.ContextFunction```: Calls a function with the values element and the context as argument and renders the returned value (shortcut ```htmlgenerator.F```)
+- ```htmlgenerator.ContextFunction```: Calls a function with the values containing element and the context as argument and renders the returned value (shortcut ```htmlgenerator.F```)
 - ```htmlgenerator.ContextValue```: Renders a variable from the context, can use . to access nested attributes or dictionary keys (shortcut ```htmlgenerator.C```)
-- ```htmlgenerator.ElementAttribute```: Renders an attribute of an element, mainly used for bound values (see below) (shortcut ```htmlgenerator.ATTR```)
+- ```htmlgenerator.ElementAttribute```: Renders an attribute of an element, mainly used for bound values (see below), can use . to access nested attributes (shortcut ```htmlgenerator.ATTR```)
 
 A lazy value will be resolved just before it is rendered. Custom implementations of lazy values can be added by inheriting from ```htmlgenerator.Lazy```.
 
