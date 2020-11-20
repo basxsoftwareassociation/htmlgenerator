@@ -276,6 +276,13 @@ class H6(HTMLElement):
 class HEAD(HTMLElement):
     tag = "head"
 
+    def __init__(self, *children):
+        super().__init__(
+            META(charset="utf-8"),
+            META(name="viewport", content="width=device-width, initial-scale=1.0"),
+            *children,
+        )
+
 
 class HEADER(HTMLElement):
     tag = "header"
@@ -291,13 +298,6 @@ class HR(VoidElement):
 
 class HTML(HTMLElement):
     tag = "html"
-
-    def __init__(*children):
-        super().__init__(
-            META(charset="utf-8"),
-            META(name="viewport", content="width=device-width, initial-scale=1.0"),
-            *children,
-        )
 
     def render(self, context):
         yield "<!DOCTYPE html>"
