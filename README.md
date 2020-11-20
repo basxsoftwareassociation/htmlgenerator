@@ -397,7 +397,7 @@ Output:
 <div>Username: <div>Bob</div></div>
 ```
 
-Remark: This example is just for demonstration purposes. In order to achieve exactly what is shown here it would not be necessary to have a UserContext class because the user could as well be obtained via RequestContext.Binding(DIV)(ATTR("request.user")). The point is to show how chaining of ValueProviders can work.
+Remark: This example is just for demonstration purposes. In order to achieve exactly what is shown here it would not be necessary to have a UserContext class because the user could as well be obtained via ```RequestContext.Binding(DIV)(ATTR("request.user"))```. The point is to show how chaining of ValueProviders can work.
 
 
 Django integration
