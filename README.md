@@ -239,6 +239,8 @@ One solution string-template engines often use is a global context which is popu
 
 Binding works in the following way: An element which will provide a value to child elements at rendertime needs to inherit from ```htmlgenerator.ValueProvider```. The class method ```ValueProvider.Binding``` will return a class which is marked as bound to the according ValueProvider class. 
 
+![Binding schematics](./binding.svg)
+
 Here is a more extensive example, see below for a more compact version:
 
 ```python
