@@ -12,7 +12,10 @@ class HTMLElement(BaseElement):
         self.attributes = attributes
 
     def render(self, context):
-        yield f"<{self.tag} {flatattrs(self.attributes)}>"
+        # quirk to prevent tags having a single space if there are no attributes
+        attr_str = flatattrs(self.attributes)
+        attr_str = (" " + attr_str) if attr_str else attr_str
+        yield f"<{self.tag}{attr_str}>"
         yield from super().render_children(context)
         yield f"</{self.tag}>"
 

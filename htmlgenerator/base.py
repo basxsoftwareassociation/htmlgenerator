@@ -105,6 +105,7 @@ class ValueProvider(BaseElement):
     def Binding(cls, base=BaseElement):
         """Bind an class to this ValueProvider class. All bound instances which are a an decendant of an instance of this class will have the according attribute set
         before the render function is called."""
+        assert type(base) == type
         return type(f"{cls.__name__}Consumer", (base, cls._ConsumerBase), {})
 
     def _consumerelements(self):
@@ -116,10 +117,9 @@ class ValueProvider(BaseElement):
         )
 
     def render(self, context):
+        value = resolve_lazy(self.value, self, context)
         for element in self._consumerelements():
-            setattr(
-                element, self.attributename, resolve_lazy(self.value, element, context)
-            )
+            setattr(element, self.attributename, value)
         return super().render(context)
 
 
@@ -142,16 +142,17 @@ class Iterator(BaseElement):
     class IteratorValueProvider(ValueProvider):
         attributename = "loopindex"
 
-    def __init__(self, iterator, valueproviderclass, *children):
+    def __init__(self, iterator, content, valueproviderclass=ValueProvider):
         """iterator: callable or context variable which returns an iterator
+        content: content of the loop
         valueproviderclass: A class which inherits from valueprovider in order to set the iterator value on child elements when rendering"""
         assert isinstance(iterator, (Iterable, Lazy)) and not isinstance(
             iterator, str
         ), "iterator argument needs to be iterable or a Lazy object"
-        super().__init__(*children)
+        super().__init__(content)
         self.iterator = iterator
         self.valueprovider = Iterator.IteratorValueProvider(
-            None, valueproviderclass(None, *children)
+            None, valueproviderclass(None, content)
         )
 
     def render(self, context):

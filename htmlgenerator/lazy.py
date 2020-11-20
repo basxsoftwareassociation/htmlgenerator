@@ -22,7 +22,6 @@ class ContextValue(Lazy):
 
     def resolve(self, element, context):
         if isinstance(self.value, str):
-            # TODO: Test
             for accessor in self.value.split("."):
                 if hasattr(context, accessor):
                     context = getattr(context, accessor)
@@ -50,7 +49,9 @@ class ElementAttribute(Lazy):
         self.attribname = attribname
 
     def resolve(self, element, context):
-        return getattr(element, self.attribname)
+        for accessor in self.attribname.split("."):
+            element = getattr(element, accessor)
+        return element
 
 
 C = ContextValue
