@@ -27,7 +27,7 @@ class BaseElement(list):
 
     def _try_render(self, element, context):
         """Renders an element as a generator which yields strings"""
-        if isinstance(element, Lazy):
+        while isinstance(element, Lazy):
             element = element.resolve(self, context)
         if hasattr(element, "render"):
             yield from element.render(context)
