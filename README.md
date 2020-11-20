@@ -235,9 +235,9 @@ Binding values to child elements
 
 For more complex interfaces it is often necessary to let elements in the tree access values which are provided by a virtual parent at render time.
 Examples are form fields of a form, elements of an iterator, elements which render parts of an object from a database.
-One solution string-template engines often use is a global context which is populated by the according parent elements. This is a very generic approach and should be avoided in htmlgenerator. A main motivation of htmlgenerators binding concept is to make dependencies to values in the context explicit.
+One solution string-template engines often use is a global context which is populated by the according parent elements. This is a very generic approach and should be avoided in htmlgenerator. A main motivation of htmlgenerator's binding concept is to make dependencies to values in the context explicit.
 
-Binding works in the following way: An element which will provide a value to child elements at rendertime needs to inherit from ```htmlgenerators.ValueProvider```. The class method ```ValueProvider.Binding``` will return a class which is marked as bound to the according ValueProvider class. 
+Binding works in the following way: An element which will provide a value to child elements at rendertime needs to inherit from ```htmlgenerator.ValueProvider```. The class method ```ValueProvider.Binding``` will return a class which is marked as bound to the according ValueProvider class. 
 
 Here is a very long example, see below for a more compact version:
 
