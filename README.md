@@ -239,7 +239,7 @@ One solution string-template engines often use is a global context which is popu
 
 Binding works in the following way: An element which will provide a value to child elements at rendertime needs to inherit from ```htmlgenerator.ValueProvider```. The class method ```ValueProvider.Binding``` will return a class which is marked as bound to the according ValueProvider class. 
 
-Here is a very long example, see below for a more compact version:
+Here is a more extensive example, see below for a more compact version:
 
 ```python
 from htmlgenerator import DIV, ValueProvider, render
@@ -252,7 +252,7 @@ class Book(object):
         self.publisher = publisher
 
 
-mybook = Book("A book", "Me", "0042", "Myself")
+mybook = Book("A book", "Me", "Myself")
 
 # make it a value provider in order to allow binding elements
 class BookObject(ValueProvider):
@@ -260,7 +260,7 @@ class BookObject(ValueProvider):
 
 
 # a render element which renders an attribute of the book
-# (the Binding method returns a class which inherits from BaseElement by default, another class)
+# (the Binding method returns a class which inherits from BaseElement by default, another base class can be passed as argument to Binding, see below)
 class BookValue(BookObject.Binding()):
     def __init__(self, attr):
         self.attr = attr
