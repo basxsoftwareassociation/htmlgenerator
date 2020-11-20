@@ -14,7 +14,14 @@ setup(
     license="New BSD License",
     install_requires=[],
     setup_requires=["setuptools_autover"],
-    version="0.2.2",
+    # use_autover=True,
+    use_autover={
+        "root_version": "0.2",
+        "parse_tag": lambda tag: tag.lstrip("v"),
+        "create_version": lambda ver: "{}.{}".format(
+            getattr(ver, "latest_release"), ver.distance
+        ),
+    },
     packages=find_packages(),
     zip_safe=False,
     include_package_data=True,
@@ -28,8 +35,5 @@ setup(
         "Operating System :: Microsoft :: Windows",
         "Operating System :: POSIX",
         "Programming Language :: Python",
-        "Topic :: Communications :: Email",
-        "Topic :: Office/Business",
-        "Topic :: Software Development :: Bug Tracking",
     ],
 )
