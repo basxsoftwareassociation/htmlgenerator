@@ -417,7 +417,7 @@ The render method of any object may also be directly passed to a HttpResponse ob
 
 Example of a helper function to render an element tree to a response (layout is the element tree):
 
-    from django.html import HttpResponse
+    from django.http import HttpResponse
 
 
     def render_layout_to_response(request, layout, context):
