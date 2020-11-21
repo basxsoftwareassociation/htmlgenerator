@@ -405,7 +405,7 @@ Remark: This example is just for demonstration purposes. In order to achieve exa
 Django integration
 ------------------
 
-In order to use the element-tree renderer in django it is necessary to add a template tag which calls the render function.
+In order to use the element tree renderer in django html templates it is necessary to add a template tag which calls the render function.
 
 ```python
 @register.simple_tag(takes_context=True)
@@ -413,7 +413,16 @@ def render_document(context, root):
     return mark_safe(layout.render(root, context.flatten()))
 ```
 
-A planned enhancment is to add a template backend for django which can handle htmlgenerator templates directly.
+The render method of any object may also be directly passed to a HttpResponse object. This is useful if htmlgenerator should generate the complete page in function based views.
+
+Example of a helper function to render an element tree to a response (layout is the element tree):
+
+    from django.html import HttpResponse
+
+
+    def render_layout_to_response(request, layout, context):
+        return HttpResponse(layout.render(context))
+
 
 Rational
 --------
