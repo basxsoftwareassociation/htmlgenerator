@@ -3,6 +3,15 @@ from setuptools import find_packages, setup
 with open("README.md") as f:
     long_description = f.read()
 
+with open("htmlgenerator/__init__.py") as f:
+    # magic n stuff
+    version = (
+        [i for i in f.readlines() if "__version__" in i][-1]
+        .split("=", 1)[1]
+        .strip()
+        .strip('"')
+    )
+
 setup(
     name="htmlgenerator",
     description="Declarative HTML templating system with lazy rendering",
@@ -11,16 +20,8 @@ setup(
     url="https://github.com/basxsoftwareassociation/htmlgenerator",
     author="basx Software Association",
     author_email="sam@basx.dev",
+    version=version,
     license="New BSD License",
-    install_requires=[],
-    setup_requires=["setuptools_autover"],
-    use_autover={
-        "root_version": "0.2",
-        "parse_tag": lambda tag: tag.lstrip("v"),
-        "create_version": lambda ver: "{}.{}".format(
-            getattr(ver, "latest_release"), ver.distance
-        ),
-    },
     packages=find_packages(),
     zip_safe=False,
     include_package_data=True,
