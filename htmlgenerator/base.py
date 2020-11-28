@@ -169,7 +169,7 @@ def conditional_escape(value):
         return mark_safe(html.escape(str(value)))
 
 
-def html_id(object):
+def html_id(object, prefix="id"):
     """Generate a unique HTML id from an object"""
     # Explanation of the chained call:
     # 1. id: We want a guaranteed unique ID. Since the lifespan of an HTML-response is
@@ -183,4 +183,4 @@ def html_id(object):
     #         function is very hard to reverse (https://en.wikipedia.org/wiki/SipHash)
     # 4. str: Because html-ids are strings we convert again to string
     # 5. [1:]: in case there is a leading "-" we remove the first character
-    return str(hash(str(id(object))))[1:]
+    return prefix + "-" + str(hash(str(id(object))))[1:]
