@@ -167,3 +167,20 @@ def conditional_escape(value):
         return value.__html__()
     else:
         return mark_safe(html.escape(str(value)))
+
+
+def html_id(object):
+    """Generate a unique HTML id from an object"""
+    # Explanation of the chained call:
+    # 1. id: We want a guaranteed unique ID. Since the lifespan of an HTML-response is
+    #       shorted than that of the working process, this should be fine. Python
+    #       might re-use objects and their according memory, but it seems unlikely
+    #       that this will be an issue.
+    # 2. str: passing an int (from the id function) into the hash-function will result
+    #        in the int beeing passed back. We need to convert the id to a string in
+    #        order have the hash function doing some actual hashing.
+    # 3. hash: Prevent the leaking of any memory layout information. The python hash
+    #         function is very hard to reverse (https://en.wikipedia.org/wiki/SipHash)
+    # 4. str: Because html-ids are strings we convert again to string
+    # 5. [1:]: in case there is a leading "-" we remove the first character
+    return str(hash(str(id(object))))[1:]
