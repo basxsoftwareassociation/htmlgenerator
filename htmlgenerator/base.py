@@ -1,14 +1,13 @@
 import copy
-import html
 from collections.abc import Iterable
 
 from .lazy import Lazy, resolve_lazy
 
 # for integration with the django safe string objects, optional
 try:
-    from django.utils.html import mark_safe
+    from django.utils.html import conditional_escape
 except ImportError:
-    from .safestring import mark_safe
+    from .safestring import conditional_escape
 
 
 def render(root, basecontext):
@@ -29,7 +28,7 @@ class BaseElement(list):
         """Renders an element as a generator which yields strings"""
         while isinstance(element, Lazy):
             element = element.resolve(self, context)
-        if hasattr(element, "render"):
+        if isinstance(element, BaseElement):
             yield from element.render(context)
         elif element is not None:
             yield conditional_escape(element)
@@ -160,13 +159,6 @@ class Iterator(BaseElement):
             self.valueprovider.value = i
             self.valueprovider[0].value = obj
             yield from self.valueprovider.render(context)
-
-
-def conditional_escape(value):
-    if hasattr(value, "__html__"):
-        return value.__html__()
-    else:
-        return mark_safe(html.escape(str(value)))
 
 
 def html_id(object, prefix="id"):
