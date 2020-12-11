@@ -27,7 +27,7 @@ class BaseElement(list):
     def _try_render(self, element, context):
         """Renders an element as a generator which yields strings"""
         while isinstance(element, Lazy):
-            element = element.resolve(self, context)
+            element = element.resolve(context)
         if isinstance(element, BaseElement):
             yield from element.render(context)
         elif element is not None:
@@ -40,7 +40,10 @@ class BaseElement(list):
 
     def render(self, context):
         """Renders this element and its children. Can be overwritten by subclassing elements."""
-        yield from self.render_children(context)
+        try:
+            yield from self.render_children(context)
+        except Exception as e:
+            yield f"render error in {type(self)}: {e}"
 
     def filter(self, filter_func):
         """Walks through the tree (self not including) and yields each element for which a call to filter_func evaluates to True.
@@ -116,7 +119,7 @@ class ValueProvider(BaseElement):
         )
 
     def render(self, context):
-        value = resolve_lazy(self.value, self, context)
+        value = resolve_lazy(self.value, context)
         for element in self._consumerelements():
             setattr(element, self.attributename, value)
         return super().render(context)
@@ -131,7 +134,7 @@ class If(BaseElement):
         self.false_child = false_child
 
     def render(self, context):
-        if resolve_lazy(self.condition, self, context):
+        if resolve_lazy(self.condition, context):
             yield from self._try_render(self.true_child, context)
         elif self.false_child is not None:
             yield from self._try_render(self.false_child, context)
@@ -155,7 +158,7 @@ class Iterator(BaseElement):
         )
 
     def render(self, context):
-        for i, obj in enumerate(resolve_lazy(self.iterator, self, context)):
+        for i, obj in enumerate(resolve_lazy(self.iterator, context)):
             self.valueprovider.value = i
             self.valueprovider[0].value = obj
             yield from self.valueprovider.render(context)
