@@ -1,15 +1,20 @@
 import collections
 
 
-def resolve_lazy(value, element, context):
+def resolve_lazy(value, context):
     """Shortcut to resolve a value in case it is a Lazy value"""
-    return value.resolve(element, context) if isinstance(value, Lazy) else value
+    return value.resolve(context) if isinstance(value, Lazy) else value
+
+
+def getattr_lazy(lazyobject, attr):
+    """Takes a lazy object and returns a new lazy object which will resolve to an attribute of the object"""
+    return F(lambda c: getattr(resolve_lazy(lazyobject, c), attr))
 
 
 class Lazy:
     """Lazy values will be evaluated at render time via the resolve method."""
 
-    def resolve(self, element, context):
+    def resolve(self, context):
         raise NotImplementedError("Lazy needs to be subclassed")
 
 
@@ -20,7 +25,7 @@ class ContextValue(Lazy):
         ), "ContextValue needs to be hashable"
         self.value = value
 
-    def resolve(self, element, context):
+    def resolve(self, context):
         if isinstance(self.value, str):
             for accessor in self.value.split("."):
                 if hasattr(context, accessor):
@@ -38,17 +43,19 @@ class ContextFunction(Lazy):
         assert callable(func), "ContextFunction needs to be callable"
         self.func = func
 
-    def resolve(self, element, context):
-        return self.func(element, context)
+    def resolve(self, context):
+        return self.func(context)
 
 
 class ElementAttribute(Lazy):
     """Get an attribute from an element, usefull for consumers of ValueProvider"""
 
-    def __init__(self, attribname):
+    def __init__(self, element, attribname):
         self.attribname = attribname
+        self.element = element
 
-    def resolve(self, element, context):
+    def resolve(self, context):
+        element = self.element
         for accessor in self.attribname.split("."):
             element = getattr(element, accessor)
         return element
