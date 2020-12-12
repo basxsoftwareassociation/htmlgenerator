@@ -10,6 +10,19 @@ except ImportError:
     from .safestring import conditional_escape
 
 
+class RenderException(Exception):
+    def __init__(self, elementtype, origin):
+        self.trace = (elementtype, origin)
+        if isinstance(origin, RenderException):
+            self.trace = (elementtype,) + origin.trace
+
+    def __str__(self):
+        ret = []
+        for i, traceitem in enumerate(self.trace):
+            ret.append("    " * i + f"{traceitem}")
+        return "\n".join(ret)
+
+
 def render(root, basecontext):
     """ Shortcut to serialize an object tree into a string"""
     return "".join(root.render(basecontext))
@@ -27,7 +40,7 @@ class BaseElement(list):
     def _try_render(self, element, context):
         """Renders an element as a generator which yields strings"""
         while isinstance(element, Lazy):
-            element = element.resolve(context)
+            element = element.resolve(context, self)
         if isinstance(element, BaseElement):
             yield from element.render(context)
         elif element is not None:
@@ -42,8 +55,8 @@ class BaseElement(list):
         """Renders this element and its children. Can be overwritten by subclassing elements."""
         try:
             yield from self.render_children(context)
-        except Exception as e:
-            yield f"render error in {type(self)}: {e}"
+        except (Exception, RuntimeError) as e:
+            raise RenderException(self, e)
 
     def filter(self, filter_func):
         """Walks through the tree (self not including) and yields each element for which a call to filter_func evaluates to True.
@@ -63,19 +76,22 @@ class BaseElement(list):
         return copy.deepcopy(self)
 
     def __repr__(self):
-        attrs = ", ".join(
-            [
-                i
-                for i in dir(self)
-                if not callable(getattr(self, i)) and not i.startswith("__")
-            ]
-        )
-        children = ", ".join([i.__repr__() for i in self])
-        return (
-            f"{self.__class__.__name__}("
-            + ", ".join([i for i in (attrs, children) if i])
-            + ")"
-        )
+        try:
+            attrs = ", ".join(
+                [
+                    f"{i}: {getattr(self, i)}"
+                    for i in dir(self)
+                    if not callable(getattr(self, i)) and not i.startswith("__")
+                ]
+            )
+            return (
+                f"{self.__class__.__name__}("
+                + ", ".join([i for i in (attrs, f"{len(self)} children") if i])
+                + ")"
+            )
+        except (Exception, RuntimeError):
+            # sometimes our nice serialization fails and we reverte to the dead-safe method of just printing the type of the object
+            return str(type(self))
 
 
 class ValueProvider(BaseElement):
@@ -110,17 +126,18 @@ class ValueProvider(BaseElement):
         assert type(base) == type
         return type(f"{cls.__name__}Consumer", (base, cls._ConsumerBase), {})
 
-    def _consumerelements(self):
-        return self.filter(
-            lambda elem, ancestors: isinstance(elem, self._ConsumerBase)
-            and not any(
-                (isinstance(ancestor, type(self)) for ancestor in ancestors[1:])
-            )
+    def _consumerfilter(self, element, ancestors):
+        # Design decision: Should values be provided to consumers of any depth?
+        # Problem: if yes, nested ValueProviders of the same type will be messed up
+        # Problem: if no, children always need to explicitly know their ValueProvider class
+        ret = isinstance(element, self._ConsumerBase) and not any(
+            (isinstance(ancestor, type(self)) for ancestor in ancestors[1:])
         )
+        return ret
 
     def render(self, context):
-        value = resolve_lazy(self.value, context)
-        for element in self._consumerelements():
+        value = resolve_lazy(self.value, context, self)
+        for element in self.filter(self._consumerfilter):
             setattr(element, self.attributename, value)
         return super().render(context)
 
@@ -134,7 +151,7 @@ class If(BaseElement):
         self.false_child = false_child
 
     def render(self, context):
-        if resolve_lazy(self.condition, context):
+        if resolve_lazy(self.condition, context, self):
             yield from self._try_render(self.true_child, context)
         elif self.false_child is not None:
             yield from self._try_render(self.false_child, context)
@@ -158,7 +175,7 @@ class Iterator(BaseElement):
         )
 
     def render(self, context):
-        for i, obj in enumerate(resolve_lazy(self.iterator, context)):
+        for i, obj in enumerate(resolve_lazy(self.iterator, context, self)):
             self.valueprovider.value = i
             self.valueprovider[0].value = obj
             yield from self.valueprovider.render(context)

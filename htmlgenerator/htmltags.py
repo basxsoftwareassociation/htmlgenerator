@@ -13,7 +13,7 @@ class HTMLElement(BaseElement):
         self.attributes = attributes
 
     def render(self, context):
-        attr_str = flatattrs(self.attributes, context)
+        attr_str = flatattrs(self.attributes, context, self)
         # quirk to prevent tags having a single space if there are no attributes
         attr_str = (" " + attr_str) if attr_str else attr_str
         yield f"<{self.tag}{attr_str}>"
@@ -22,10 +22,18 @@ class HTMLElement(BaseElement):
 
     # mostly for debugging purposes
     def __repr__(self):
-        children = ", ".join([i.__repr__() for i in self])
         return (
             f"{self.__class__.__name__}("
-            + ", ".join([i for i in (flatattrs(self.attributes), children) if i])
+            + ", ".join(
+                [
+                    i
+                    for i in (
+                        flatattrs(self.attributes, {}, None),
+                        f"{len(self)} children",
+                    )
+                    if i
+                ]
+            )
             + ")"
         )
 
@@ -38,7 +46,7 @@ class VoidElement(HTMLElement):
         super().__init__(**kwargs)
 
     def render(self, context):
-        yield f"<{self.tag} {flatattrs(self.attributes, context)} />"
+        yield f"<{self.tag} {flatattrs(self.attributes, context, self)} />"
 
 
 class A(HTMLElement):
@@ -644,7 +652,7 @@ class XMP(HTMLElement):
     tag = "xmp"
 
 
-def flatattrs(attributes, context=None):
+def flatattrs(attributes, context, element):
     """Converts a dictionary to a string of HTML-attributes.
     Leading underscores are removed and other underscores are replaced with dashes."""
 
@@ -652,7 +660,7 @@ def flatattrs(attributes, context=None):
     for key, value in attributes.items():
 
         while isinstance(value, Lazy):
-            value = value.resolve(context or {})
+            value = value.resolve(context or {}, element)
         if isinstance(value, BaseElement):
             value = "".join(value.render(context))
 
