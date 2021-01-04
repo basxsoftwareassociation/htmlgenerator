@@ -130,15 +130,28 @@ class ValueProvider(BaseElement):
         # Design decision: Should values be provided to consumers of any depth?
         # Problem: if yes, nested ValueProviders of the same type will be messed up
         # Problem: if no, children always need to explicitly know their ValueProvider class
-        ret = isinstance(element, self._ConsumerBase) and not any(
-            (isinstance(ancestor, type(self)) for ancestor in ancestors[1:])
+        # Decision: will go with answer "no" for now
+        if any((isinstance(ancestor, type(self)) for ancestor in ancestors[1:])):
+            return False
+
+        ret = isinstance(element, self._ConsumerBase) or (
+            hasattr(element, "attributes")
+            and any(
+                [isinstance(v, self._ConsumerBase) for v in element.attributes.values()]
+            )
         )
         return ret
 
     def render(self, context):
         value = resolve_lazy(self.value, context, self)
         for element in self.filter(self._consumerfilter):
-            setattr(element, self.attributename, value)
+            if isinstance(element, self._ConsumerBase):
+                setattr(element, self.attributename, value)
+            if hasattr(element, "attributes"):
+                for k in element.attributes:
+                    if isinstance(element.attributes[k], self._ConsumerBase):
+                        setattr(element.attributes[k], self.attributename, value)
+
         return super().render(context)
 
 
