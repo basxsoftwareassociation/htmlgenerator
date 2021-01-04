@@ -68,6 +68,10 @@ class BaseElement(list):
                 if isinstance(e, BaseElement):
                     if filter_func(e, ancestors):
                         yield e
+                    if hasattr(e, "attributes"):
+                        yield from walk(
+                            e.attributes.values(), ancestors=ancestors + (e,)
+                        )
                     yield from walk(e, ancestors=ancestors + (e,))
 
         return walk(self, (self,))
@@ -131,26 +135,14 @@ class ValueProvider(BaseElement):
         # Problem: if yes, nested ValueProviders of the same type will be messed up
         # Problem: if no, children always need to explicitly know their ValueProvider class
         # Decision: will go with answer "no" for now
-        if any((isinstance(ancestor, type(self)) for ancestor in ancestors[1:])):
-            return False
-
-        ret = isinstance(element, self._ConsumerBase) or (
-            hasattr(element, "attributes")
-            and any(
-                [isinstance(v, self._ConsumerBase) for v in element.attributes.values()]
-            )
+        return isinstance(element, self._ConsumerBase) and not any(
+            (isinstance(ancestor, type(self)) for ancestor in ancestors[1:])
         )
-        return ret
 
     def render(self, context):
         value = resolve_lazy(self.value, context, self)
         for element in self.filter(self._consumerfilter):
-            if isinstance(element, self._ConsumerBase):
-                setattr(element, self.attributename, value)
-            if hasattr(element, "attributes"):
-                for k in element.attributes:
-                    if isinstance(element.attributes[k], self._ConsumerBase):
-                        setattr(element.attributes[k], self.attributename, value)
+            setattr(element, self.attributename, value)
 
         return super().render(context)
 
