@@ -76,6 +76,32 @@ class BaseElement(list):
 
         return walk(self, (self,))
 
+    # TODO: test this function
+    def replace(self, select_func, replacement, only_first_match=True):
+        """Replaces an element which matches a certain condition with another element"""
+        first_done = False
+
+        def walk(element, ancestors):
+            global first_done
+            if only_first_match and first_done:
+                return
+            replacment_indices = []
+            for e, i in enumerate(element):
+                if isinstance(e, BaseElement):
+                    if select_func(e, ancestors):
+                        replacment_indices.append(i)
+                    if hasattr(e, "attributes"):
+                        walk(e.attributes.values(), ancestors=ancestors + (e,))
+                    walk(e, ancestors=ancestors + (e,))
+            for i in replacment_indices:
+                if only_first_match and first_done:
+                    break
+                first_done = True
+                element.pop(i)
+                element.insert(i, replacement)
+
+        return walk(self, (self,))
+
     def copy(self):
         return copy.deepcopy(self)
 
