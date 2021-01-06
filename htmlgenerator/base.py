@@ -56,6 +56,9 @@ class BaseElement(list):
         try:
             yield from self.render_children(context)
         except (Exception, RuntimeError) as e:
+            import traceback
+
+            traceback.print_exc()
             raise RenderException(self, e)
 
     def filter(self, filter_func):
@@ -77,14 +80,13 @@ class BaseElement(list):
         return walk(self, (self,))
 
     # TODO: test this function
-    def replace(self, select_func, replacement, only_first_match=True):
+    def _replace(self, select_func, replacement, only_first_match=True):
         """Replaces an element which matches a certain condition with another element"""
-        first_done = False
+
+        class ReachFirstException(Exception):
+            pass
 
         def walk(element, ancestors):
-            global first_done
-            if only_first_match and first_done:
-                return
             replacment_indices = []
             for e, i in enumerate(element):
                 if isinstance(e, BaseElement):
@@ -94,13 +96,15 @@ class BaseElement(list):
                         walk(e.attributes.values(), ancestors=ancestors + (e,))
                     walk(e, ancestors=ancestors + (e,))
             for i in replacment_indices:
-                if only_first_match and first_done:
-                    break
-                first_done = True
                 element.pop(i)
                 element.insert(i, replacement)
+                if only_first_match:
+                    raise ReachFirstException()
 
-        return walk(self, (self,))
+        try:
+            walk(self, (self,))
+        except ReachFirstException:
+            pass
 
     def copy(self):
         return copy.deepcopy(self)
