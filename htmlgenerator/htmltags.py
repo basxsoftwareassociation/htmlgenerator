@@ -311,8 +311,13 @@ class HR(VoidElement):
 class HTML(HTMLElement):
     tag = "html"
 
+    def __init__(self, *args, doctype=False, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.doctype = doctype
+
     def render(self, context):
-        yield "<!DOCTYPE html>"
+        if self.doctype:
+            yield "<!DOCTYPE html>"
         yield from super().render(context)
 
 

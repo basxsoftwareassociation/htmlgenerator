@@ -25,6 +25,12 @@ setup(
     packages=find_packages(),
     zip_safe=False,
     include_package_data=True,
+    extras_require={"all": ["black", "beautifulsoup4", "lxml"]},
+    entry_points={
+        "console_scripts": [
+            "convertfromhtml = htmlgenerator.contrib.convertfromhtml:main",
+        ],
+    },
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Console",

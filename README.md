@@ -403,6 +403,22 @@ Output:
 
 Remark: This example is just for demonstration purposes. In order to achieve exactly what is shown here it would not be necessary to have a UserContext class because the user could as well be obtained via ```RequestContext.Binding(DIV)(ATTR("request.user"))```. The point is to show how chaining of ValueProviders can work.
 
+Converting existing HTML source
+-------------------------------
+
+htmlgenerator comes with a handy commandline tool to convert existing HTML-code into htmlgenerator python objects.
+
+It can be used with standard input or with a list of files as arguments:
+
+    echo '<div class="btn" style="padding: 2rem">Click me</div>' | convertfromhtml > mytemplate.py
+
+    convertfromhtml template1.html template2.html # will result in template1.html.py and template2.html.py
+
+By default the generated python files are formatted with black.
+Python code which has been generated from very large files, e.g. complete websites, might take multiple minutes to be formated.
+In order to get unformatted but still valid python code add the flag ```--no-formatting```.
+This will not run black on the generated python code and therefore be very fast.
+
 
 Django integration
 ------------------
