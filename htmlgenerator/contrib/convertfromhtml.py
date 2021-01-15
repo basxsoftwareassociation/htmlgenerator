@@ -1,3 +1,5 @@
+import codecs
+
 import black
 from bs4 import BeautifulSoup, Comment, Doctype, NavigableString, Tag
 
@@ -12,11 +14,11 @@ def multiline(s):
     if '"""' not in s:
         if s.endswith('"'):
             s = s[:-1] + "\\" + s[-1]  # this will likely not work well...
-        return f'r"""{s}"""'
+        return f'"""{s}"""'
     if "'''" not in s:
         if s.endswith('"'):
             s = s[:-1] + "\\" + s[-1]  # this will likely not work well...
-        return f"r'''{s}'''"
+        return f"'''{s}'''"
     raise RuntimeError(
         f"""
 The following string could not be escaped.
@@ -29,40 +31,46 @@ Please open an issue on https://github.com/basxsoftwareassociation/htmlgenerator
 def marksafestring(func):
     def wrapper(s):
         ret = func(s)
-        return f"s({ret})" if ret else ret
+        if ret and len(ret) > 2 and any([c in ret[1:-1] for c in "&<>'\""]):
+            return f"s({ret})"
+        return ret
 
     return wrapper
 
 
 @marksafestring
 def escapestring(s):
-    s = s.replace("\\", "\\\\")  # escape backslashes
+    # s = s.replace("\\", "\\\\")  # escape backslashes
+    s = codecs.encode(s, "unicode_escape").decode()
     if not s:
         return ""
     if "\n" in s:
         return multiline(s)
     if '"' not in s:
-        return f'r"{s}"'
+        return f'"{s}"'
     if "'" not in s:
-        return f"r'{s}'"
+        return f"'{s}'"
     return multiline(s)
 
 
-def convert(tag, level=0):
+def convert(tag, level, compact):
     indent = INDENT * level
     if isinstance(tag, Doctype):
         return [indent + f's("<!DOCTYPE {tag}>")']
-    if isinstance(tag, Comment):
-        if tag.strip():
+    elif isinstance(tag, Comment):
+        if tag.strip() and not compact:
             ret = []
             for line in tag.splitlines():
                 if line.split():
                     ret.append(indent + f"# {line}")
             return ret
         return []
-    if isinstance(tag, NavigableString):
-        return [indent + escapestring(tag)]
-    if isinstance(tag, Tag):
+    elif isinstance(tag, NavigableString):
+        escaped = escapestring(tag)
+        if escaped == '"\\n"':
+            return []
+        return [indent + escaped]
+    elif isinstance(tag, Tag):
         ret = [indent + f"hg.{tag.name.upper()}("]
         attrs = []
         for key, value in tag.attrs.items():
@@ -83,7 +91,7 @@ def convert(tag, level=0):
             key = key.replace("-", "_")
             attrs.append(f"{key}={value}")
         for subtag in tag.children:
-            subcontent = convert(subtag, level + 1)
+            subcontent = convert(subtag, level + 1, compact)
             if subcontent:
                 if subcontent[-1].strip():
                     subcontent[-1] += ","
@@ -92,25 +100,29 @@ def convert(tag, level=0):
 
         ret.append(indent + ")")
         return ret
+    else:
+        raise RuntimeError(f"Unknown element type: {tag}")
 
 
-def converthtml(html, formatting):
+def converthtml(html, formatting, compact):
     out = [
-        "import htmlgenerator as hg",
-        "from htmlgenerator import mark_safe as s",
-        "html = hg.BaseElement(",
+        "import htmlgenerator as hg\nfrom htmlgenerator import mark_safe as s\nhtml = hg.BaseElement(",
     ]
 
-    soup = BeautifulSoup(html, "lxml")
+    soup = BeautifulSoup(
+        html,
+        "lxml",
+    )
     for subtag in soup.contents:
-        tags = convert(subtag, 1)
+        tags = convert(subtag, 1, compact)
         if tags:
             if tags[-1].strip():
                 tags[-1] += ","
             out.extend(tags)
     out.append(")\n")
 
-    htmlstr = "\n".join(filter(lambda line: bool(line.strip()), out))
+    separator = " " if compact else "\n"
+    htmlstr = separator.join(filter(lambda line: bool(line.strip()), out))
     if not formatting:
         return htmlstr
     return black.format_file_contents(htmlstr, fast=True, mode=black.FileMode())
@@ -120,17 +132,21 @@ def main():
     import sys
 
     formatflag = "--no-formatting"
+    compactflag = "--compact"
 
     files = sys.argv[1:]
     formatting = formatflag not in files
+    compact = compactflag in files
     if formatflag in files:
         files.remove(formatflag)
+    if compactflag in files:
+        files.remove(compactflag)
     if not files:
         print(converthtml(sys.stdin.read(), formatting), end="")
     for _file in files:
         with open(_file) as rf:
             with open(_file + ".py", "w") as wf:
-                wf.write(converthtml(rf.read(), formatting))
+                wf.write(converthtml(rf.read(), formatting, compact))
 
 
 if __name__ == "__main__":
