@@ -142,7 +142,7 @@ def main():
     if compactflag in files:
         files.remove(compactflag)
     if not files:
-        print(converthtml(sys.stdin.read(), formatting), end="")
+        print(converthtml(sys.stdin.read(), formatting, compact), end="")
     for _file in files:
         with open(_file) as rf:
             with open(_file + ".py", "w") as wf:
