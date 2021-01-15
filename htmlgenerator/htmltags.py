@@ -666,10 +666,14 @@ def flatattrs(attributes, context, element):
 
         while isinstance(value, Lazy):
             value = value.resolve(context or {}, element)
+        if isinstance(value, BaseElement):
+            # in order to use e.g. an If element to disable the attribute
+            # we check whether the render result is empty
+            # (e.g. when we have only an If element which returns None in one branch)
+            rendered = list(value.render(context))
+            value = "".join(rendered) if rendered else None
         if value is None:
             continue
-        if isinstance(value, BaseElement):
-            value = "".join(value.render(context))
 
         if key[0] == "_":
             key = key[1:]
