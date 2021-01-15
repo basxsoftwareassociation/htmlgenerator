@@ -666,6 +666,8 @@ def flatattrs(attributes, context, element):
 
         while isinstance(value, Lazy):
             value = value.resolve(context or {}, element)
+        if value is None:
+            continue
         if isinstance(value, BaseElement):
             value = "".join(value.render(context))
 
