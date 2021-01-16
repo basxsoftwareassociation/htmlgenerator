@@ -28,6 +28,36 @@ def render(root, basecontext):
     return "".join(root.render(basecontext))
 
 
+def print_logical_tree(root):
+    from .htmltags import HTMLElement
+
+    def print_node(node, level):
+        attrlist = [
+            f"{attr}: {getattr(node, attr)}"
+            for attr in dir(node)
+            if not attr.startswith("_")
+            and not callable(getattr(node, attr))
+            and attr not in ("attributes", "tag")
+        ]
+        attrs = ", ".join(attrlist)
+        name = type(node).__name__
+        if name == "__proxy__":
+            name = "str"
+        neednewlevel = False
+        if isinstance(node, str):
+            print(level * "    " + f'"{node}"')
+            neednewlevel = True
+        elif HTMLElement not in type(node).__bases__:
+            print(level * "    " + f"{name}({attrs})")
+            neednewlevel = True
+        if isinstance(node, BaseElement):
+            for child in node:
+                if child is not None:
+                    print_node(child, level + (1 if neednewlevel else 0))
+
+    print_node(root, level=0)
+
+
 class BaseElement(list):
     """The base render element
     All nodes used in a render tree should have this class as a base. Leaves in the tree may be strings or Lazy objects.
@@ -180,16 +210,14 @@ class ValueProvider(BaseElement):
 class If(BaseElement):
     def __init__(self, condition, true_child, false_child=None):
         """condition: Value which determines which child to render (true_child or false_child. Can also be ContextValue or ContextFunction"""
-        super().__init__()
+        super().__init__(true_child, false_child)
         self.condition = condition
-        self.true_child = true_child
-        self.false_child = false_child
 
     def render(self, context):
         if resolve_lazy(self.condition, context, self):
-            yield from self._try_render(self.true_child, context)
-        elif self.false_child is not None:
-            yield from self._try_render(self.false_child, context)
+            yield from self._try_render(self[0], context)
+        else:
+            yield from self._try_render(self[1], context)
 
 
 class Iterator(BaseElement):
