@@ -110,7 +110,7 @@ class BaseElement(list):
         return walk(self, (self,))
 
     # TODO: test this function
-    def _replace(self, select_func, replacement, only_first_match=True):
+    def _replace(self, select_func, replacement, all=False):
         """Replaces an element which matches a certain condition with another element"""
 
         class ReachFirstException(Exception):
@@ -118,7 +118,7 @@ class BaseElement(list):
 
         def walk(element, ancestors):
             replacment_indices = []
-            for e, i in enumerate(element):
+            for i, e in enumerate(element):
                 if isinstance(e, BaseElement):
                     if select_func(e, ancestors):
                         replacment_indices.append(i)
@@ -127,8 +127,9 @@ class BaseElement(list):
                     walk(e, ancestors=ancestors + (e,))
             for i in replacment_indices:
                 element.pop(i)
-                element.insert(i, replacement)
-                if only_first_match:
+                if replacement is not None:
+                    element.insert(i, replacement)
+                if not all:
                     raise ReachFirstException()
 
         try:
