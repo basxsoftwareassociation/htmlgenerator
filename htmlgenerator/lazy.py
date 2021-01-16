@@ -3,12 +3,9 @@ import collections
 
 def resolve_lazy(value, context, element):
     """Shortcut to resolve a value in case it is a Lazy value"""
-    # from .base import BaseElement
 
     while isinstance(value, Lazy):
         value = value.resolve(context, element)
-    # if isinstance(value, BaseElement):
-    # value = value.render(context)
     return value
 
 
