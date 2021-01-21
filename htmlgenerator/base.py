@@ -1,5 +1,4 @@
 import copy
-from collections.abc import Iterable
 
 from .lazy import Lazy, resolve_lazy
 
@@ -159,55 +158,6 @@ class BaseElement(list):
             return str(type(self))
 
 
-class ValueProvider(BaseElement):
-    """Helper class to provide explicit defined values to "marked" child elements
-    The object-generating element needs to subclass this class. Any "direct" child
-    element which inherits from the "Binding"-class will have an attribute
-    (defined by attributename) set with the according value.
-    ("direct" means any level deeper but no nested Object Provider)
-    """
-
-    attributename = "value"
-    "The name through which bound children will be able to access the value, should be changed when subclassed"
-    _ConsumerBase = type("ValueConsumer", (), {})
-
-    def __init__(self, value, *children):
-        """
-        value: value which will be passed to all Consumer children at render time, can be Lazy
-        """
-        assert self.attributename is not None
-        super().__init__(*children)
-        self.value = value
-
-    @classmethod
-    def __init_subclass__(cls, *args, **kwargs):
-        super().__init_subclass__(*args, **kwargs)
-        cls._ConsumerBase = type(f"{cls.__name__}Consumer", (), {})
-
-    @classmethod
-    def Binding(cls, base=BaseElement):
-        """Bind an class to this ValueProvider class. All bound instances which are a an decendant of an instance of this class will have the according attribute set
-        before the render function is called."""
-        assert type(base) == type
-        return type(f"{cls.__name__}Consumer", (base, cls._ConsumerBase), {})
-
-    def _consumerfilter(self, element, ancestors):
-        # Design decision: Should values be provided to consumers of any depth?
-        # Problem: if yes, nested ValueProviders of the same type will be messed up
-        # Problem: if no, children always need to explicitly know their ValueProvider class
-        # Decision: will go with answer "no" for now
-        return isinstance(element, self._ConsumerBase) and not any(
-            (isinstance(ancestor, type(self)) for ancestor in ancestors[1:])
-        )
-
-    def render(self, context):
-        value = resolve_lazy(self.value, context, self)
-        for element in self.filter(self._consumerfilter):
-            setattr(element, self.attributename, value)
-
-        return super().render(context)
-
-
 class If(BaseElement):
     def __init__(self, condition, true_child, false_child=None):
         """condition: Value which determines which child to render (true_child or false_child. Can also be ContextValue or ContextFunction"""
@@ -222,27 +172,16 @@ class If(BaseElement):
 
 
 class Iterator(BaseElement):
-    class IteratorValueProvider(ValueProvider):
-        attributename = "loopindex"
-
-    def __init__(self, iterator, content, valueproviderclass=ValueProvider):
-        """iterator: callable or context variable which returns an iterator
-        content: content of the loop
-        valueproviderclass: A class which inherits from valueprovider in order to set the iterator value on child elements when rendering"""
-        assert isinstance(iterator, (Iterable, Lazy)) and not isinstance(
-            iterator, str
-        ), "iterator argument needs to be iterable or a Lazy object"
-        super().__init__(content)
+    def __init__(self, iterator, loopvariable, content):
         self.iterator = iterator
-        self.valueprovider = Iterator.IteratorValueProvider(
-            None, valueproviderclass(None, content)
-        )
+        self.loopvariable = loopvariable
+        super().__init__(content)
 
     def render(self, context):
-        for i, obj in enumerate(resolve_lazy(self.iterator, context, self)):
-            self.valueprovider.value = i
-            self.valueprovider[0].value = obj
-            yield from self.valueprovider.render(context)
+        context = dict(context)
+        for value in resolve_lazy(self.iterator, context, self):
+            context[self.loopvariable] = value
+            yield from self.render_children(context)
 
 
 def html_id(object, prefix="id"):

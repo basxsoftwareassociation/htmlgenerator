@@ -33,8 +33,10 @@ class ContextValue(Lazy):
             for accessor in self.value.split("."):
                 if hasattr(context, accessor):
                     context = getattr(context, accessor)
+                    context = context() if callable(context) else context
                 else:
                     context = context.get(accessor)
+
             return context
         return context[self.value]
 
