@@ -179,8 +179,9 @@ class Iterator(BaseElement):
 
     def render(self, context):
         context = dict(context)
-        for value in resolve_lazy(self.iterator, context, self):
+        for i, value in enumerate(resolve_lazy(self.iterator, context, self)):
             context[self.loopvariable] = value
+            context[self.loopvariable + "_index"] = i
             yield from self.render_children(context)
 
 
