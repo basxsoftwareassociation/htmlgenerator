@@ -196,7 +196,7 @@ def html_id(object, prefix="id"):
     #        in the int beeing passed back. We need to convert the id to a string in
     #        order have the hash function doing some actual hashing.
     # 3. hash: Prevent the leaking of any memory layout information. The python hash
-    #         function is very hard to reverse (https://en.wikipedia.org/wiki/SipHash)
-    # 4. str: Because html-ids are strings we convert again to string
-    # 5. [1:]: in case there is a leading "-" we remove the first character
+    #         function is hard to reverse (https://en.wikipedia.org/wiki/SipHash)
+    # 4. str: Because html-ids need to be strings we convert again to string
+    # 5. [1:]: in order to prevent negative numbers we remove the first character which might be a "-"
     return prefix + "-" + str(hash(str(id(object))))[1:]
