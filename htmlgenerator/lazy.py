@@ -34,10 +34,10 @@ class ContextValue(Lazy):
                 if hasattr(context, accessor):
                     context = getattr(context, accessor)
                     context = context() if callable(context) else context
-                else:
+                elif context is not None:
                     context = context.get(accessor)
 
-            return context
+            return context or "Ø"
         return context[self.value]
 
 
