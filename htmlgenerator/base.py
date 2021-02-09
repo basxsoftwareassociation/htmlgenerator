@@ -90,23 +90,50 @@ class BaseElement(list):
             traceback.print_exc()
             raise RenderException(self, e)
 
+    """
+    Tree functions
+    Tree functions can be used to modify or gathering information from the sub-tree of a BaseElement.
+    Tree functions walk the tree with the calling BaseElement as root. The root is not walked itself.
+    Tree functions always take an argument filter_func which has the signature (element, ancestors) => bool where ancestors is a tuple of all elements
+    filter_func will determine which Child elements inside the sub-tree should be considered.
+    Tree functions:
+    - filter
+    - wrap
+    - delete
+    """
+
     def filter(self, filter_func):
         """Walks through the tree (self not including) and yields each element for which a call to filter_func evaluates to True.
         filter_func expects an element and a tuple of all ancestors as arguments.
+        returns: A generater which yields the matching elements
         """
 
-        def walk(element, ancestors):
-            for e in element:
-                if isinstance(e, BaseElement):
-                    if filter_func(e, ancestors):
-                        yield e
-                    if hasattr(e, "attributes"):
-                        yield from walk(
-                            e.attributes.values(), ancestors=ancestors + (e,)
-                        )
-                    yield from walk(e, ancestors=ancestors + (e,))
+        return treewalk(self, (self,), filter_func=filter_func)
 
-        return walk(self, (self,))
+    def wrap(self, filter_func, wrapperelement):
+        """Walks through the tree (self not including) and wraps each element for which a call to filter_func evaluates to True.
+        filter_func expects an element and a tuple of all ancestors as arguments.
+        wrapper: the element which will wrap the
+        """
+
+        def wrappingfunc(container, i):
+            wrapper = wrapperelement.copy()
+            wrapper.append(container[i])
+            container[i] = wrapper
+
+        return list(
+            treewalk(self, (self,), filter_func=filter_func, apply=wrappingfunc)
+        )
+
+    def delete(self, filter_func):
+        """Walks through the tree (self not including) and removes each element for which a call to filter_func evaluates to True.
+        filter_func expects an element and a tuple of all ancestors as arguments.
+        """
+
+        def delfunc(container, i):
+            container.pop(i)
+
+        return list(treewalk(self, (self,), filter_func=filter_func, apply=delfunc))
 
     # TODO: test this function
     def _replace(self, select_func, replacement, all=False):
@@ -183,6 +210,35 @@ class Iterator(BaseElement):
             context[self.loopvariable] = value
             context[self.loopvariable + "_index"] = i
             yield from self.render_children(context)
+
+
+def treewalk(
+    element,
+    ancestors,
+    filter_func=None,
+    apply=None,
+):
+    matchindices = []
+
+    for i, e in enumerate(list(element)):
+        if isinstance(e, BaseElement):
+            if filter_func is None or filter_func(e, ancestors):
+                yield e
+                matchindices.append(i)
+            if hasattr(e, "attributes"):
+                yield from treewalk(
+                    e.attributes.values(),
+                    ancestors + (e,),
+                    filter_func=filter_func,
+                    apply=apply,
+                )
+            yield from treewalk(
+                e, ancestors + (e,), filter_func=filter_func, apply=apply
+            )
+
+    if apply:
+        for i in matchindices:
+            apply(element, i)
 
 
 def html_id(object, prefix="id"):
