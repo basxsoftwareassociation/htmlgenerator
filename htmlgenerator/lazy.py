@@ -39,7 +39,7 @@ class ContextValue(Lazy):
                 else:
                     context = None
 
-            return context or "Ø"
+            return context
         return context[self.value]
 
 
@@ -54,20 +54,5 @@ class ContextFunction(Lazy):
         return self.func(context, element)
 
 
-class ElementAttribute(Lazy):
-    """Get an attribute from an element, usefull for consumers of ValueProvider"""
-
-    def __init__(self, attribname, element=None):
-        self.attribname = attribname
-        self.element = element
-
-    def resolve(self, context, element):
-        element = self.element or element
-        for accessor in self.attribname.split("."):
-            element = getattr(element, accessor)
-        return element
-
-
 C = ContextValue
-ATTR = ElementAttribute
 F = ContextFunction
