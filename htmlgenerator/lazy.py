@@ -1,4 +1,5 @@
 import collections
+from inspect import signature
 
 
 def resolve_lazy(value, context, element):
@@ -12,6 +13,27 @@ def resolve_lazy(value, context, element):
 def getattr_lazy(lazyobject, attr):
     """Takes a lazy object and returns a new lazy object which will resolve the attribute of the object"""
     return F(lambda c, e: getattr(resolve_lazy(lazyobject, c, e), attr))
+
+
+def extractfromcontext(context, accessorstr):
+    """Helper function to extract a value out of a context-dict
+    An accessorstr can access attributes, dict-keys and methods without paremeters.
+    Example: extractfromcontext({"data": {"colors": ("RED", "GREEN", "BLUE")}, "data.colors.__len__") would return 3
+    """
+    for accessor in accessorstr.split("."):
+        if hasattr(context, accessor):
+            context = getattr(context, accessor)
+            context = (
+                context()
+                if (callable(context) and len(signature(context).parameters) == 0)
+                else context
+            )
+        elif hasattr(context, "get"):
+            context = context.get(accessor)
+        else:
+            context = None
+
+    return context
 
 
 class Lazy:
@@ -30,16 +52,7 @@ class ContextValue(Lazy):
 
     def resolve(self, context, element):
         if isinstance(self.value, str):
-            for accessor in self.value.split("."):
-                if hasattr(context, accessor):
-                    context = getattr(context, accessor)
-                    context = context() if callable(context) else context
-                elif hasattr(context, "get"):
-                    context = context.get(accessor)
-                else:
-                    context = None
-
-            return context
+            return extractfromcontext(context, self.value)
         return context[self.value]
 
 

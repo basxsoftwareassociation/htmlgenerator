@@ -280,8 +280,6 @@ def render_layout_to_response(request, layout, context):
 Rational
 --------
 
-TODO: Justify this whole code base a bit
-
 Notes:
 - Want internal/embeded DSL, access to document object model, not string interpolation
 - https://wiki.python.org/moin/Templating ==> All dead links
