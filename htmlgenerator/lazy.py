@@ -1,5 +1,4 @@
 import collections
-from inspect import signature
 
 
 def resolve_lazy(value, context, element):
@@ -23,11 +22,7 @@ def extractfromcontext(context, accessorstr):
     for accessor in accessorstr.split("."):
         if hasattr(context, accessor):
             context = getattr(context, accessor)
-            context = (
-                context()
-                if (callable(context) and len(signature(context).parameters) == 0)
-                else context
-            )
+            context = context() if callable(context) else context
         elif hasattr(context, "get"):
             context = context.get(accessor)
         else:
