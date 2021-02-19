@@ -52,6 +52,12 @@ class VoidElement(HTMLElement):
 class A(HTMLElement):
     tag = "a"
 
+    def __init__(self, *args, newtab=False, **kwargs):
+        if newtab:
+            kwargs["target"] = "_blank"
+            kwargs["rel"] = "noopener noreferrer"
+        super().__init__(*args, **kwargs)
+
 
 class ABBR(HTMLElement):
     tag = "abbr"
