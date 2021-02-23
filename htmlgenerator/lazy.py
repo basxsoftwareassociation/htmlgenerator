@@ -1,4 +1,5 @@
 import collections
+import inspect
 
 
 def resolve_lazy(value, context, element):
@@ -14,21 +15,51 @@ def getattr_lazy(lazyobject, attr):
     return F(lambda c, e: getattr(resolve_lazy(lazyobject, c, e), attr))
 
 
-def extractfromcontext(context, accessorstr):
-    """Helper function to extract a value out of a context-dict
-    An accessorstr can access attributes, dict-keys and methods without paremeters.
-    Example: extractfromcontext({"data": {"colors": ("RED", "GREEN", "BLUE")}, "data.colors.__len__") would return 3
+def resolve_lookup(lookup, context):
     """
-    for accessor in accessorstr.split("."):
-        if hasattr(context, accessor):
-            context = getattr(context, accessor)
-            context = context() if callable(context) else context
-        elif hasattr(context, "get"):
-            context = context.get(accessor)
-        else:
-            context = None
+    Helper function to extract a value out of a context-dict.
+    A lookup string can access attributes, dict-keys, methods without parameters and indexes by using the dot-accessor (e.g. ``person.name``)
+    This is based on the implementation of the variable lookup of the django template system:
+    https://github.com/django/django/blob/master/django/template/base.py
+    """
+    current = context
+    try:
+        for bit in lookup.split("."):
+            try:
+                current = current[bit]
+            except (TypeError, AttributeError, KeyError, ValueError, IndexError):
+                try:
+                    current = getattr(current, bit)
+                except (TypeError, AttributeError):
+                    # Reraise if the exception was raised by a @property
+                    if not isinstance(current, dict) and bit in dir(current):
+                        raise
+                    try:  # list-index lookup
+                        current = current[int(bit)]
+                    except (
+                        IndexError,  # list index out of range
+                        ValueError,  # invalid literal for int()
+                        KeyError,  # current is a dict without `int(bit)` key
+                        TypeError,
+                    ):  # unsubscriptable object
+                        raise LookupError(
+                            "Failed lookup for key " "[%s] in %r", (bit, current)
+                        )  # missing attribute
+            if callable(current):
+                try:  # method call (assuming no args required)
+                    current = current()
+                except TypeError:
+                    signature = inspect.signature(current)
+                    try:
+                        signature.bind()
+                    except TypeError:  # arguments *were* required
+                        current = None
+                    else:
+                        raise
+    except Exception:
+        current = None
 
-    return context
+    return current
 
 
 class Lazy:
@@ -47,7 +78,7 @@ class ContextValue(Lazy):
 
     def resolve(self, context, element):
         if isinstance(self.value, str):
-            return extractfromcontext(context, self.value)
+            return resolve_lookup(self.value, context)
         return context[self.value]
 
 
