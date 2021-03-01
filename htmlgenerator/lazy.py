@@ -15,7 +15,7 @@ def getattr_lazy(lazyobject, attr):
     return F(lambda c, e: getattr(resolve_lazy(lazyobject, c, e), attr))
 
 
-def resolve_lookup(lookup, context):
+def resolve_lookup(lookup, context, call_functions=True):
     """
     Helper function to extract a value out of a context-dict.
     A lookup string can access attributes, dict-keys, methods without parameters and indexes by using the dot-accessor (e.g. ``person.name``)
@@ -45,7 +45,7 @@ def resolve_lookup(lookup, context):
                         raise LookupError(
                             "Failed lookup for key " "[%s] in %r", (bit, current)
                         )  # missing attribute
-            if callable(current):
+            if callable(current) and call_functions:
                 try:  # method call (assuming no args required)
                     current = current()
                 except TypeError:
