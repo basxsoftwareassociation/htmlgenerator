@@ -15,7 +15,7 @@ def getattr_lazy(lazyobject, attr):
     return F(lambda c, e: getattr(resolve_lazy(lazyobject, c, e), attr))
 
 
-def resolve_lookup(lookup, context, call_functions=True):
+def resolve_lookup(context, lookup, call_functions=True):
     """
     Helper function to extract a value out of a context-dict.
     A lookup string can access attributes, dict-keys, methods without parameters and indexes by using the dot-accessor (e.g. ``person.name``)
@@ -78,7 +78,7 @@ class ContextValue(Lazy):
 
     def resolve(self, context, element):
         if isinstance(self.value, str):
-            return resolve_lookup(self.value, context)
+            return resolve_lookup(context, self.value)
         return context[self.value]
 
 
