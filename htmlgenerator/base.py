@@ -255,4 +255,14 @@ def html_id(object, prefix="id"):
     #         function is hard to reverse (https://en.wikipedia.org/wiki/SipHash)
     # 4. str: Because html-ids need to be strings we convert again to string
     # 5. [1:]: in order to prevent negative numbers we remove the first character which might be a "-"
-    return prefix + "-" + str(hash(str(id(object))))[1:]
+    _id = prefix + "-" + str(hash(str(id(object))))[1:]
+    n = 0
+    nid = _id
+    while nid in html_id.cache:
+        nid = f"{_id}-{n}"
+        n += 1
+    html_id.cache.add(nid)
+    return nid
+
+
+html_id.cache = set()
