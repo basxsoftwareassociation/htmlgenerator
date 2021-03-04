@@ -25,14 +25,7 @@ class HTMLElement(BaseElement):
         return (
             f"{self.__class__.__name__}("
             + ", ".join(
-                [
-                    i
-                    for i in (
-                        flatattrs(self.attributes, {}, None),
-                        f"{len(self)} children",
-                    )
-                    if i
-                ]
+                [str(self.attributes), f"{len(self)} children"],
             )
             + ")"
         )
