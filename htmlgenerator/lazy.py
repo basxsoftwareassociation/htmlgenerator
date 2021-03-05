@@ -12,7 +12,12 @@ def resolve_lazy(value, context, element):
 
 def getattr_lazy(lazyobject, attr):
     """Takes a lazy object and returns a new lazy object which will resolve the attribute of the object"""
-    return F(lambda c, e: getattr(resolve_lazy(lazyobject, c, e), attr))
+
+    def wrapper(c, e):
+        ret = getattr(resolve_lazy(lazyobject, c, e), attr)
+        return ret() if callable(ret) else ret
+
+    return F(wrapper)
 
 
 def resolve_lookup(context, lookup, call_functions=True):
