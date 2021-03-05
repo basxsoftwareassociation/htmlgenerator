@@ -116,7 +116,7 @@ class BaseElement(list):
         wrapper: the element which will wrap the
         """
 
-        def wrappingfunc(container, i):
+        def wrappingfunc(container, i, e):
             wrapper = wrapperelement.copy()
             wrapper.append(container[i])
             container[i] = wrapper
@@ -130,8 +130,8 @@ class BaseElement(list):
         filter_func expects an element and a tuple of all ancestors as arguments.
         """
 
-        def delfunc(container, i):
-            container.pop(i)
+        def delfunc(container, i, e):
+            container.remove(e)
 
         return list(treewalk(self, (self,), filter_func=filter_func, apply=delfunc))
 
@@ -218,13 +218,13 @@ def treewalk(
     filter_func=None,
     apply=None,
 ):
-    matchindices = []
+    matchelements = []
 
     for i, e in enumerate(list(element)):
         if isinstance(e, BaseElement):
             if filter_func is None or filter_func(e, ancestors):
                 yield e
-                matchindices.append(i)
+                matchelements.append((i, e))
             if hasattr(e, "attributes"):
                 yield from treewalk(
                     e.attributes.values(),
@@ -237,8 +237,8 @@ def treewalk(
             )
 
     if apply:
-        for i in matchindices:
-            apply(element, i)
+        for i, e in matchelements:
+            apply(element, i, e)
 
 
 def html_id(object, prefix="id"):
