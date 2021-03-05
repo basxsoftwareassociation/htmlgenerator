@@ -18,8 +18,11 @@ class HTMLElement(BaseElement):
         self.lazy_attributes = lazy_attributes
 
     def render(self, context):
+        attrs = dict(self.attributes)
+        if self.lazy_attributes:
+            attrs.update(self.lazy_attributes.resolve(context, self))
         attr_str = flatattrs(
-            {**self.attributes, **self.lazy_attributes.resolve(context, self)},
+            attrs,
             context,
             self,
         )
