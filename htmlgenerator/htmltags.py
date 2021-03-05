@@ -7,13 +7,22 @@ class HTMLElement(BaseElement):
 
     tag = None
 
-    def __init__(self, *children, **attributes):
+    def __init__(self, *children, lazy_attributes=None, **attributes):
         assert self.tag is not None
         super().__init__(*children)
         self.attributes = attributes
+        if lazy_attributes and not isinstance(lazy_attributes, Lazy):
+            raise ValueError(
+                f"Argument 'lazy_attributes' must have type 'Lazy' but has type {type(lazy_attributes)}"
+            )
+        self.lazy_attributes = lazy_attributes
 
     def render(self, context):
-        attr_str = flatattrs(self.attributes, context, self)
+        attr_str = flatattrs(
+            {**self.attributes, **self.lazy_attributes.resolve(context, self)},
+            context,
+            self,
+        )
         # quirk to prevent tags having a single space if there are no attributes
         attr_str = (" " + attr_str) if attr_str else attr_str
         yield f"<{self.tag}{attr_str}>"
@@ -664,7 +673,7 @@ def flatattrs(attributes, context, element):
     for key, value in attributes.items():
 
         while isinstance(value, Lazy):
-            value = value.resolve(context or {}, element)
+            value = value.resolve(context, element)
         if isinstance(value, BaseElement):
             # in order to use e.g. an If element to disable the attribute
             # we check whether the render result is empty
