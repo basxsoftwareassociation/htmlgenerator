@@ -1,5 +1,5 @@
 from .base import BaseElement
-from .lazy import Lazy
+from .lazy import Lazy, resolve_lazy
 
 
 class HTMLElement(BaseElement):
@@ -18,11 +18,11 @@ class HTMLElement(BaseElement):
         self.lazy_attributes = lazy_attributes
 
     def render(self, context):
-        attrs = dict(self.attributes)
-        if self.lazy_attributes:
-            attrs.update(self.lazy_attributes.resolve(context, self))
         attr_str = flatattrs(
-            attrs,
+            {
+                **self.attributes,
+                **(resolve_lazy(self.lazy_attributes, context, self) or {}),
+            },
             context,
             self,
         )
@@ -674,9 +674,7 @@ def flatattrs(attributes, context, element):
 
     attlist = []
     for key, value in attributes.items():
-
-        while isinstance(value, Lazy):
-            value = value.resolve(context, element)
+        value = resolve_lazy(value, context, element)
         if isinstance(value, BaseElement):
             # in order to use e.g. an If element to disable the attribute
             # we check whether the render result is empty
