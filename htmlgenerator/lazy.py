@@ -28,41 +28,38 @@ def resolve_lookup(context, lookup, call_functions=True):
     https://github.com/django/django/blob/master/django/template/base.py
     """
     current = context
-    try:
-        for bit in lookup.split("."):
+    for bit in lookup.split("."):
+        try:
+            current = current[bit]
+        except (TypeError, AttributeError, KeyError, ValueError, IndexError):
             try:
-                current = current[bit]
-            except (TypeError, AttributeError, KeyError, ValueError, IndexError):
+                current = getattr(current, bit)
+            except (TypeError, AttributeError):
+                # Reraise if the exception was raised by a @property
+                if not isinstance(current, dict) and bit in dir(current):
+                    raise
+                try:  # list-index lookup
+                    current = current[int(bit)]
+                except (
+                    IndexError,  # list index out of range
+                    ValueError,  # invalid literal for int()
+                    KeyError,  # current is a dict without `int(bit)` key
+                    TypeError,
+                ):  # unsubscriptable object
+                    raise LookupError(
+                        "Failed lookup for key " "[%s] in %r", (bit, current)
+                    )  # missing attribute
+        if callable(current) and call_functions:
+            try:  # method call (assuming no args required)
+                current = current()
+            except TypeError:
+                signature = inspect.signature(current)
                 try:
-                    current = getattr(current, bit)
-                except (TypeError, AttributeError):
-                    # Reraise if the exception was raised by a @property
-                    if not isinstance(current, dict) and bit in dir(current):
-                        raise
-                    try:  # list-index lookup
-                        current = current[int(bit)]
-                    except (
-                        IndexError,  # list index out of range
-                        ValueError,  # invalid literal for int()
-                        KeyError,  # current is a dict without `int(bit)` key
-                        TypeError,
-                    ):  # unsubscriptable object
-                        raise LookupError(
-                            "Failed lookup for key " "[%s] in %r", (bit, current)
-                        )  # missing attribute
-            if callable(current) and call_functions:
-                try:  # method call (assuming no args required)
-                    current = current()
-                except TypeError:
-                    signature = inspect.signature(current)
-                    try:
-                        signature.bind()
-                    except TypeError:  # arguments *were* required
-                        current = None
-                    else:
-                        raise
-    except Exception:
-        current = None
+                    signature.bind()
+                except TypeError:  # arguments *were* required
+                    current = None
+                else:
+                    raise
 
     return current
 
