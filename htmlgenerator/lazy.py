@@ -46,9 +46,10 @@ def resolve_lookup(context, lookup, call_functions=True):
                     KeyError,  # current is a dict without `int(bit)` key
                     TypeError,
                 ):  # unsubscriptable object
-                    raise LookupError(
-                        "Failed lookup for key " "[%s] in %r", (bit, current)
-                    )  # missing attribute
+                    return None
+                    # raise LookupError(
+                    # "Failed lookup for key " "[%s] in %r", (bit, current)
+                    # )  # missing attribute
         if callable(current) and call_functions:
             try:  # method call (assuming no args required)
                 current = current()
