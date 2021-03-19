@@ -4,3 +4,4 @@ from .lazy import *  # noqa
 from .safestring import mark_safe  # noqa
 
 __version__ = "0.4.0"
+__DEBUG__ = False  # not sure whether this is a smart idea, but environment variables do not really seem better...

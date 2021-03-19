@@ -1,6 +1,9 @@
 import copy
+import inspect
 
 from .lazy import Lazy, resolve_lazy
+
+"Turning on this flag will add html attributes with information about the source of the generated html output"
 
 # for integration with the django safe string objects, optional
 try:
@@ -65,6 +68,19 @@ class BaseElement(list):
     def __init__(self, *children):
         """Uses the given arguments to initialize the list which represents the child objects"""
         super().__init__(children)
+        from . import __DEBUG__
+
+        if __DEBUG__:
+            # This will add the source location of where this element has been instantiated as a data attributte
+            # and a python attribute _src_location with (filename, linenumber, functionname) to this object
+            for frame in inspect.stack():
+                if frame.function != "__init__":
+                    break
+            if hasattr(self, "attributes"):
+                self.attributes[
+                    "data_source_location"
+                ] = f"{frame.filename}:{frame.lineno} in {frame.function}"
+            self._src_location = (frame.filename, frame.lineno, frame.function)
 
     def _try_render(self, element, context):
         """Renders an element as a generator which yields strings"""

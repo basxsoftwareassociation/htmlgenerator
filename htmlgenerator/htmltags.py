@@ -9,8 +9,8 @@ class HTMLElement(BaseElement):
 
     def __init__(self, *children, lazy_attributes=None, **attributes):
         assert self.tag is not None
-        super().__init__(*children)
         self.attributes = attributes
+        super().__init__(*children)
         if lazy_attributes and not isinstance(lazy_attributes, Lazy):
             raise ValueError(
                 f"Argument 'lazy_attributes' must have type 'Lazy' but has type {type(lazy_attributes)}"
