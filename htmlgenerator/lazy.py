@@ -58,7 +58,7 @@ def resolve_lookup(context, lookup, call_functions=True):
                 try:
                     signature.bind()
                 except TypeError:  # arguments *were* required
-                    current = None
+                    pass
                 else:
                     raise
 
@@ -86,7 +86,7 @@ class ContextValue(Lazy):
 
 
 class ContextFunction(Lazy):
-    """Call a function a render time, usefull for calculation of more complex """
+    """Call a function a render time, usefull for calculation of more complex"""
 
     def __init__(self, func):
         assert callable(func), "ContextFunction needs to be callable"

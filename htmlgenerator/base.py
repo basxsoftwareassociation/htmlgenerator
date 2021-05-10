@@ -12,54 +12,6 @@ except ImportError:
     from .safestring import conditional_escape
 
 
-class RenderException(Exception):
-    def __init__(self, elementtype, origin):
-        self.trace = (elementtype, origin)
-        if isinstance(origin, RenderException):
-            self.trace = (elementtype,) + origin.trace
-
-    def __str__(self):
-        ret = []
-        for i, traceitem in enumerate(self.trace):
-            ret.append("    " * i + f"{traceitem}")
-        return "\n".join(ret)
-
-
-def render(root, basecontext):
-    """ Shortcut to serialize an object tree into a string"""
-    return "".join(root.render(basecontext))
-
-
-def print_logical_tree(root):
-    from .htmltags import HTMLElement
-
-    def print_node(node, level):
-        attrlist = [
-            f"{attr}: {getattr(node, attr)}"
-            for attr in dir(node)
-            if not attr.startswith("_")
-            and not callable(getattr(node, attr))
-            and attr not in ("attributes", "tag")
-        ]
-        attrs = ", ".join(attrlist)
-        name = type(node).__name__
-        if name == "__proxy__":
-            name = "str"
-        neednewlevel = False
-        if isinstance(node, str):
-            print(level * "    " + f'"{node}"')
-            neednewlevel = True
-        elif HTMLElement not in type(node).__bases__:
-            print(level * "    " + f"{name}({attrs})")
-            neednewlevel = True
-        if isinstance(node, BaseElement):
-            for child in node:
-                if child is not None:
-                    print_node(child, level + (1 if neednewlevel else 0))
-
-    print_node(root, level=0)
-
-
 class BaseElement(list):
     """The base render element
     All nodes used in a render tree should have this class as a base. Leaves in the tree may be strings or Lazy objects.
@@ -255,6 +207,54 @@ def treewalk(
     if apply:
         for i, e in matchelements:
             apply(element, i, e)
+
+
+def render(root: BaseElement, basecontext: dict):
+    """Shortcut to serialize an object tree into a string"""
+    return "".join(root.render(basecontext))
+
+
+class RenderException(Exception):
+    def __init__(self, elementtype: BaseElement, origin: BaseException):
+        self.trace = (elementtype, origin)
+        if isinstance(origin, RenderException):
+            self.trace = (elementtype,) + origin.trace
+
+    def __str__(self):
+        ret = []
+        for i, traceitem in enumerate(self.trace):
+            ret.append("    " * i + f"{traceitem}")
+        return "\n".join(ret)
+
+
+def print_logical_tree(root: BaseElement):
+    from .htmltags import HTMLElement
+
+    def print_node(node, level):
+        attrlist = [
+            f"{attr}: {getattr(node, attr)}"
+            for attr in dir(node)
+            if not attr.startswith("_")
+            and not callable(getattr(node, attr))
+            and attr not in ("attributes", "tag")
+        ]
+        attrs = ", ".join(attrlist)
+        name = type(node).__name__
+        if name == "__proxy__":
+            name = "str"
+        neednewlevel = False
+        if isinstance(node, str):
+            print(level * "    " + f'"{node}"')
+            neednewlevel = True
+        elif HTMLElement not in type(node).__bases__:
+            print(level * "    " + f"{name}({attrs})")
+            neednewlevel = True
+        if isinstance(node, BaseElement):
+            for child in node:
+                if child is not None:
+                    print_node(child, level + (1 if neednewlevel else 0))
+
+    print_node(root, level=0)
 
 
 def html_id(object, prefix="id"):
