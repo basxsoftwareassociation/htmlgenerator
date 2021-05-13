@@ -1,3 +1,5 @@
+import typing
+
 from .base import BaseElement
 from .lazy import Lazy, resolve_lazy
 
@@ -17,7 +19,7 @@ class HTMLElement(BaseElement):
             )
         self.lazy_attributes = lazy_attributes
 
-    def render(self, context):
+    def render(self, context: dict) -> typing.Generator[str, None, None]:
         attr_str = flatattrs(
             {
                 **self.attributes,
@@ -33,7 +35,7 @@ class HTMLElement(BaseElement):
         yield f"</{self.tag}>"
 
     # mostly for debugging purposes
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (
             f"{self.__class__.__name__}("
             + ", ".join(
@@ -50,7 +52,7 @@ class VoidElement(HTMLElement):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def render(self, context):
+    def render(self, context) -> typing.Generator[str, None, None]:
         yield f"<{self.tag} {flatattrs(self.attributes, context, self)} />"
 
 
@@ -326,7 +328,7 @@ class HTML(HTMLElement):
         super().__init__(*args, **kwargs)
         self.doctype = doctype
 
-    def render(self, context):
+    def render(self, context: dict) -> typing.Generator[str, None, None]:
         if self.doctype:
             yield "<!DOCTYPE html>"
         yield from super().render(context)
@@ -668,7 +670,7 @@ class XMP(HTMLElement):
     tag = "xmp"
 
 
-def flatattrs(attributes, context, element):
+def flatattrs(attributes: dict, context: dict, element: BaseElement) -> str:
     """Converts a dictionary to a string of HTML-attributes.
     Leading underscores are removed and other underscores are replaced with dashes."""
 
