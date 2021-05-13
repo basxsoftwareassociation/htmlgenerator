@@ -9,7 +9,7 @@ class HTMLElement(BaseElement):
 
     tag = None
 
-    def __init__(self, *children, lazy_attributes=None, **attributes):
+    def __init__(self, *children, lazy_attributes=typing.Optional[Lazy], **attributes):
         assert self.tag is not None
         self.attributes = attributes
         super().__init__(*children)

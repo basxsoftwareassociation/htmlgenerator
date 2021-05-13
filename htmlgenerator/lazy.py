@@ -16,7 +16,7 @@ def resolve_lazy(
     return value
 
 
-def getattr_lazy(lazyobject: Lazy, attr: str):
+def getattr_lazy(lazyobject: Lazy, attr: str) -> F:
     """Takes a lazy object and returns a new lazy object which will resolve the attribute on the object"""
 
     def wrapper(c, e):
@@ -26,7 +26,9 @@ def getattr_lazy(lazyobject: Lazy, attr: str):
     return F(wrapper)
 
 
-def resolve_lookup(context: dict, lookup: str, call_functions=True):
+def resolve_lookup(
+    context: dict, lookup: str, call_functions: bool = True
+) -> typing.Any:
     """
     Helper function to extract a value out of a context-dict.
     A lookup string can access attributes, dict-keys, methods without parameters and indexes by using the dot-accessor (e.g. ``person.name``)
@@ -74,7 +76,9 @@ def resolve_lookup(context: dict, lookup: str, call_functions=True):
 class Lazy:
     """Lazy values will be evaluated at render time via the resolve method."""
 
-    def resolve(self, context: dict, element: "htmlgenerator.BaseElement"):
+    def resolve(
+        self, context: dict, element: "htmlgenerator.BaseElement"
+    ) -> typing.Any:
         raise NotImplementedError("Lazy needs to be subclassed")
 
 
@@ -91,7 +95,9 @@ class ContextValue(Lazy):
 class ContextFunction(Lazy):
     """Call a function a render time, usefull for calculation of more complex"""
 
-    def __init__(self, func):
+    def __init__(
+        self, func: typing.Callable[[dict, "htmlgenerator.BaseElement"], typing.Any]
+    ):
         assert callable(func), "ContextFunction needs to be callable"
         self.func = func
 
