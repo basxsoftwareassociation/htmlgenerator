@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import copy
 import inspect
+import typing
 
 from .lazy import Lazy, resolve_lazy
 
@@ -34,7 +37,9 @@ class BaseElement(list):
                 ] = f"{frame.filename}:{frame.lineno} in {frame.function}"
             self._src_location = (frame.filename, frame.lineno, frame.function)
 
-    def _try_render(self, element, context):
+    def _try_render(
+        self, element: typing.Any, context: dict
+    ) -> typing.Generator[str, None, None]:
         """Renders an element as a generator which yields strings"""
         while isinstance(element, Lazy):
             element = element.resolve(context, self)
@@ -43,12 +48,12 @@ class BaseElement(list):
         elif element is not None:
             yield conditional_escape(element)
 
-    def render_children(self, context):
+    def render_children(self, context: dict) -> typing.Generator[str, None, None]:
         """Renders all elements inside the list. Can be used by subclassing elements if they need to controll where child elements are rendered."""
         for element in self:
             yield from self._try_render(element, context)
 
-    def render(self, context):
+    def render(self, context: dict) -> typing.Generator[str, None, None]:
         """Renders this element and its children. Can be overwritten by subclassing elements."""
         try:
             yield from self.render_children(context)
@@ -70,7 +75,10 @@ class BaseElement(list):
     - delete
     """
 
-    def filter(self, filter_func):
+    def filter(
+        self,
+        filter_func: typing.Callable[[BaseElement, typing.Iterable[BaseElement]], bool],
+    ) -> typing.Generator[BaseElement, None, None]:
         """Walks through the tree (self not including) and yields each element for which a call to filter_func evaluates to True.
         filter_func expects an element and a tuple of all ancestors as arguments.
         returns: A generater which yields the matching elements
@@ -78,7 +86,11 @@ class BaseElement(list):
 
         return treewalk(self, (self,), filter_func=filter_func)
 
-    def wrap(self, filter_func, wrapperelement):
+    def wrap(
+        self,
+        filter_func: typing.Callable[[BaseElement, typing.Iterable[BaseElement]], bool],
+        wrapperelement: BaseElement,
+    ) -> list[BaseElement]:
         """Walks through the tree (self not including) and wraps each element for which a call to filter_func evaluates to True.
         filter_func expects an element and a tuple of all ancestors as arguments.
         wrapper: the element which will wrap the
@@ -93,7 +105,10 @@ class BaseElement(list):
             treewalk(self, (self,), filter_func=filter_func, apply=wrappingfunc)
         )
 
-    def delete(self, filter_func):
+    def delete(
+        self,
+        filter_func: typing.Callable[[BaseElement, typing.Iterable[BaseElement]], bool],
+    ) -> list[BaseElement]:
         """Walks through the tree (self not including) and removes each element for which a call to filter_func evaluates to True.
         filter_func expects an element and a tuple of all ancestors as arguments.
         """
@@ -103,14 +118,16 @@ class BaseElement(list):
 
         return list(treewalk(self, (self,), filter_func=filter_func, apply=delfunc))
 
-    # TODO: test this function
-    def _replace(self, select_func, replacement, all=False):
+    # untested code
+    def _replace(
+        self, select_func: typing.Callable, replacement: BaseElement, all: bool = False
+    ):
         """Replaces an element which matches a certain condition with another element"""
 
         class ReachFirstException(Exception):
             pass
 
-        def walk(element, ancestors):
+        def walk(element: BaseElement, ancestors: typing.Iterable[BaseElement]):
             replacment_indices = []
             for i, e in enumerate(element):
                 if isinstance(e, BaseElement):
@@ -131,7 +148,7 @@ class BaseElement(list):
         except ReachFirstException:
             pass
 
-    def copy(self):
+    def copy(self) -> BaseElement:
         return copy.deepcopy(self)
 
     def __repr__(self):
@@ -154,12 +171,17 @@ class BaseElement(list):
 
 
 class If(BaseElement):
-    def __init__(self, condition, true_child, false_child=None):
+    def __init__(
+        self,
+        condition: typing.Union[bool, Lazy],
+        true_child: BaseElement,
+        false_child: typing.Optional[BaseElement] = None,
+    ):
         """condition: Value which determines which child to render (true_child or false_child. Can also be ContextValue or ContextFunction"""
         super().__init__(true_child, false_child)
         self.condition = condition
 
-    def render(self, context):
+    def render(self, context: dict):
         if resolve_lazy(self.condition, context, self):
             yield from self._try_render(self[0], context)
         else:
@@ -167,12 +189,17 @@ class If(BaseElement):
 
 
 class Iterator(BaseElement):
-    def __init__(self, iterator, loopvariable, content):
+    def __init__(
+        self,
+        iterator: typing.Union[typing.Iterable, Lazy],
+        loopvariable: str,
+        content: BaseElement,
+    ):
         self.iterator = iterator
         self.loopvariable = loopvariable
         super().__init__(content)
 
-    def render(self, context):
+    def render(self, context: dict):
         context = dict(context)
         for i, value in enumerate(resolve_lazy(self.iterator, context, self)):
             context[self.loopvariable] = value
@@ -181,11 +208,14 @@ class Iterator(BaseElement):
 
 
 def treewalk(
-    element,
-    ancestors,
-    filter_func=None,
-    apply=None,
-):
+    element: BaseElement,
+    ancestors: typing.Iterable[BaseElement],
+    filter_func=typing.Optional[
+        typing.Callable[[BaseElement, typing.Iterable[BaseElement]], bool]
+    ],
+    apply=typing.Optional[typing.Callable[[BaseElement, int, BaseElement], None]],
+) -> typing.Generator[BaseElement, None, None]:
+
     matchelements = []
 
     for i, e in enumerate(list(element)):
@@ -209,7 +239,7 @@ def treewalk(
             apply(element, i, e)
 
 
-def render(root: BaseElement, basecontext: dict):
+def render(root: BaseElement, basecontext: dict) -> str:
     """Shortcut to serialize an object tree into a string"""
     return "".join(root.render(basecontext))
 
@@ -220,17 +250,17 @@ class RenderException(Exception):
         if isinstance(origin, RenderException):
             self.trace = (elementtype,) + origin.trace
 
-    def __str__(self):
+    def __str__(self) -> str:
         ret = []
         for i, traceitem in enumerate(self.trace):
             ret.append("    " * i + f"{traceitem}")
         return "\n".join(ret)
 
 
-def print_logical_tree(root: BaseElement):
+def print_logical_tree(root: BaseElement) -> None:
     from .htmltags import HTMLElement
 
-    def print_node(node, level):
+    def print_node(node: BaseElement, level: int) -> None:
         attrlist = [
             f"{attr}: {getattr(node, attr)}"
             for attr in dir(node)
@@ -257,7 +287,7 @@ def print_logical_tree(root: BaseElement):
     print_node(root, level=0)
 
 
-def html_id(object, prefix="id"):
+def html_id(object: typing.Any, prefix: str = "id") -> str:
     """Generate a unique HTML id from an object"""
     # Explanation of the chained call:
     # 1. id: We want a guaranteed unique ID. Since the lifespan of an HTML-response is
@@ -281,4 +311,4 @@ def html_id(object, prefix="id"):
     return nid
 
 
-html_id.cache = set()
+html_id.cache = getattr(html_id, "cache", set())
