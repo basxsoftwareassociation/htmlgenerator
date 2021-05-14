@@ -62,11 +62,11 @@ def resolve_lookup(
             try:  # method call (assuming no args required)
                 current = current()
             except TypeError:
-                signature = inspect.signature(current)
+                signature = inspect.signature(current)  # type: ignore
                 try:
                     signature.bind()
                 except TypeError:  # arguments *were* required
-                    pass
+                    pass  # but we continue because we might use an attribute on the object instead of calling it
                 else:
                     raise
 

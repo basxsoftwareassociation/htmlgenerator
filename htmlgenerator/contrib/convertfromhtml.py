@@ -1,7 +1,7 @@
 import codecs
 
 import black
-from bs4 import BeautifulSoup, Comment, Doctype, NavigableString, Tag
+from bs4 import BeautifulSoup, Comment, Doctype, NavigableString, Tag  # type: ignore
 
 # be aware: attributes with the empty string as value will be converted
 # to empty attributes which is okay since it does not alter behaviour
