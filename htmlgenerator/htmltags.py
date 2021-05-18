@@ -7,13 +7,13 @@ from .lazy import Lazy, resolve_lazy
 class HTMLElement(BaseElement):
     """The base for all HTML tags."""
 
-    tag = None
+    tag: str = ""
 
     def __init__(
         self, *children, lazy_attributes: typing.Optional[Lazy] = None, **attributes
     ):
-        assert self.tag is not None
-        self.attributes = attributes
+        assert self.tag != ""
+        self.attributes: dict = attributes
         super().__init__(*children)
         if lazy_attributes and not isinstance(lazy_attributes, Lazy):
             raise ValueError(

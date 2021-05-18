@@ -8,12 +8,12 @@ import typing
 
 
 class SafeData:
-    def __html__(self) -> str:
+    def __html__(self) -> SafeData:
         return self
 
 
 class SafeString(str, SafeData):
-    def __add__(self, rhs) -> typing.Union(str, SafeString):
+    def __add__(self, rhs) -> typing.Union[str, SafeString]:
         t = super().__add__(rhs)
         if isinstance(rhs, SafeData):
             return SafeString(t)
@@ -23,7 +23,7 @@ class SafeString(str, SafeData):
         return self
 
 
-def mark_safe(s: typing.Union[str, SafeString]) -> SafeString:
+def mark_safe(s: typing.Union[str, SafeString]) -> typing.Any:
     if hasattr(
         s, "__html__"
     ):  # instead of using isinstance we use __html__ because that is what some other frameworks use too

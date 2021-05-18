@@ -10,7 +10,7 @@ from .lazy import Lazy, resolve_lazy
 
 # for integration with the django safe string objects, optional
 try:
-    from django.utils.html import conditional_escape
+    from django.utils.html import conditional_escape  # type: ignore
 except ImportError:
     from .safestring import conditional_escape
 
@@ -77,7 +77,9 @@ class BaseElement(list):
 
     def filter(
         self,
-        filter_func: typing.Callable[[BaseElement, typing.Iterable[BaseElement]], bool],
+        filter_func: typing.Callable[
+            [BaseElement, typing.Tuple[BaseElement, ...]], bool
+        ],
     ) -> typing.Generator[BaseElement, None, None]:
         """Walks through the tree (self not including) and yields each element for which a call to filter_func evaluates to True.
         filter_func expects an element and a tuple of all ancestors as arguments.
@@ -88,7 +90,9 @@ class BaseElement(list):
 
     def wrap(
         self,
-        filter_func: typing.Callable[[BaseElement, typing.Iterable[BaseElement]], bool],
+        filter_func: typing.Callable[
+            [BaseElement, typing.Tuple[BaseElement, ...]], bool
+        ],
         wrapperelement: BaseElement,
     ) -> list[BaseElement]:
         """Walks through the tree (self not including) and wraps each element for which a call to filter_func evaluates to True.
@@ -107,7 +111,9 @@ class BaseElement(list):
 
     def delete(
         self,
-        filter_func: typing.Callable[[BaseElement, typing.Iterable[BaseElement]], bool],
+        filter_func: typing.Callable[
+            [BaseElement, typing.Tuple[BaseElement, ...]], bool
+        ],
     ) -> list[BaseElement]:
         """Walks through the tree (self not including) and removes each element for which a call to filter_func evaluates to True.
         filter_func expects an element and a tuple of all ancestors as arguments.
@@ -123,18 +129,19 @@ class BaseElement(list):
         self, select_func: typing.Callable, replacement: BaseElement, all: bool = False
     ):
         """Replaces an element which matches a certain condition with another element"""
+        from .htmltags import HTMLElement
 
         class ReachFirstException(Exception):
             pass
 
-        def walk(element: BaseElement, ancestors: typing.Iterable[BaseElement]):
+        def walk(element: typing.List, ancestors: typing.Tuple[BaseElement, ...]):
             replacment_indices = []
             for i, e in enumerate(element):
                 if isinstance(e, BaseElement):
                     if select_func(e, ancestors):
                         replacment_indices.append(i)
-                    if hasattr(e, "attributes"):
-                        walk(e.attributes.values(), ancestors=ancestors + (e,))
+                    if isinstance(e, HTMLElement):
+                        walk(list(e.attributes.values()), ancestors=ancestors + (e,))
                     walk(e, ancestors=ancestors + (e,))
             for i in replacment_indices:
                 element.pop(i)
@@ -208,13 +215,16 @@ class Iterator(BaseElement):
 
 
 def treewalk(
-    element: BaseElement,
-    ancestors: typing.Iterable[BaseElement],
-    filter_func=typing.Optional[
-        typing.Callable[[BaseElement, typing.Iterable[BaseElement]], bool]
+    element: typing.List,
+    ancestors: typing.Tuple[BaseElement, ...],
+    filter_func: typing.Optional[
+        typing.Callable[[BaseElement, typing.Tuple[BaseElement, ...]], bool]
     ],
-    apply=typing.Optional[typing.Callable[[BaseElement, int, BaseElement], None]],
+    apply: typing.Optional[
+        typing.Callable[[BaseElement, int, BaseElement], None]
+    ] = None,
 ) -> typing.Generator[BaseElement, None, None]:
+    from .htmltags import HTMLElement
 
     matchelements = []
 
@@ -223,9 +233,9 @@ def treewalk(
             if filter_func is None or filter_func(e, ancestors):
                 yield e
                 matchelements.append((i, e))
-            if hasattr(e, "attributes"):
+            if isinstance(e, HTMLElement):
                 yield from treewalk(
-                    e.attributes.values(),
+                    list(e.attributes.values()),
                     ancestors + (e,),
                     filter_func=filter_func,
                     apply=apply,
@@ -246,7 +256,10 @@ def render(root: BaseElement, basecontext: dict) -> str:
 
 class RenderException(Exception):
     def __init__(self, elementtype: BaseElement, origin: BaseException):
-        self.trace = (elementtype, origin)
+        self.trace: typing.Tuple[typing.Any, ...] = (
+            elementtype,
+            origin,
+        )
         if isinstance(origin, RenderException):
             self.trace = (elementtype,) + origin.trace
 
@@ -287,6 +300,9 @@ def print_logical_tree(root: BaseElement) -> None:
     print_node(root, level=0)
 
 
+html_id_cache = set()
+
+
 def html_id(object: typing.Any, prefix: str = "id") -> str:
     """Generate a unique HTML id from an object"""
     # Explanation of the chained call:
@@ -304,11 +320,8 @@ def html_id(object: typing.Any, prefix: str = "id") -> str:
     _id = prefix + "-" + str(hash(str(id(object))))[1:]
     n = 0
     nid = _id
-    while nid in html_id.cache:
+    while nid in html_id_cache:
         nid = f"{_id}-{n}"
         n += 1
-    html_id.cache.add(nid)
+    html_id_cache.add(nid)
     return nid
-
-
-html_id.cache = getattr(html_id, "cache", set())
