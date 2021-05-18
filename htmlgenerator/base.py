@@ -217,10 +217,12 @@ class Iterator(BaseElement):
 def treewalk(
     element: typing.List,
     ancestors: typing.Tuple[BaseElement, ...],
-    filter_func=typing.Optional[
+    filter_func: typing.Optional[
         typing.Callable[[BaseElement, typing.Tuple[BaseElement, ...]], bool]
     ],
-    apply=typing.Optional[typing.Callable[[BaseElement, int, BaseElement], None]],
+    apply: typing.Optional[
+        typing.Callable[[BaseElement, int, BaseElement], None]
+    ] = None,
 ) -> typing.Generator[BaseElement, None, None]:
     from .htmltags import HTMLElement
 
