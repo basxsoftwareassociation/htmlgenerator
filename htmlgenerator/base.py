@@ -191,7 +191,7 @@ class If(BaseElement):
     def render(self, context: dict):
         if resolve_lazy(self.condition, context, self):
             yield from self._try_render(self[0], context)
-        else:
+        elif len(self) > 1:
             yield from self._try_render(self[1], context)
 
 
