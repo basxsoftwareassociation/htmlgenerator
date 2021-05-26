@@ -214,6 +214,24 @@ class Iterator(BaseElement):
             yield from self.render_children(context)
 
 
+class Context(BaseElement):
+    """
+    Pass additional variables into the context.
+    The additional context names are namespaced to the current element and its child elements.
+    It can be helpfull for shadowing or aliasing a name in the context.
+    This element is required because context is otherwise only set by the render function and the loop-variable of Iierator
+    """
+
+    additional_context: dict = {}
+
+    def __init__(self, *children, **kwargs):
+        self.additional_context = kwargs
+        super().__init__(*children)
+
+    def render(self, context):
+        return super().render({**context, **self.additional_context})
+
+
 def treewalk(
     element: typing.List,
     ancestors: typing.Tuple[BaseElement, ...],
