@@ -214,12 +214,12 @@ class Iterator(BaseElement):
             yield from self.render_children(context)
 
 
-class Context(BaseElement):
+class WithContext(BaseElement):
     """
-    Pass additional variables into the context.
+    Pass additional names into the context.
     The additional context names are namespaced to the current element and its child elements.
-    It can be helpfull for shadowing or aliasing a name in the context.
-    This element is required because context is otherwise only set by the render function and the loop-variable of Iierator
+    It can be helpfull for shadowing or aliasing names in the context.
+    This element is required because context is otherwise only set by the render function and the loop-variable of Iterator which can be limiting.
     """
 
     additional_context: dict = {}
