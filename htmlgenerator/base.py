@@ -81,12 +81,12 @@ class BaseElement(list):
             [BaseElement, typing.Tuple[BaseElement, ...]], bool
         ],
     ) -> typing.Generator[BaseElement, None, None]:
-        """Walks through the tree (self not including) and yields each element for which a call to filter_func evaluates to True.
+        """Walks through the tree (including self) and yields each element for which a call to filter_func evaluates to True.
         filter_func expects an element and a tuple of all ancestors as arguments.
         returns: A generater which yields the matching elements
         """
 
-        return treewalk(self, (self,), filter_func=filter_func)
+        return treewalk(BaseElement(self), (), filter_func=filter_func)
 
     def wrap(
         self,
@@ -95,7 +95,7 @@ class BaseElement(list):
         ],
         wrapperelement: BaseElement,
     ) -> list[BaseElement]:
-        """Walks through the tree (self not including) and wraps each element for which a call to filter_func evaluates to True.
+        """Walks through the tree (including self) and wraps each element for which a call to filter_func evaluates to True.
         filter_func expects an element and a tuple of all ancestors as arguments.
         wrapper: the element which will wrap the
         """
@@ -106,7 +106,7 @@ class BaseElement(list):
             container[i] = wrapper
 
         return list(
-            treewalk(self, (self,), filter_func=filter_func, apply=wrappingfunc)
+            treewalk(BaseElement(self), (), filter_func=filter_func, apply=wrappingfunc)
         )
 
     def delete(
@@ -115,14 +115,16 @@ class BaseElement(list):
             [BaseElement, typing.Tuple[BaseElement, ...]], bool
         ],
     ) -> list[BaseElement]:
-        """Walks through the tree (self not including) and removes each element for which a call to filter_func evaluates to True.
+        """Walks through the tree (including self) and removes each element for which a call to filter_func evaluates to True.
         filter_func expects an element and a tuple of all ancestors as arguments.
         """
 
         def delfunc(container, i, e):
             container.remove(e)
 
-        return list(treewalk(self, (self,), filter_func=filter_func, apply=delfunc))
+        return list(
+            treewalk(BaseElement(self), (), filter_func=filter_func, apply=delfunc)
+        )
 
     # untested code
     def _replace(
