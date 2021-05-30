@@ -3,7 +3,7 @@ from .htmltags import *  # noqa
 from .lazy import *  # noqa
 from .safestring import mark_safe  # noqa
 
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 
 
 DEBUG: bool = False
