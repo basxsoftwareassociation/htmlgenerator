@@ -39,11 +39,9 @@ class HTMLElement(BaseElement):
     # mostly for debugging purposes
     def __repr__(self) -> str:
         return (
-            f"{self.__class__.__name__}("
-            + ", ".join(
-                [str(self.attributes), f"{len(self)} children"],
-            )
-            + ")"
+            f"<{self.tag} "
+            + " ".join(f"{k.lstrip('_')}=\"{v}\"" for k, v in self.attributes.items())
+            + f"> ({self.__class__})"
         )
 
 

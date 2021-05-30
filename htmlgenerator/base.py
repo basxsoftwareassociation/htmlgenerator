@@ -6,7 +6,8 @@ import typing
 
 from .lazy import Lazy, resolve_lazy
 
-"Turning on this flag will add html attributes with information about the source of the generated html output"
+EXCEPTION_HANDLER_NAME = "_htmlgenerator_exception_handler"
+"Must be a function without arguments, will be called when an exception happens during rendering an element"
 
 # for integration with the django safe string objects, optional
 try:
@@ -23,9 +24,9 @@ class BaseElement(list):
     def __init__(self, *children):
         """Uses the given arguments to initialize the list which represents the child objects"""
         super().__init__(children)
-        from . import __DEBUG__
+        from . import DEBUG
 
-        if __DEBUG__:
+        if DEBUG:
             # This will add the source location of where this element has been instantiated as a data attributte
             # and a python attribute _src_location with (filename, linenumber, functionname) to this object
             for frame in inspect.stack():
@@ -58,10 +59,35 @@ class BaseElement(list):
         try:
             yield from self.render_children(context)
         except (Exception, RuntimeError) as e:
+            import sys
             import traceback
 
-            traceback.print_exc()
-            raise RenderException(self, e)
+            def default_handler(context, message):
+                traceback.print_exc()
+                print(message, file=sys.stderr)
+
+            last_obj = None
+            indent = 0
+            message = []
+            for i in traceback.StackSummary.extract(
+                traceback.walk_tb(sys.exc_info()[2]), capture_locals=True
+            ):
+                if "self" in i.locals and i.locals["self"] != last_obj:
+                    message.append(" " * indent + str(i.locals["self"]))
+                    last_obj = i.locals["self"]
+                    indent += 2
+            message.append(" " * indent + str(e))
+            message = "\n".join(message)
+
+            context.get(EXCEPTION_HANDLER_NAME, default_handler)(context, message)
+
+            yield (
+                ""
+                + '<pre style="border: solid 1px red; color: red; padding: 1rem; background-color: #ffdddd">'
+                + f"    <code>~~~ Exception: {conditional_escape(e)} ~~~</code>"
+                + "</pre>"
+                + f'<script>alert("Error: {conditional_escape(e)}")</script>'
+            )
 
     """
     Tree functions
@@ -160,24 +186,6 @@ class BaseElement(list):
     def copy(self) -> BaseElement:
         return copy.deepcopy(self)
 
-    def __repr__(self):
-        try:
-            attrs = ", ".join(
-                [
-                    f"{i}: {getattr(self, i)}"
-                    for i in dir(self)
-                    if not callable(getattr(self, i)) and not i.startswith("__")
-                ]
-            )
-            return (
-                f"{self.__class__.__name__}("
-                + ", ".join([i for i in (attrs, f"{len(self)} children") if i])
-                + ")"
-            )
-        except (Exception, RuntimeError):
-            # sometimes our nice serialization fails and we reverte to the dead-safe method of just printing the type of the object
-            return str(type(self))
-
 
 class If(BaseElement):
     def __init__(
@@ -272,22 +280,6 @@ def treewalk(
 def render(root: BaseElement, basecontext: dict) -> str:
     """Shortcut to serialize an object tree into a string"""
     return "".join(root.render(basecontext))
-
-
-class RenderException(Exception):
-    def __init__(self, elementtype: BaseElement, origin: BaseException):
-        self.trace: typing.Tuple[typing.Any, ...] = (
-            elementtype,
-            origin,
-        )
-        if isinstance(origin, RenderException):
-            self.trace = (elementtype,) + origin.trace
-
-    def __str__(self) -> str:
-        ret = []
-        for i, traceitem in enumerate(self.trace):
-            ret.append("    " * i + f"{traceitem}")
-        return "\n".join(ret)
 
 
 def print_logical_tree(root: BaseElement) -> None:
