@@ -72,7 +72,11 @@ class BaseElement(list):
             for i in traceback.StackSummary.extract(
                 traceback.walk_tb(sys.exc_info()[2]), capture_locals=True
             ):
-                if "self" in i.locals and i.locals["self"] != last_obj:
+                if (
+                    i.locals is not None
+                    and "self" in i.locals
+                    and i.locals["self"] != last_obj
+                ):
                     message.append(" " * indent + str(i.locals["self"]))
                     last_obj = i.locals["self"]
                     indent += 2
