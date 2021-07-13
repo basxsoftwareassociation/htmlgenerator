@@ -39,25 +39,39 @@ class BaseElement(list):
             self._src_location = (frame.filename, frame.lineno, frame.function)
 
     def _try_render(
-        self, element: typing.Any, context: dict
+        self, element: typing.Any, context: dict, stringify: bool
     ) -> typing.Generator[str, None, None]:
-        """Renders an element as a generator which yields strings"""
+        """Renders an element as a generator which yields strings
+        The stringify parameter should normally be true in order return
+        escaped strings. In some circumstances if is however desirable to
+        get the actual value and not a string returned. For such cases
+        stringify can be set to ``False``. An example are HTML attribute values
+        which us a ``hg.If`` element and return ``True`` or ``False`` to dynamically
+        control the appearance of the attribute.
+        The render_children method will use a default of ``True`` for strinfigy.
+        That behaviour should only be overriden by elements which consciously want
+        to be able to return non-string objects during rendering.
+        """
         while isinstance(element, Lazy):
             element = element.resolve(context, self)
         if isinstance(element, BaseElement):
             yield from element.render(context)
         elif element is not None:
-            yield conditional_escape(element)
+            yield conditional_escape(element) if stringify else element
 
-    def render_children(self, context: dict) -> typing.Generator[str, None, None]:
+    def render_children(
+        self, context: dict, stringify: bool = True
+    ) -> typing.Generator[str, None, None]:
         """Renders all elements inside the list. Can be used by subclassing elements if they need to controll where child elements are rendered."""
         for element in self:
-            yield from self._try_render(element, context)
+            yield from self._try_render(element, context, stringify)
 
-    def render(self, context: dict) -> typing.Generator[str, None, None]:
+    def render(
+        self, context: dict, stringify: bool = True
+    ) -> typing.Generator[str, None, None]:
         """Renders this element and its children. Can be overwritten by subclassing elements."""
         try:
-            yield from self.render_children(context)
+            yield from self.render_children(context, stringify)
         except (Exception, RuntimeError) as e:
             import sys
             import traceback
@@ -202,11 +216,13 @@ class If(BaseElement):
         super().__init__(true_child, false_child)
         self.condition = condition
 
-    def render(self, context: dict):
+    def render(self, context: dict, stringify=True):
+        """The stringy argument can be set to False in order to get a python object
+        instead of a rendered string returned. This is usefull when evaluating"""
         if resolve_lazy(self.condition, context, self):
-            yield from self._try_render(self[0], context)
+            yield from self._try_render(self[0], context, stringify)
         elif len(self) > 1:
-            yield from self._try_render(self[1], context)
+            yield from self._try_render(self[1], context, stringify)
 
 
 class Iterator(BaseElement):
@@ -220,12 +236,12 @@ class Iterator(BaseElement):
         self.loopvariable = loopvariable
         super().__init__(content)
 
-    def render(self, context: dict):
+    def render(self, context: dict, stringify: bool = True):
         context = dict(context)
         for i, value in enumerate(resolve_lazy(self.iterator, context, self)):
             context[self.loopvariable] = value
             context[self.loopvariable + "_index"] = i
-            yield from self.render_children(context)
+            yield from self.render_children(context, stringify)
 
 
 class WithContext(BaseElement):

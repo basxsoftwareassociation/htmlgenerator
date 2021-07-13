@@ -1,6 +1,6 @@
 import typing
 
-from .base import BaseElement
+from .base import BaseElement, If
 from .lazy import Lazy, resolve_lazy
 
 
@@ -677,10 +677,13 @@ def flatattrs(attributes: dict, context: dict, element: BaseElement) -> str:
     attlist = []
     for key, value in attributes.items():
         value = resolve_lazy(value, context, element)
-        if isinstance(value, BaseElement):
-            # in order to use e.g. an If element to disable the attribute
-            # we check whether the render result is empty
-            # (e.g. when we have only an If element which returns None in one branch)
+        if isinstance(value, If):
+            rendered = list(value.render(context, stringify=False))
+            if len(rendered) == 1 and isinstance(rendered[0], bool):
+                value = rendered[0]
+            else:
+                value = "".join(rendered) if rendered else None
+        elif isinstance(value, BaseElement):
             rendered = list(value.render(context))
             value = "".join(rendered) if rendered else None
         if value is None:
