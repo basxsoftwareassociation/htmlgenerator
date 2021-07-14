@@ -682,6 +682,7 @@ def flatattrs(attributes: dict, context: dict, element: BaseElement) -> str:
             if len(rendered) == 1 and isinstance(rendered[0], bool):
                 value = rendered[0]
             else:
+                rendered = list(value.render(context))
                 value = "".join(rendered) if rendered else None
         elif isinstance(value, BaseElement):
             rendered = list(value.render(context))
