@@ -1,4 +1,5 @@
 import typing
+import warnings
 
 from .base import BaseElement, If
 from .lazy import Lazy, resolve_lazy
@@ -13,6 +14,10 @@ class HTMLElement(BaseElement):
         self, *children, lazy_attributes: typing.Optional[Lazy] = None, **attributes
     ):
         assert self.tag != ""
+        if any(attr == "class" for attr in attributes.keys()):
+            warnings.warn(
+                'You should use "_class" instead of "class" when specifiying HTML classes in htmlgenerator ("class" is a python keyword).'
+            )
         self.attributes: dict = attributes
         super().__init__(*children)
         if lazy_attributes and not isinstance(lazy_attributes, Lazy):
