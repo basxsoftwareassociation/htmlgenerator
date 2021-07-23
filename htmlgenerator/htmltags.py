@@ -704,3 +704,45 @@ def flatattrs(attributes: dict, context: dict, element: BaseElement) -> str:
         else:
             attlist.append(f'{key}="{value}"')
     return " ".join(attlist)
+
+
+def append_attribute(attrs, key, value, separator=None):
+    """
+    In many cases we want a component to add e.g. something to the
+    _class attribute of an HTML element but still allow the caller to
+    pass his own _class attribute to the component. In these cases
+    we can use ``append_attribute`` which will make sure that existing
+    attributes will not simply be overwritten.
+    Multiple items of attribute will in general require to be separated
+    by a separator. If the ``separator`` is not set, a best guess will be
+    done automatically.
+
+    Usage:
+
+        class MyDiv(hg.DIV):
+            def __init__(self, *args, **kwargs):
+                hg.append_attribute(kwargs, "_class", "mydiv")
+                super().__init__(*args, **kwargs)
+
+        a = MyDiv(_class="special-class")
+
+        assert a.attributes["_class"].split(" ") == ["special-class", mydiv]
+
+    """
+
+    def guess_separator(key):
+        default_separators = {
+            "_class": " ",
+            "style": ";",
+        }
+        if key in default_separators:
+            return default_separators[key]
+        # onclick and similar event handlers are javascript
+        if key.startswith("on") and key.islower() and key.isalpha():
+            return ";"
+        return " "
+
+    if key in attrs:
+        attrs[key] = BaseElement(attrs[key], separator or guess_separator(key), value)
+    else:
+        attrs[key] = value
