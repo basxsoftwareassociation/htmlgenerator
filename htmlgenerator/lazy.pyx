@@ -1,9 +1,10 @@
 import inspect
+import cython
 
 import htmlgenerator
 
 
-def resolve_lazy(value, context, element):
+cdef resolve_lazy(value, context, element):
     """Shortcut to resolve a value in case it is a Lazy value"""
 
     while isinstance(value, Lazy):
@@ -56,29 +57,29 @@ def resolve_lookup(context, lookup, call_functions=True):
     return current
 
 
-class Lazy:
+cdef class Lazy:
     """Lazy values will be evaluated at render time via the resolve method."""
 
-    def resolve(self, context: dict, element: "htmlgenerator.BaseElement"):
+    cpdef resolve(self, context, element):
         raise NotImplementedError("Lazy needs to be subclassed")
 
 
-class ContextValue(Lazy):
-    def __init__(self, value: str):
+cdef class ContextValue(Lazy):
+    def __init__(self, value):
         self.value = value
 
-    def resolve(self, context: dict, element: "htmlgenerator.BaseElement"):
+    cpdef resolve(self, context, element):
         return resolve_lookup(context, self.value)
 
 
-class ContextFunction(Lazy):
+cdef class ContextFunction(Lazy):
     """Call a function a render time, usefull for calculation of more complex"""
 
     def __init__(self, func):
         assert callable(func), "ContextFunction needs to be callable"
         self.func = func
 
-    def resolve(self, context: dict, element: "htmlgenerator.BaseElement"):
+    cpdef resolve(self, context, element):
         return self.func(context, element)
 
 
@@ -86,7 +87,7 @@ C = ContextValue
 F = ContextFunction
 
 
-def getattr_lazy(lazyobject: Lazy, attr: str) -> F:
+def getattr_lazy(lazyobject, attr) -> F:
     """Takes a lazy object and returns a new lazy object which will resolve the attribute on the object"""
 
     def wrapper(c, e):

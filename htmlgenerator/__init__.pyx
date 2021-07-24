@@ -1,3 +1,4 @@
+import cython
 from htmlgenerator.base import *  # noqa
 from htmlgenerator.htmltags import *  # noqa
 from htmlgenerator.lazy import *  # noqa

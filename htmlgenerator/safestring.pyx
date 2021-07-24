@@ -1,4 +1,5 @@
 import html
+import cython
 
 # copied from django/utils/safestring.py in order to avoid a dependency only for the escaping-functionality
 # this is condensed and doc-strings are removed, please read https://github.com/django/django/blob/master/django/utils/safestring.py for proper documentation

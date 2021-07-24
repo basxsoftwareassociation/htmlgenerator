@@ -6,6 +6,9 @@
 **/.vscode
 **/.pyc
 **/.eggs
+*.c
+*.so
+*.html
 
 dist/
 build/

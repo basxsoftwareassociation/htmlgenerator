@@ -1,6 +1,7 @@
 import copy
+import cython
 
-from .lazy import Lazy, resolve_lazy
+from htmlgenerator.lazy cimport Lazy, resolve_lazy
 
 EXCEPTION_HANDLER_NAME = "_htmlgenerator_exception_handler"
 "Must be a function without arguments, will be called when an exception happens during rendering an element"
@@ -36,7 +37,7 @@ cdef class BaseElement(list):
                 ] = f"{frame.filename}:{frame.lineno} in {frame.function}"
             self._src_location = (frame.filename, frame.lineno, frame.function)
 
-    def _try_render(self, element, context, stringify):
+    cdef _try_render(self, element, context, stringify):
         """Renders an element as a generator which yields strings
         The stringify parameter should normally be true in order return
         escaped strings. In some circumstances if is however desirable to
@@ -51,26 +52,21 @@ cdef class BaseElement(list):
         while isinstance(element, Lazy):
             element = element.resolve(context, self)
         if isinstance(element, BaseElement):
-            yield from element.render(context)
+            return element.render(context)
         elif element is not None:
-            yield conditional_escape(element) if stringify else element
+            return conditional_escape(element) if stringify else element
 
-    def render_children(self, context, stringify=True):
+    cdef render_children(self, context, stringify=True):
         """Renders all elements inside the list. Can be used by subclassing elements if they need to controll where child elements are rendered."""
-        for element in self:
-            yield from self._try_render(element, context, stringify)
+        return "".join(self._try_render(element, context, stringify) for element in self)
 
-    def render(self, context, stringify=True):
+    cpdef render(self, context, stringify=True):
         """Renders this element and its children. Can be overwritten by subclassing elements."""
         try:
-            yield from self.render_children(context, stringify)
+            return self.render_children(context, stringify)
         except (Exception, RuntimeError) as e:
             import sys
             import traceback
-
-            def default_handler(context, message):
-                traceback.print_exc()
-                print(message, file=sys.stderr)
 
             last_obj = None
             indent = 0
@@ -91,12 +87,11 @@ cdef class BaseElement(list):
 
             context.get(EXCEPTION_HANDLER_NAME, default_handler)(context, message)
 
-            yield (
-                ""
-                + '<pre style="border: solid 1px red; color: red; padding: 1rem; background-color: #ffdddd">'
-                + f"    <code>~~~ Exception: {conditional_escape(e)} ~~~</code>"
-                + "</pre>"
-                + f'<script>alert("Error: {conditional_escape(e)}")</script>'
+            return (
+                '<pre style="border: solid 1px red; color: red; padding: 1rem; background-color: #ffdddd">'
+                f"    <code>~~~ Exception: {conditional_escape(e)} ~~~</code>"
+                "</pre>"
+                f'<script>alert("Error: {conditional_escape(e)}")</script>'
             )
 
     """
@@ -111,7 +106,7 @@ cdef class BaseElement(list):
     - delete
     """
 
-    def filter(self, filter_func):
+    cdef filter(self, filter_func):
         """Walks through the tree (including self) and yields each element for which a call to filter_func evaluates to True.
         filter_func expects an element and a tuple of all ancestors as arguments.
         returns: A generater which yields the matching elements
@@ -119,7 +114,7 @@ cdef class BaseElement(list):
 
         return treewalk(BaseElement(self), (), filter_func=filter_func)
 
-    def wrap(
+    cdef wrap(
         self,
         filter_func,
         wrapperelement,
@@ -138,7 +133,7 @@ cdef class BaseElement(list):
             treewalk(BaseElement(self), (), filter_func=filter_func, apply=wrappingfunc)
         )
 
-    def delete(self, filter_func):
+    cdef delete(self, filter_func):
         """Walks through the tree (including self) and removes each element for which a call to filter_func evaluates to True.
         filter_func expects an element and a tuple of all ancestors as arguments.
         """
@@ -151,7 +146,7 @@ cdef class BaseElement(list):
         )
 
     # untested code
-    def _replace(self, select_func, replacement, all=False):
+    cdef _replace(self, select_func, replacement, all=False):
         """Replaces an element which matches a certain condition with another element"""
         from .htmltags import HTMLElement
 
@@ -179,11 +174,12 @@ cdef class BaseElement(list):
         except ReachFirstException:
             pass
 
-    def copy(self):
+    cdef copy(self):
         return copy.deepcopy(self)
 
 
-class If(BaseElement):
+cdef class If(BaseElement):
+
     def __init__(
         self,
         condition,
@@ -194,16 +190,16 @@ class If(BaseElement):
         super().__init__(true_child, false_child)
         self.condition = condition
 
-    def render(self, context, stringify=True):
+    cpdef render(self, context, stringify=True):
         """The stringy argument can be set to False in order to get a python object
         instead of a rendered string returned. This is usefull when evaluating"""
         if resolve_lazy(self.condition, context, self):
-            yield from self._try_render(self[0], context, stringify)
+            return self._try_render(self[0], context, stringify)
         elif len(self) > 1:
-            yield from self._try_render(self[1], context, stringify)
+            return self._try_render(self[1], context, stringify)
 
 
-class Iterator(BaseElement):
+cdef class Iterator(BaseElement):
     def __init__(
         self,
         iterator,
@@ -214,15 +210,15 @@ class Iterator(BaseElement):
         self.loopvariable = loopvariable
         super().__init__(content)
 
-    def render(self, context, stringify=True):
+    cpdef render(self, context, stringify=True):
         context = dict(context)
         for i, value in enumerate(resolve_lazy(self.iterator, context, self)):
             context[self.loopvariable] = value
             context[self.loopvariable + "_index"] = i
-            yield from self.render_children(context, stringify)
+            return self.render_children(context, stringify)
 
 
-class WithContext(BaseElement):
+cdef class WithContext(BaseElement):
     """
     Pass additional names into the context.
     The additional context names are namespaced to the current element and its child elements.
@@ -230,13 +226,13 @@ class WithContext(BaseElement):
     This element is required because context is otherwise only set by the render function and the loop-variable of Iterator which can be limiting.
     """
 
-    additional_context = {}
+    cdef dict additional_context
 
     def __init__(self, *children, **kwargs):
         self.additional_context = kwargs
         super().__init__(*children)
 
-    def render(self, context):
+    cpdef render(self, context, stringify=True):
         return super().render({**context, **self.additional_context})
 
 
@@ -268,7 +264,7 @@ def treewalk(element, ancestors, filter_func, apply=None):
 
 def render(root, basecontext):
     """Shortcut to serialize an object tree into a string"""
-    return "".join(root.render(basecontext))
+    return root.render(basecontext)
 
 
 html_id_cache = set()
@@ -296,3 +292,8 @@ def html_id(object, prefix="id"):
         n += 1
     html_id_cache.add(nid)
     return nid
+
+cdef default_handler(context, message):
+    import traceback, sys
+    traceback.print_exc()
+    print(message, file=sys.stderr)

@@ -1,16 +1,19 @@
 import warnings
+import cython
 
-from .base import BaseElement, If
-from .lazy import Lazy, resolve_lazy
+from htmlgenerator.base cimport BaseElement, If
+from htmlgenerator.lazy cimport Lazy, resolve_lazy
 
 
-class HTMLElement(BaseElement):
+cdef class HTMLElement(BaseElement):
     """The base for all HTML tags."""
 
-    tag = ""
+    cdef public str tag
+    cdef public dict attributes
+    cdef public object lazy_attributes
 
     def __init__(self, *children, lazy_attributes=None, **attributes):
-        assert self.tag != ""
+        self.tag = self.__class__.__name__
         if any(attr == "class" for attr in attributes.keys()):
             warnings.warn(
                 'You should use "_class" instead of "class" when specifiying HTML classes in htmlgenerator ("class" is a python keyword).'
@@ -23,7 +26,7 @@ class HTMLElement(BaseElement):
             )
         self.lazy_attributes = lazy_attributes
 
-    def render(self, context):
+    cpdef render(self, context, stringify=True):
         attr_str = flatattrs(
             {
                 **self.attributes,
@@ -34,9 +37,7 @@ class HTMLElement(BaseElement):
         )
         # quirk to prevent tags having a single space if there are no attributes
         attr_str = (" " + attr_str) if attr_str else attr_str
-        yield f"<{self.tag}{attr_str}>"
-        yield from super().render_children(context)
-        yield f"</{self.tag}>"
+        return f"<{self.tag}{attr_str}>" + super().render_children(context) + f"</{self.tag}>"
 
     # mostly for debugging purposes
     def __repr__(self):
@@ -47,20 +48,18 @@ class HTMLElement(BaseElement):
         )
 
 
-class VoidElement(HTMLElement):
+cdef class VoidElement(HTMLElement):
     """Wrapper for elements without a closing tag, cannot have children"""
 
     # does not accept children
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def render(self, context):
-        yield f"<{self.tag} {flatattrs(self.attributes, context, self)} />"
+    cpdef render(self, context, stringify=True):
+        return f"<{self.tag} {flatattrs(self.attributes, context, self)} />"
 
 
-class A(HTMLElement):
-    tag = "a"
-
+cdef class A(HTMLElement):
     def __init__(self, *args, newtab=False, **kwargs):
         if newtab:
             kwargs["target"] = "_blank"
@@ -68,241 +67,239 @@ class A(HTMLElement):
         super().__init__(*args, **kwargs)
 
 
-class ABBR(HTMLElement):
-    tag = "abbr"
+cdef class ABBR(HTMLElement):
+    pass
 
 
-class ACRONYM(HTMLElement):
-    tag = "acronym"
+cdef class ACRONYM(HTMLElement):
+    pass
 
 
-class ADDRESS(HTMLElement):
-    tag = "address"
+cdef class ADDRESS(HTMLElement):
+    pass
 
 
-class APPLET(HTMLElement):
-    tag = "applet"
+cdef class APPLET(HTMLElement):
+    pass
 
 
-class AREA(VoidElement):
-    tag = "area"
+cdef class AREA(VoidElement):
+    pass
 
 
-class ARTICLE(HTMLElement):
-    tag = "article"
+cdef class ARTICLE(HTMLElement):
+    pass
 
 
-class ASIDE(HTMLElement):
-    tag = "aside"
+cdef class ASIDE(HTMLElement):
+    pass
 
 
-class AUDIO(HTMLElement):
-    tag = "audio"
+cdef class AUDIO(HTMLElement):
+    pass
 
 
-class B(HTMLElement):
-    tag = "b"
+cdef class B(HTMLElement):
+    pass
 
 
-class BASE(VoidElement):
-    tag = "base"
+cdef class BASE(VoidElement):
+    pass
 
 
-class BASEFONT(HTMLElement):
-    tag = "basefont"
+cdef class BASEFONT(HTMLElement):
+    pass
 
 
-class BDI(HTMLElement):
-    tag = "bdi"
+cdef class BDI(HTMLElement):
+    pass
 
 
-class BDO(HTMLElement):
-    tag = "bdo"
+cdef class BDO(HTMLElement):
+    pass
 
 
-class BGSOUND(HTMLElement):
-    tag = "bgsound"
+cdef class BGSOUND(HTMLElement):
+    pass
 
 
-class BIG(HTMLElement):
-    tag = "big"
+cdef class BIG(HTMLElement):
+    pass
 
 
-class BLINK(HTMLElement):
-    tag = "blink"
+cdef class BLINK(HTMLElement):
+    pass
 
 
-class BLOCKQUOTE(HTMLElement):
-    tag = "blockquote"
+cdef class BLOCKQUOTE(HTMLElement):
+    pass
 
 
-class BODY(HTMLElement):
-    tag = "body"
+cdef class BODY(HTMLElement):
+    pass
 
 
-class BR(VoidElement):
-    tag = "br"
+cdef class BR(VoidElement):
+    pass
 
 
-class BUTTON(HTMLElement):
-    tag = "button"
+cdef class BUTTON(HTMLElement):
+    pass
 
 
-class CANVAS(HTMLElement):
-    tag = "canvas"
+cdef class CANVAS(HTMLElement):
+    pass
 
 
-class CAPTION(HTMLElement):
-    tag = "caption"
+cdef class CAPTION(HTMLElement):
+    pass
 
 
-class CENTER(HTMLElement):
-    tag = "center"
+cdef class CENTER(HTMLElement):
+    pass
 
 
-class CITE(HTMLElement):
-    tag = "cite"
+cdef class CITE(HTMLElement):
+    pass
 
 
-class CODE(HTMLElement):
-    tag = "code"
+cdef class CODE(HTMLElement):
+    pass
 
 
-class COL(VoidElement):
-    tag = "col"
+cdef class COL(VoidElement):
+    pass
 
 
-class COLGROUP(HTMLElement):
-    tag = "colgroup"
+cdef class COLGROUP(HTMLElement):
+    pass
 
 
-class COMMAND(VoidElement):
-    tag = "command"
+cdef class COMMAND(VoidElement):
+    pass
 
 
-class CONTENT(HTMLElement):
-    tag = "content"
+cdef class CONTENT(HTMLElement):
+    pass
 
 
-class DATA(HTMLElement):
-    tag = "data"
+cdef class DATA(HTMLElement):
+    pass
 
 
-class DATALIST(HTMLElement):
-    tag = "datalist"
+cdef class DATALIST(HTMLElement):
+    pass
 
 
-class DD(HTMLElement):
-    tag = "dd"
+cdef class DD(HTMLElement):
+    pass
 
 
-class DEL(HTMLElement):
-    tag = "del"
+cdef class DEL(HTMLElement):
+    pass
 
 
-class DETAILS(HTMLElement):
-    tag = "details"
+cdef class DETAILS(HTMLElement):
+    pass
 
 
-class DFN(HTMLElement):
-    tag = "dfn"
+cdef class DFN(HTMLElement):
+    pass
 
 
-class DIALOG(HTMLElement):
-    tag = "dialog"
+cdef class DIALOG(HTMLElement):
+    pass
 
 
-class DIR(HTMLElement):
-    tag = "dir"
+cdef class DIR(HTMLElement):
+    pass
 
 
-class DIV(HTMLElement):
-    tag = "div"
+cdef class DIV(HTMLElement):
+    pass
 
 
-class DL(HTMLElement):
-    tag = "dl"
+cdef class DL(HTMLElement):
+    pass
 
 
-class DT(HTMLElement):
-    tag = "dt"
+cdef class DT(HTMLElement):
+    pass
 
 
-class EDIASTREA(HTMLElement):
-    tag = "ediastrea"
+cdef class EDIASTREA(HTMLElement):
+    pass
 
 
-class ELEMENT(HTMLElement):
-    tag = "element"
+cdef class ELEMENT(HTMLElement):
+    pass
 
 
-class EM(HTMLElement):
-    tag = "em"
+cdef class EM(HTMLElement):
+    pass
 
 
-class EMBED(VoidElement):
-    tag = "embed"
+cdef class EMBED(VoidElement):
+    pass
 
 
-class FIELDSET(HTMLElement):
-    tag = "fieldset"
+cdef class FIELDSET(HTMLElement):
+    pass
 
 
-class FIGCAPTION(HTMLElement):
-    tag = "figcaption"
+cdef class FIGCAPTION(HTMLElement):
+    pass
 
 
-class FIGURE(HTMLElement):
-    tag = "figure"
+cdef class FIGURE(HTMLElement):
+    pass
 
 
-class FONT(HTMLElement):
-    tag = "font"
+cdef class FONT(HTMLElement):
+    pass
 
 
-class FOOTER(HTMLElement):
-    tag = "footer"
+cdef class FOOTER(HTMLElement):
+    pass
 
 
-class FORM(HTMLElement):
-    tag = "form"
+cdef class FORM(HTMLElement):
+    pass
 
 
-class FRAME(HTMLElement):
-    tag = "frame"
+cdef class FRAME(HTMLElement):
+    pass
 
 
-class FRAMESET(HTMLElement):
-    tag = "frameset"
+cdef class FRAMESET(HTMLElement):
+    pass
 
 
-class H1(HTMLElement):
-    tag = "h1"
+cdef class H1(HTMLElement):
+    pass
 
 
-class H2(HTMLElement):
-    tag = "h2"
+cdef class H2(HTMLElement):
+    pass
 
 
-class H3(HTMLElement):
-    tag = "h3"
+cdef class H3(HTMLElement):
+    pass
 
 
-class H4(HTMLElement):
-    tag = "h4"
+cdef class H4(HTMLElement):
+    pass
 
 
-class H5(HTMLElement):
-    tag = "h5"
+cdef class H5(HTMLElement):
+    pass
 
 
-class H6(HTMLElement):
-    tag = "h6"
+cdef class H6(HTMLElement):
+    pass
 
 
-class HEAD(HTMLElement):
-    tag = "head"
-
+cdef class HEAD(HTMLElement):
     def __init__(self, *children):
         super().__init__(
             META(charset="utf-8"),
@@ -311,368 +308,367 @@ class HEAD(HTMLElement):
         )
 
 
-class HEADER(HTMLElement):
-    tag = "header"
+cdef class HEADER(HTMLElement):
+    pass
 
 
-class HGROUP(HTMLElement):
-    tag = "hgroup"
+cdef class HGROUP(HTMLElement):
+    pass
 
 
-class HR(VoidElement):
-    tag = "hr"
+cdef class HR(VoidElement):
+    pass
 
 
-class HTML(HTMLElement):
-    tag = "html"
-
+cdef class HTML(HTMLElement):
     def __init__(self, *args, doctype=False, **kwargs):
         super().__init__(*args, **kwargs)
         self.doctype = doctype
 
-    def render(self, context):
+    cpdef render(self, context, stringify=True):
         if self.doctype:
-            yield "<!DOCTYPE html>"
-        yield from super().render(context)
+            return "<!DOCTYPE html>" + super().render(context)
+        else:
+            super().render(context)
 
 
-class I(HTMLElement):  # noqa
-    tag = "i"
+cdef class I(HTMLElement):  # noqa
+    pass
 
 
-class IFRAME(HTMLElement):
-    tag = "iframe"
+cdef class IFRAME(HTMLElement):
+    pass
 
 
-class IMAGE(HTMLElement):
-    tag = "image"
+cdef class IMAGE(HTMLElement):
+    pass
 
 
-class IMG(VoidElement):
-    tag = "img"
+cdef class IMG(VoidElement):
+    pass
 
 
-class INPUT(VoidElement):
-    tag = "input"
+cdef class INPUT(VoidElement):
+    pass
 
 
-class INS(HTMLElement):
-    tag = "ins"
+cdef class INS(HTMLElement):
+    pass
 
 
-class ISINDEX(HTMLElement):
-    tag = "isindex"
+cdef class ISINDEX(HTMLElement):
+    pass
 
 
-class KBD(HTMLElement):
-    tag = "kbd"
+cdef class KBD(HTMLElement):
+    pass
 
 
-class KEYGEN(VoidElement):
-    tag = "keygen"
+cdef class KEYGEN(VoidElement):
+    pass
 
 
-class LABEL(HTMLElement):
-    tag = "label"
+cdef class LABEL(HTMLElement):
+    pass
 
 
-class LEGEND(HTMLElement):
-    tag = "legend"
+cdef class LEGEND(HTMLElement):
+    pass
 
 
-class LI(HTMLElement):
-    tag = "li"
+cdef class LI(HTMLElement):
+    pass
 
 
-class LINK(VoidElement):
-    tag = "link"
+cdef class LINK(VoidElement):
+    pass
 
 
-class LISTING(HTMLElement):
-    tag = "listing"
+cdef class LISTING(HTMLElement):
+    pass
 
 
-class MAIN(HTMLElement):
-    tag = "main"
+cdef class MAIN(HTMLElement):
+    pass
 
 
-class MAP(HTMLElement):
-    tag = "map"
+cdef class MAP(HTMLElement):
+    pass
 
 
-class MARK(HTMLElement):
-    tag = "mark"
+cdef class MARK(HTMLElement):
+    pass
 
 
-class MARQUEE(HTMLElement):
-    tag = "marquee"
+cdef class MARQUEE(HTMLElement):
+    pass
 
 
-class MENU(HTMLElement):
-    tag = "menu"
+cdef class MENU(HTMLElement):
+    pass
 
 
-class MENUITEM(HTMLElement):
-    tag = "menuitem"
+cdef class MENUITEM(HTMLElement):
+    pass
 
 
-class META(VoidElement):
-    tag = "meta"
+cdef class META(VoidElement):
+    pass
 
 
-class METER(HTMLElement):
-    tag = "meter"
+cdef class METER(HTMLElement):
+    pass
 
 
-class MULTICOL(HTMLElement):
-    tag = "multicol"
+cdef class MULTICOL(HTMLElement):
+    pass
 
 
-class NAV(HTMLElement):
-    tag = "nav"
+cdef class NAV(HTMLElement):
+    pass
 
 
-class NEXTID(HTMLElement):
-    tag = "nextid"
+cdef class NEXTID(HTMLElement):
+    pass
 
 
-class NOBR(HTMLElement):
-    tag = "nobr"
+cdef class NOBR(HTMLElement):
+    pass
 
 
-class NOEMBED(HTMLElement):
-    tag = "noembed"
+cdef class NOEMBED(HTMLElement):
+    pass
 
 
-class NOFRAMES(HTMLElement):
-    tag = "noframes"
+cdef class NOFRAMES(HTMLElement):
+    pass
 
 
-class NOSCRIPT(HTMLElement):
-    tag = "noscript"
+cdef class NOSCRIPT(HTMLElement):
+    pass
 
 
-class OBJECT(HTMLElement):
-    tag = "object"
+cdef class OBJECT(HTMLElement):
+    pass
 
 
-class OL(HTMLElement):
-    tag = "ol"
+cdef class OL(HTMLElement):
+    pass
 
 
-class OPTGROUP(HTMLElement):
-    tag = "optgroup"
+cdef class OPTGROUP(HTMLElement):
+    pass
 
 
-class OPTION(HTMLElement):
-    tag = "option"
+cdef class OPTION(HTMLElement):
+    pass
 
 
-class OUTPUT(HTMLElement):
-    tag = "output"
+cdef class OUTPUT(HTMLElement):
+    pass
 
 
-class P(HTMLElement):
-    tag = "p"
+cdef class P(HTMLElement):
+    pass
 
 
-class PARAM(VoidElement):
-    tag = "param"
+cdef class PARAM(VoidElement):
+    pass
 
 
-class PICTURE(HTMLElement):
-    tag = "picture"
+cdef class PICTURE(HTMLElement):
+    pass
 
 
-class PLAINTEXT(HTMLElement):
-    tag = "plaintext"
+cdef class PLAINTEXT(HTMLElement):
+    pass
 
 
-class PRE(HTMLElement):
-    tag = "pre"
+cdef class PRE(HTMLElement):
+    pass
 
 
-class PROGRESS(HTMLElement):
-    tag = "progress"
+cdef class PROGRESS(HTMLElement):
+    pass
 
 
-class Q(HTMLElement):
-    tag = "q"
+cdef class Q(HTMLElement):
+    pass
 
 
-class RB(HTMLElement):
-    tag = "rb"
+cdef class RB(HTMLElement):
+    pass
 
 
-class RE(HTMLElement):
-    tag = "re"
+cdef class RE(HTMLElement):
+    pass
 
 
-class RP(HTMLElement):
-    tag = "rp"
+cdef class RP(HTMLElement):
+    pass
 
 
-class RT(HTMLElement):
-    tag = "rt"
+cdef class RT(HTMLElement):
+    pass
 
 
-class RTC(HTMLElement):
-    tag = "rtc"
+cdef class RTC(HTMLElement):
+    pass
 
 
-class RUBY(HTMLElement):
-    tag = "ruby"
+cdef class RUBY(HTMLElement):
+    pass
 
 
-class S(HTMLElement):
-    tag = "s"
+cdef class S(HTMLElement):
+    pass
 
 
-class SAMP(HTMLElement):
-    tag = "samp"
+cdef class SAMP(HTMLElement):
+    pass
 
 
-class SCRIPT(HTMLElement):
-    tag = "script"
+cdef class SCRIPT(HTMLElement):
+    pass
 
 
-class SECTION(HTMLElement):
-    tag = "section"
+cdef class SECTION(HTMLElement):
+    pass
 
 
-class SELECT(HTMLElement):
-    tag = "select"
+cdef class SELECT(HTMLElement):
+    pass
 
 
-class SHADOW(HTMLElement):
-    tag = "shadow"
+cdef class SHADOW(HTMLElement):
+    pass
 
 
-class SLOT(HTMLElement):
-    tag = "slot"
+cdef class SLOT(HTMLElement):
+    pass
 
 
-class SMALL(HTMLElement):
-    tag = "small"
+cdef class SMALL(HTMLElement):
+    pass
 
 
-class SOURCE(VoidElement):
-    tag = "source"
+cdef class SOURCE(VoidElement):
+    pass
 
 
-class SPACER(HTMLElement):
-    tag = "spacer"
+cdef class SPACER(HTMLElement):
+    pass
 
 
-class SPAN(HTMLElement):
-    tag = "span"
+cdef class SPAN(HTMLElement):
+    pass
 
 
-class STRIKE(HTMLElement):
-    tag = "strike"
+cdef class STRIKE(HTMLElement):
+    pass
 
 
-class STRONG(HTMLElement):
-    tag = "strong"
+cdef class STRONG(HTMLElement):
+    pass
 
 
-class STYLE(HTMLElement):
-    tag = "style"
+cdef class STYLE(HTMLElement):
+    pass
 
 
-class SUB(HTMLElement):
-    tag = "sub"
+cdef class SUB(HTMLElement):
+    pass
 
 
-class SUMMARY(HTMLElement):
-    tag = "summary"
+cdef class SUMMARY(HTMLElement):
+    pass
 
 
-class SUP(HTMLElement):
-    tag = "sup"
+cdef class SUP(HTMLElement):
+    pass
 
 
-class SVG(HTMLElement):
-    tag = "svg"
+cdef class SVG(HTMLElement):
+    pass
 
 
-class TABLE(HTMLElement):
-    tag = "table"
+cdef class TABLE(HTMLElement):
+    pass
 
 
-class TBODY(HTMLElement):
-    tag = "tbody"
+cdef class TBODY(HTMLElement):
+    pass
 
 
-class TD(HTMLElement):
-    tag = "td"
+cdef class TD(HTMLElement):
+    pass
 
 
-class TEMPLATE(HTMLElement):
-    tag = "template"
+cdef class TEMPLATE(HTMLElement):
+    pass
 
 
-class TEXTAREA(HTMLElement):
-    tag = "textarea"
+cdef class TEXTAREA(HTMLElement):
+    pass
 
 
-class TFOOT(HTMLElement):
-    tag = "tfoot"
+cdef class TFOOT(HTMLElement):
+    pass
 
 
-class TH(HTMLElement):
-    tag = "th"
+cdef class TH(HTMLElement):
+    pass
 
 
-class THEAD(HTMLElement):
-    tag = "thead"
+cdef class THEAD(HTMLElement):
+    pass
 
 
-class TIME(HTMLElement):
-    tag = "time"
+cdef class TIME(HTMLElement):
+    pass
 
 
-class TITLE(HTMLElement):
-    tag = "title"
+cdef class TITLE(HTMLElement):
+    pass
 
 
-class TR(HTMLElement):
-    tag = "tr"
+cdef class TR(HTMLElement):
+    pass
 
 
-class TRACK(VoidElement):
-    tag = "track"
+cdef class TRACK(VoidElement):
+    pass
 
 
-class TT(HTMLElement):
-    tag = "tt"
+cdef class TT(HTMLElement):
+    pass
 
 
-class U(HTMLElement):
-    tag = "u"
+cdef class U(HTMLElement):
+    pass
 
 
-class UL(HTMLElement):
-    tag = "ul"
+cdef class UL(HTMLElement):
+    pass
 
 
-class VAR(HTMLElement):
-    tag = "var"
+cdef class VAR(HTMLElement):
+    pass
 
 
-class VIDEO(HTMLElement):
-    tag = "video"
+cdef class VIDEO(HTMLElement):
+    pass
 
 
-class WBR(VoidElement):
-    tag = "wbr"
+cdef class WBR(VoidElement):
+    pass
 
 
-class XMP(HTMLElement):
-    tag = "xmp"
+cdef class XMP(HTMLElement):
+    pass
 
 
-def flatattrs(attributes, context, element):
+cdef flatattrs(attributes, context, element):
     """Converts a dictionary to a string of HTML-attributes.
     Leading underscores are removed and other underscores are replaced with dashes."""
 
@@ -703,7 +699,7 @@ def flatattrs(attributes, context, element):
     return " ".join(attlist)
 
 
-def append_attribute(attrs, key, value, separator=None):
+cdef append_attribute(attrs, key, value, separator=None):
     """
     In many cases we want a component to add e.g. something to the
     _class attribute of an HTML element but still allow the caller to

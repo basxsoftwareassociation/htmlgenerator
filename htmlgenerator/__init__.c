@@ -1042,6 +1042,8 @@ static int __Pyx_check_binary_version(void);
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
+/* Module declarations from 'cython' */
+
 /* Module declarations from 'htmlgenerator' */
 #define __Pyx_MODULE_NAME "htmlgenerator"
 extern int __pyx_module_is_main_htmlgenerator;
@@ -1551,100 +1553,102 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "htmlgenerator/__init__.pyx":1
+  /* "htmlgenerator/__init__.pyx":2
+ * import cython
  * from htmlgenerator.base import *  # noqa             # <<<<<<<<<<<<<<
  * from htmlgenerator.htmltags import *  # noqa
  * from htmlgenerator.lazy import *  # noqa
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_);
   __Pyx_GIVEREF(__pyx_n_s_);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_htmlgenerator_base, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_htmlgenerator_base, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__pyx_import_star(__pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__pyx_import_star(__pyx_t_2) < 0) __PYX_ERR(0, 2, __pyx_L1_error);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "htmlgenerator/__init__.pyx":2
+  /* "htmlgenerator/__init__.pyx":3
+ * import cython
  * from htmlgenerator.base import *  # noqa
  * from htmlgenerator.htmltags import *  # noqa             # <<<<<<<<<<<<<<
  * from htmlgenerator.lazy import *  # noqa
  * from htmlgenerator.safestring import mark_safe  # noqa
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_);
   __Pyx_GIVEREF(__pyx_n_s_);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_htmlgenerator_htmltags, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_htmlgenerator_htmltags, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__pyx_import_star(__pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error);
+  if (__pyx_import_star(__pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "htmlgenerator/__init__.pyx":3
+  /* "htmlgenerator/__init__.pyx":4
  * from htmlgenerator.base import *  # noqa
  * from htmlgenerator.htmltags import *  # noqa
  * from htmlgenerator.lazy import *  # noqa             # <<<<<<<<<<<<<<
  * from htmlgenerator.safestring import mark_safe  # noqa
  * 
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_);
   __Pyx_GIVEREF(__pyx_n_s_);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_htmlgenerator_lazy, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_htmlgenerator_lazy, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__pyx_import_star(__pyx_t_2) < 0) __PYX_ERR(0, 3, __pyx_L1_error);
+  if (__pyx_import_star(__pyx_t_2) < 0) __PYX_ERR(0, 4, __pyx_L1_error);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "htmlgenerator/__init__.pyx":4
+  /* "htmlgenerator/__init__.pyx":5
  * from htmlgenerator.htmltags import *  # noqa
  * from htmlgenerator.lazy import *  # noqa
  * from htmlgenerator.safestring import mark_safe  # noqa             # <<<<<<<<<<<<<<
  * 
  * __version__ = "2.0.0"
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_mark_safe);
   __Pyx_GIVEREF(__pyx_n_s_mark_safe);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_mark_safe);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_htmlgenerator_safestring, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_htmlgenerator_safestring, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_mark_safe); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_mark_safe); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_mark_safe, __pyx_t_2) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_mark_safe, __pyx_t_2) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "htmlgenerator/__init__.pyx":6
+  /* "htmlgenerator/__init__.pyx":7
  * from htmlgenerator.safestring import mark_safe  # noqa
  * 
  * __version__ = "2.0.0"             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_kp_u_2_0_0) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_kp_u_2_0_0) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
 
-  /* "htmlgenerator/__init__.pyx":9
+  /* "htmlgenerator/__init__.pyx":10
  * 
  * 
  * DEBUG: bool = False             # <<<<<<<<<<<<<<
  * "Turning on this flag will add html attributes with information about the source of the generated html output",
  * # not sure whether this is a smart idea, but environment variables do not really seem better...
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DEBUG, Py_False) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DEBUG, Py_False) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
 
   /* "htmlgenerator/__init__.pyx":1
- * from htmlgenerator.base import *  # noqa             # <<<<<<<<<<<<<<
+ * import cython             # <<<<<<<<<<<<<<
+ * from htmlgenerator.base import *  # noqa
  * from htmlgenerator.htmltags import *  # noqa
- * from htmlgenerator.lazy import *  # noqa
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
