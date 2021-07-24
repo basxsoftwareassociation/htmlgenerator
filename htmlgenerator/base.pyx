@@ -1,4 +1,5 @@
 import copy
+
 import cython
 
 from htmlgenerator.lazy cimport Lazy, resolve_lazy
@@ -294,6 +295,7 @@ def html_id(object, prefix="id"):
     return nid
 
 cdef default_handler(context, message):
-    import traceback, sys
+    import sys
+    import traceback
     traceback.print_exc()
     print(message, file=sys.stderr)

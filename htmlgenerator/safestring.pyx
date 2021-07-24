@@ -1,4 +1,5 @@
 import html
+
 import cython
 
 # copied from django/utils/safestring.py in order to avoid a dependency only for the escaping-functionality

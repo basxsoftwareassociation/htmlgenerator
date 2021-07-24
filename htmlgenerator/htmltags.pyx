@@ -1,4 +1,5 @@
 import warnings
+
 import cython
 
 from htmlgenerator.base cimport BaseElement, If
