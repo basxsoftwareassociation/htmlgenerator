@@ -1,13 +1,12 @@
 
 cdef class BaseElement(list):
-    cdef _try_render(self, element, context, stringify)
-    cdef render_children(self, context, stringify=*)
-    cpdef render(self, context, stringify=*)
-    cdef filter(self, filter_func)
-    cdef wrap(self, filter_func, wrapperelement)
-    cdef delete(self, filter_func)
-    cdef _replace(self, select_func, replacement, all=*)
-    cdef copy(self)
+    cdef str _try_render(self, object element, dict context)
+    cpdef str render_children(self, dict context)
+    cpdef str render(self, dict context)
+    cpdef filter(self, filter_func)
+    cpdef delete(self, filter_func)
+    cpdef replace(self, select_func, replacement, all=*)
+    cpdef copy(self)
 
 cdef class If(BaseElement):
     cdef object condition

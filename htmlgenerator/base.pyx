@@ -2,7 +2,7 @@ import copy
 
 import cython
 
-from htmlgenerator.lazy cimport Lazy, resolve_lazy
+from htmlgenerator.lazy cimport Lazy, _resolve_lazy_internal
 
 EXCEPTION_HANDLER_NAME = "_htmlgenerator_exception_handler"
 "Must be a function without arguments, will be called when an exception happens during rendering an element"
@@ -22,49 +22,25 @@ cdef class BaseElement(list):
     def __init__(self, *children):
         """Uses the given arguments to initialize the list which represents the child objects"""
         super().__init__(children)
-        from . import DEBUG
 
-        if DEBUG:
-            import inspect
-
-            # This will add the source location of where this element has been instantiated as a data attributte
-            # and a python attribute _src_location with (filename, linenumber, functionname) to this object
-            for frame in inspect.stack():
-                if frame.function != "__init__":
-                    break
-            if hasattr(self, "attributes"):
-                self.attributes[
-                    "data_source_location"
-                ] = f"{frame.filename}:{frame.lineno} in {frame.function}"
-            self._src_location = (frame.filename, frame.lineno, frame.function)
-
-    cdef _try_render(self, element, context, stringify):
-        """Renders an element as a generator which yields strings
-        The stringify parameter should normally be true in order return
-        escaped strings. In some circumstances if is however desirable to
-        get the actual value and not a string returned. For such cases
-        stringify can be set to ``False``. An example are HTML attribute values
-        which us a ``hg.If`` element and return ``True`` or ``False`` to dynamically
-        control the appearance of the attribute.
-        The render_children method will use a default of ``True`` for strinfigy.
-        That behaviour should only be overriden by elements which consciously want
-        to be able to return non-string objects during rendering.
-        """
+    cdef str _try_render(self, object element, dict context):
         while isinstance(element, Lazy):
             element = element.resolve(context, self)
+
         if isinstance(element, BaseElement):
-            return element.render(context)
+            return str(element.render(context))
         elif element is not None:
-            return conditional_escape(element) if stringify else element
+            return str(conditional_escape(element))
+        return ""
 
-    cdef render_children(self, context, stringify=True):
+    cpdef str render_children(self, dict context):
         """Renders all elements inside the list. Can be used by subclassing elements if they need to controll where child elements are rendered."""
-        return "".join(self._try_render(element, context, stringify) for element in self)
+        return "".join([self._try_render(element, context) for element in self])
 
-    cpdef render(self, context, stringify=True):
+    cpdef str render(self, dict context):
         """Renders this element and its children. Can be overwritten by subclassing elements."""
         try:
-            return self.render_children(context, stringify)
+            return self.render_children(context)
         except (Exception, RuntimeError) as e:
             import sys
             import traceback
@@ -107,7 +83,7 @@ cdef class BaseElement(list):
     - delete
     """
 
-    cdef filter(self, filter_func):
+    cpdef filter(self, filter_func):
         """Walks through the tree (including self) and yields each element for which a call to filter_func evaluates to True.
         filter_func expects an element and a tuple of all ancestors as arguments.
         returns: A generater which yields the matching elements
@@ -115,7 +91,7 @@ cdef class BaseElement(list):
 
         return treewalk(BaseElement(self), (), filter_func=filter_func)
 
-    cdef wrap(
+    def wrap(
         self,
         filter_func,
         wrapperelement,
@@ -134,48 +110,26 @@ cdef class BaseElement(list):
             treewalk(BaseElement(self), (), filter_func=filter_func, apply=wrappingfunc)
         )
 
-    cdef delete(self, filter_func):
+
+    cpdef delete(self, filter_func):
         """Walks through the tree (including self) and removes each element for which a call to filter_func evaluates to True.
         filter_func expects an element and a tuple of all ancestors as arguments.
         """
 
-        def delfunc(container, i, e):
-            container.remove(e)
-
         return list(
-            treewalk(BaseElement(self), (), filter_func=filter_func, apply=delfunc)
+            treewalk(BaseElement(self), (), filter_func=filter_func, apply=_delfunc)
         )
 
     # untested code
-    cdef _replace(self, select_func, replacement, all=False):
+    cpdef replace(self, select_func, replacement, all=False):
         """Replaces an element which matches a certain condition with another element"""
-        from .htmltags import HTMLElement
-
-        class ReachFirstException(Exception):
-            pass
-
-        def walk(element, ancestors):
-            replacment_indices = []
-            for i, e in enumerate(element):
-                if isinstance(e, BaseElement):
-                    if select_func(e, ancestors):
-                        replacment_indices.append(i)
-                    if isinstance(e, HTMLElement):
-                        walk(list(e.attributes.values()), ancestors=ancestors + (e,))
-                    walk(e, ancestors=ancestors + (e,))
-            for i in replacment_indices:
-                element.pop(i)
-                if replacement is not None:
-                    element.insert(i, replacement)
-                if not all:
-                    raise ReachFirstException()
 
         try:
-            walk(self, (self,))
+            walk(self, (self,), replacement, select_func)
         except ReachFirstException:
             pass
 
-    cdef copy(self):
+    cpdef copy(self):
         return copy.deepcopy(self)
 
 
@@ -191,13 +145,13 @@ cdef class If(BaseElement):
         super().__init__(true_child, false_child)
         self.condition = condition
 
-    cpdef render(self, context, stringify=True):
+    cpdef str render(self, dict context):
         """The stringy argument can be set to False in order to get a python object
         instead of a rendered string returned. This is usefull when evaluating"""
-        if resolve_lazy(self.condition, context, self):
-            return self._try_render(self[0], context, stringify)
+        if _resolve_lazy_internal(self.condition, context, self):
+            return self._try_render(self[0], context)
         elif len(self) > 1:
-            return self._try_render(self[1], context, stringify)
+            return self._try_render(self[1], context)
 
 
 cdef class Iterator(BaseElement):
@@ -211,12 +165,14 @@ cdef class Iterator(BaseElement):
         self.loopvariable = loopvariable
         super().__init__(content)
 
-    cpdef render(self, context, stringify=True):
+    cpdef str render(self, dict context):
         context = dict(context)
-        for i, value in enumerate(resolve_lazy(self.iterator, context, self)):
+        ret = []
+        for i, value in enumerate(_resolve_lazy_internal(self.iterator, context, self)):
             context[self.loopvariable] = value
             context[self.loopvariable + "_index"] = i
-            return self.render_children(context, stringify)
+            ret.append(self.render_children(context))
+        return "".join(ret)
 
 
 cdef class WithContext(BaseElement):
@@ -233,8 +189,8 @@ cdef class WithContext(BaseElement):
         self.additional_context = kwargs
         super().__init__(*children)
 
-    cpdef render(self, context, stringify=True):
-        return super().render({**context, **self.additional_context})
+    cpdef str render(self, dict context):
+        return self.render_children({**context, **self.additional_context})
 
 
 def treewalk(element, ancestors, filter_func, apply=None):
@@ -261,11 +217,6 @@ def treewalk(element, ancestors, filter_func, apply=None):
     if apply:
         for i, e in matchelements:
             apply(element, i, e)
-
-
-def render(root, basecontext):
-    """Shortcut to serialize an object tree into a string"""
-    return root.render(basecontext)
 
 
 html_id_cache = set()
@@ -299,3 +250,26 @@ cdef default_handler(context, message):
     import traceback
     traceback.print_exc()
     print(message, file=sys.stderr)
+
+def _delfunc(container, i, e):
+    container.remove(e)
+
+class ReachFirstException(Exception):
+    pass
+
+cdef walk(element, ancestors, replacement, select_func):
+    from .htmltags import HTMLElement
+    replacment_indices = []
+    for i, e in enumerate(element):
+        if isinstance(e, BaseElement):
+            if select_func(e, ancestors):
+                replacment_indices.append(i)
+            if isinstance(e, HTMLElement):
+                walk(list(e.attributes.values()), ancestors + (e,), replacement, select_func)
+            walk(e, ancestors + (e,), replacement, select_func)
+    for i in replacment_indices:
+        element.pop(i)
+        if replacement is not None:
+            element.insert(i, replacement)
+        if not all:
+            raise ReachFirstException()

@@ -3,18 +3,17 @@ import warnings
 import cython
 
 from htmlgenerator.base cimport BaseElement, If
-from htmlgenerator.lazy cimport Lazy, resolve_lazy
+from htmlgenerator.lazy cimport Lazy, _resolve_lazy_internal
 
 
 cdef class HTMLElement(BaseElement):
     """The base for all HTML tags."""
 
-    cdef public str tag
+    cdef str tag
     cdef public dict attributes
     cdef public object lazy_attributes
 
     def __init__(self, *children, lazy_attributes=None, **attributes):
-        self.tag = self.__class__.__name__
         if any(attr == "class" for attr in attributes.keys()):
             warnings.warn(
                 'You should use "_class" instead of "class" when specifiying HTML classes in htmlgenerator ("class" is a python keyword).'
@@ -27,18 +26,18 @@ cdef class HTMLElement(BaseElement):
             )
         self.lazy_attributes = lazy_attributes
 
-    cpdef render(self, context, stringify=True):
+    cpdef str render(self, dict context):
         attr_str = flatattrs(
             {
                 **self.attributes,
-                **(resolve_lazy(self.lazy_attributes, context, self) or {}),
+                **(_resolve_lazy_internal(self.lazy_attributes, context, self) or {}),
             },
             context,
             self,
         )
         # quirk to prevent tags having a single space if there are no attributes
         attr_str = (" " + attr_str) if attr_str else attr_str
-        return f"<{self.tag}{attr_str}>" + super().render_children(context) + f"</{self.tag}>"
+        return f"<{self.tag}{attr_str}>" + self.render_children(context) + f"</{self.tag}>"
 
     # mostly for debugging purposes
     def __repr__(self):
@@ -48,6 +47,9 @@ cdef class HTMLElement(BaseElement):
             + f"> ({self.__class__})"
         )
 
+    def __reduce__(self):
+        return (self.__class__, (*self,))
+
 
 cdef class VoidElement(HTMLElement):
     """Wrapper for elements without a closing tag, cannot have children"""
@@ -56,11 +58,14 @@ cdef class VoidElement(HTMLElement):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    cpdef render(self, context, stringify=True):
+    cpdef str render(self, dict context):
         return f"<{self.tag} {flatattrs(self.attributes, context, self)} />"
 
 
 cdef class A(HTMLElement):
+    def __cinit__(self):
+        self.tag = "a"
+
     def __init__(self, *args, newtab=False, **kwargs):
         if newtab:
             kwargs["target"] = "_blank"
@@ -69,238 +74,299 @@ cdef class A(HTMLElement):
 
 
 cdef class ABBR(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "ABBR"
 
 
 cdef class ACRONYM(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "ACRONYM"
 
 
 cdef class ADDRESS(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "ADDRESS"
 
 
 cdef class APPLET(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "APPLET"
 
 
 cdef class AREA(VoidElement):
-    pass
+    def __cinit__(self):
+        self.tag = "AREA"
 
 
 cdef class ARTICLE(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "ARTICLE"
 
 
 cdef class ASIDE(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "ASIDE"
 
 
 cdef class AUDIO(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "AUDIO"
 
 
 cdef class B(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "B"
 
 
 cdef class BASE(VoidElement):
-    pass
+    def __cinit__(self):
+        self.tag = "BASE"
 
 
 cdef class BASEFONT(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "BASEFONT"
 
 
 cdef class BDI(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "BDI"
 
 
 cdef class BDO(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "BDO"
 
 
 cdef class BGSOUND(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "BGSOUND"
 
 
 cdef class BIG(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "BIG"
 
 
 cdef class BLINK(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "BLINK"
 
 
 cdef class BLOCKQUOTE(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "BLOCKQUOTE"
 
 
 cdef class BODY(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "BODY"
 
 
 cdef class BR(VoidElement):
-    pass
+    def __cinit__(self):
+        self.tag = "BR"
 
 
 cdef class BUTTON(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "BUTTON"
 
 
 cdef class CANVAS(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "CANVAS"
 
 
 cdef class CAPTION(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "CAPTION"
 
 
 cdef class CENTER(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "CENTER"
 
 
 cdef class CITE(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "CITE"
 
 
 cdef class CODE(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "CODE"
 
 
 cdef class COL(VoidElement):
-    pass
+    def __cinit__(self):
+        self.tag = "COL"
 
 
 cdef class COLGROUP(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "COLGROUP"
 
 
 cdef class COMMAND(VoidElement):
-    pass
+    def __cinit__(self):
+        self.tag = "COMMAND"
 
 
 cdef class CONTENT(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "CONTENT"
 
 
 cdef class DATA(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "DATA"
 
 
 cdef class DATALIST(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "DATALIST"
 
 
 cdef class DD(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "DD"
 
 
 cdef class DEL(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "DEL"
 
 
 cdef class DETAILS(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "DETAILS"
 
 
 cdef class DFN(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "DFN"
 
 
 cdef class DIALOG(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "DIALOG"
 
 
 cdef class DIR(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "DIR"
 
 
 cdef class DIV(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "DIV"
 
 
 cdef class DL(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "DL"
 
 
 cdef class DT(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "DT"
 
 
 cdef class EDIASTREA(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "EDIASTREA"
 
 
 cdef class ELEMENT(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "ELEMENT"
 
 
 cdef class EM(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "EM"
 
 
 cdef class EMBED(VoidElement):
-    pass
+    def __cinit__(self):
+        self.tag = "EMBED"
 
 
 cdef class FIELDSET(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "FIELDSET"
 
 
 cdef class FIGCAPTION(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "FIGCAPTION"
 
 
 cdef class FIGURE(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "FIGURE"
 
 
 cdef class FONT(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "FONT"
 
 
 cdef class FOOTER(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "FOOTER"
 
 
 cdef class FORM(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "FORM"
 
 
 cdef class FRAME(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "FRAME"
 
 
 cdef class FRAMESET(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "FRAMESET"
 
 
 cdef class H1(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "H1"
 
 
 cdef class H2(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "H2"
 
 
 cdef class H3(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "H3"
 
 
 cdef class H4(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "H4"
 
 
 cdef class H5(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "H5"
 
 
 cdef class H6(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "H6"
 
 
 cdef class HEAD(HTMLElement):
+    def __cinit__(self):
+        self.tag = "head"
+
     def __init__(self, *children):
         super().__init__(
             META(charset="utf-8"),
@@ -310,384 +376,474 @@ cdef class HEAD(HTMLElement):
 
 
 cdef class HEADER(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "HEADER"
 
 
 cdef class HGROUP(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "HGROUP"
 
 
 cdef class HR(VoidElement):
-    pass
+    def __cinit__(self):
+        self.tag = "HR"
 
 
 cdef class HTML(HTMLElement):
+    cdef bint doctype
+
+    def __cinit__(self):
+        self.tag = "html"
+        self.doctype = False
+
     def __init__(self, *args, doctype=False, **kwargs):
         super().__init__(*args, **kwargs)
         self.doctype = doctype
 
-    cpdef render(self, context, stringify=True):
+    cpdef str render(self, dict context):
         if self.doctype:
-            return "<!DOCTYPE html>" + super().render(context)
-        else:
-            super().render(context)
+            return "<!DOCTYPE html>" + super(HTMLElement, self).render(context)
+        return super(HTMLElement, self).render(context)
 
 
 cdef class I(HTMLElement):  # noqa
-    pass
+    def __cinit__(self):
+        self.tag = "I"
 
 
 cdef class IFRAME(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "IFRAME"
 
 
 cdef class IMAGE(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "IMAGE"
 
 
 cdef class IMG(VoidElement):
-    pass
+    def __cinit__(self):
+        self.tag = "IMG"
 
 
 cdef class INPUT(VoidElement):
-    pass
+    def __cinit__(self):
+        self.tag = "INPUT"
 
 
 cdef class INS(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "INS"
 
 
 cdef class ISINDEX(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "ISINDEX"
 
 
 cdef class KBD(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "KBD"
 
 
 cdef class KEYGEN(VoidElement):
-    pass
+    def __cinit__(self):
+        self.tag = "KEYGEN"
 
 
 cdef class LABEL(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "LABEL"
 
 
 cdef class LEGEND(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "LEGEND"
 
 
 cdef class LI(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "LI"
 
 
 cdef class LINK(VoidElement):
-    pass
+    def __cinit__(self):
+        self.tag = "LINK"
 
 
 cdef class LISTING(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "LISTING"
 
 
 cdef class MAIN(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "MAIN"
 
 
 cdef class MAP(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "MAP"
 
 
 cdef class MARK(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "MARK"
 
 
 cdef class MARQUEE(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "MARQUEE"
 
 
 cdef class MENU(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "MENU"
 
 
 cdef class MENUITEM(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "MENUITEM"
 
 
 cdef class META(VoidElement):
-    pass
+    def __cinit__(self):
+        self.tag = "META"
 
 
 cdef class METER(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "METER"
 
 
 cdef class MULTICOL(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "MULTICOL"
 
 
 cdef class NAV(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "NAV"
 
 
 cdef class NEXTID(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "NEXTID"
 
 
 cdef class NOBR(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "NOBR"
 
 
 cdef class NOEMBED(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "NOEMBED"
 
 
 cdef class NOFRAMES(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "NOFRAMES"
 
 
 cdef class NOSCRIPT(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "NOSCRIPT"
 
 
 cdef class OBJECT(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "OBJECT"
 
 
 cdef class OL(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "OL"
 
 
 cdef class OPTGROUP(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "OPTGROUP"
 
 
 cdef class OPTION(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "OPTION"
 
 
 cdef class OUTPUT(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "OUTPUT"
 
 
 cdef class P(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "P"
 
 
 cdef class PARAM(VoidElement):
-    pass
+    def __cinit__(self):
+        self.tag = "PARAM"
 
 
 cdef class PICTURE(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "PICTURE"
 
 
 cdef class PLAINTEXT(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "PLAINTEXT"
 
 
 cdef class PRE(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "PRE"
 
 
 cdef class PROGRESS(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "PROGRESS"
 
 
 cdef class Q(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "Q"
 
 
 cdef class RB(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "RB"
 
 
 cdef class RE(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "RE"
 
 
 cdef class RP(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "RP"
 
 
 cdef class RT(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "RT"
 
 
 cdef class RTC(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "RTC"
 
 
 cdef class RUBY(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "RUBY"
 
 
 cdef class S(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "S"
 
 
 cdef class SAMP(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "SAMP"
 
 
 cdef class SCRIPT(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "SCRIPT"
 
 
 cdef class SECTION(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "SECTION"
 
 
 cdef class SELECT(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "SELECT"
 
 
 cdef class SHADOW(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "SHADOW"
 
 
 cdef class SLOT(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "SLOT"
 
 
 cdef class SMALL(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "SMALL"
 
 
 cdef class SOURCE(VoidElement):
-    pass
+    def __cinit__(self):
+        self.tag = "SOURCE"
 
 
 cdef class SPACER(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "SPACER"
 
 
 cdef class SPAN(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "SPAN"
 
 
 cdef class STRIKE(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "STRIKE"
 
 
 cdef class STRONG(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "STRONG"
 
 
 cdef class STYLE(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "STYLE"
 
 
 cdef class SUB(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "SUB"
 
 
 cdef class SUMMARY(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "SUMMARY"
 
 
 cdef class SUP(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "SUP"
 
 
 cdef class SVG(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "SVG"
 
 
 cdef class TABLE(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "TABLE"
 
 
 cdef class TBODY(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "TBODY"
 
 
 cdef class TD(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "TD"
 
 
 cdef class TEMPLATE(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "TEMPLATE"
 
 
 cdef class TEXTAREA(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "TEXTAREA"
 
 
 cdef class TFOOT(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "TFOOT"
 
 
 cdef class TH(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "TH"
 
 
 cdef class THEAD(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "THEAD"
 
 
 cdef class TIME(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "TIME"
 
 
 cdef class TITLE(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "TITLE"
 
 
 cdef class TR(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "TR"
 
 
 cdef class TRACK(VoidElement):
-    pass
+    def __cinit__(self):
+        self.tag = "TRACK"
 
 
 cdef class TT(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "TT"
 
 
 cdef class U(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "U"
 
 
 cdef class UL(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "UL"
 
 
 cdef class VAR(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "VAR"
 
 
 cdef class VIDEO(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "VIDEO"
 
 
 cdef class WBR(VoidElement):
-    pass
+    def __cinit__(self):
+        self.tag = "WBR"
 
 
 cdef class XMP(HTMLElement):
-    pass
+    def __cinit__(self):
+        self.tag = "XMP"
 
 
-cdef flatattrs(attributes, context, element):
+# TODO: remove element parameter
+cdef flatattrs(dict attributes, dict context, element):
     """Converts a dictionary to a string of HTML-attributes.
     Leading underscores are removed and other underscores are replaced with dashes."""
 
     attlist = []
     for key, value in attributes.items():
-        value = resolve_lazy(value, context, element)
-        if isinstance(value, If):
-            rendered = list(value.render(context, stringify=False))
-            if len(rendered) == 1 and isinstance(rendered[0], bool):
-                value = rendered[0]
-            else:
-                rendered = list(value.render(context))
-                value = "".join(rendered) if rendered else None
-        elif isinstance(value, BaseElement):
+        value = _resolve_lazy_internal(value, context, element)
+        if isinstance(value, BaseElement):
             rendered = list(value.render(context))
             value = "".join(rendered) if rendered else None
-        if value is None:
+        if value is None or value == "False":
             continue
+        if value == "False":
+            value = False
+        if value == "True":
+            value = True
 
         if key[0] == "_":
             key = key[1:]

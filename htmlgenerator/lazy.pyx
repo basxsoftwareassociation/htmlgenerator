@@ -5,7 +5,11 @@ import cython
 import htmlgenerator
 
 
-cdef resolve_lazy(value, context, element):
+def resolve_lazy(value, context, element):
+    """Shortcut to resolve a value in case it is a Lazy value"""
+    return _resolve_lazy_internal(value, context, element)
+
+cdef _resolve_lazy_internal(value, dict context, element):
     """Shortcut to resolve a value in case it is a Lazy value"""
 
     while isinstance(value, Lazy):
@@ -13,7 +17,7 @@ cdef resolve_lazy(value, context, element):
     return value
 
 
-def resolve_lookup(context, lookup, call_functions=True):
+cdef resolve_lookup(context, lookup, call_functions=True):
     """
     Helper function to extract a value out of a context-dict.
     A lookup string can access attributes, dict-keys, methods without parameters and indexes by using the dot-accessor (e.g. ``person.name``)

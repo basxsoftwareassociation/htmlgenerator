@@ -9,4 +9,4 @@ cdef class ContextValue(Lazy):
 cdef class ContextFunction(Lazy):
     cdef object func
 
-cdef resolve_lazy(value, context, element)
+cdef _resolve_lazy_internal(value, dict context, element)
