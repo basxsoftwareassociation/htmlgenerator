@@ -1,14 +1,9 @@
-from __future__ import annotations
-
 import inspect
-import typing
 
 import htmlgenerator
 
 
-def resolve_lazy(
-    value: typing.Any, context: dict, element: "htmlgenerator.BaseElement"
-):
+def resolve_lazy(value, context, element):
     """Shortcut to resolve a value in case it is a Lazy value"""
 
     while isinstance(value, Lazy):
@@ -16,19 +11,7 @@ def resolve_lazy(
     return value
 
 
-def getattr_lazy(lazyobject: Lazy, attr: str) -> F:
-    """Takes a lazy object and returns a new lazy object which will resolve the attribute on the object"""
-
-    def wrapper(c, e):
-        ret = getattr(resolve_lazy(lazyobject, c, e), attr)
-        return ret() if callable(ret) else ret
-
-    return F(wrapper)
-
-
-def resolve_lookup(
-    context: dict, lookup: str, call_functions: bool = True
-) -> typing.Any:
+def resolve_lookup(context, lookup, call_functions=True):
     """
     Helper function to extract a value out of a context-dict.
     A lookup string can access attributes, dict-keys, methods without parameters and indexes by using the dot-accessor (e.g. ``person.name``)
@@ -76,9 +59,7 @@ def resolve_lookup(
 class Lazy:
     """Lazy values will be evaluated at render time via the resolve method."""
 
-    def resolve(
-        self, context: dict, element: "htmlgenerator.BaseElement"
-    ) -> typing.Any:
+    def resolve(self, context: dict, element: "htmlgenerator.BaseElement"):
         raise NotImplementedError("Lazy needs to be subclassed")
 
 
@@ -86,26 +67,30 @@ class ContextValue(Lazy):
     def __init__(self, value: str):
         self.value = value
 
-    def resolve(
-        self, context: dict, element: "htmlgenerator.BaseElement"
-    ) -> typing.Any:
+    def resolve(self, context: dict, element: "htmlgenerator.BaseElement"):
         return resolve_lookup(context, self.value)
 
 
 class ContextFunction(Lazy):
     """Call a function a render time, usefull for calculation of more complex"""
 
-    def __init__(
-        self, func: typing.Callable[[dict, "htmlgenerator.BaseElement"], typing.Any]
-    ):
+    def __init__(self, func):
         assert callable(func), "ContextFunction needs to be callable"
         self.func = func
 
-    def resolve(
-        self, context: dict, element: "htmlgenerator.BaseElement"
-    ) -> typing.Any:
+    def resolve(self, context: dict, element: "htmlgenerator.BaseElement"):
         return self.func(context, element)
 
 
 C = ContextValue
 F = ContextFunction
+
+
+def getattr_lazy(lazyobject: Lazy, attr: str) -> F:
+    """Takes a lazy object and returns a new lazy object which will resolve the attribute on the object"""
+
+    def wrapper(c, e):
+        ret = getattr(resolve_lazy(lazyobject, c, e), attr)
+        return ret() if callable(ret) else ret
+
+    return F(wrapper)

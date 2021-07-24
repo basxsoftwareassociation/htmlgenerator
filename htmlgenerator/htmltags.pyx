@@ -1,4 +1,3 @@
-import typing
 import warnings
 
 from .base import BaseElement, If
@@ -8,17 +7,15 @@ from .lazy import Lazy, resolve_lazy
 class HTMLElement(BaseElement):
     """The base for all HTML tags."""
 
-    tag: str = ""
+    tag = ""
 
-    def __init__(
-        self, *children, lazy_attributes: typing.Optional[Lazy] = None, **attributes
-    ):
+    def __init__(self, *children, lazy_attributes=None, **attributes):
         assert self.tag != ""
         if any(attr == "class" for attr in attributes.keys()):
             warnings.warn(
                 'You should use "_class" instead of "class" when specifiying HTML classes in htmlgenerator ("class" is a python keyword).'
             )
-        self.attributes: dict = attributes
+        self.attributes = attributes
         super().__init__(*children)
         if lazy_attributes and not isinstance(lazy_attributes, Lazy):
             raise ValueError(
@@ -26,7 +23,7 @@ class HTMLElement(BaseElement):
             )
         self.lazy_attributes = lazy_attributes
 
-    def render(self, context: dict) -> typing.Generator[str, None, None]:
+    def render(self, context):
         attr_str = flatattrs(
             {
                 **self.attributes,
@@ -42,7 +39,7 @@ class HTMLElement(BaseElement):
         yield f"</{self.tag}>"
 
     # mostly for debugging purposes
-    def __repr__(self) -> str:
+    def __repr__(self):
         return (
             f"<{self.tag} "
             + " ".join(f"{k.lstrip('_')}=\"{v}\"" for k, v in self.attributes.items())
@@ -57,7 +54,7 @@ class VoidElement(HTMLElement):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def render(self, context) -> typing.Generator[str, None, None]:
+    def render(self, context):
         yield f"<{self.tag} {flatattrs(self.attributes, context, self)} />"
 
 
@@ -333,7 +330,7 @@ class HTML(HTMLElement):
         super().__init__(*args, **kwargs)
         self.doctype = doctype
 
-    def render(self, context: dict) -> typing.Generator[str, None, None]:
+    def render(self, context):
         if self.doctype:
             yield "<!DOCTYPE html>"
         yield from super().render(context)
@@ -675,7 +672,7 @@ class XMP(HTMLElement):
     tag = "xmp"
 
 
-def flatattrs(attributes: dict, context: dict, element: BaseElement) -> str:
+def flatattrs(attributes, context, element):
     """Converts a dictionary to a string of HTML-attributes.
     Leading underscores are removed and other underscores are replaced with dashes."""
 
