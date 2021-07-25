@@ -12,6 +12,13 @@ with open("htmlgenerator/__init__.pyx") as f:
         .strip('"')
     )
 
+extensions = [
+    Extension("htmlgenerator", ["htmlgenerator/__init__.c"]),
+    Extension("htmlgenerator.base", ["htmlgenerator/base.c"]),
+    Extension("htmlgenerator.htmltags", ["htmlgenerator/htmltags.c"]),
+    Extension("htmlgenerator.lazy", ["htmlgenerator/lazy.c"]),
+    Extension("htmlgenerator.safestring", ["htmlgenerator/safestring.c"]),
+]
 try:
     from Cython.Build import cythonize
 
@@ -24,15 +31,10 @@ try:
             Extension("htmlgenerator.safestring", ["htmlgenerator/safestring.pyx"]),
         ],
         language_level=3,
+        annotate=True,
     )
 except ImportError:
-    extensions = [
-        Extension("htmlgenerator", ["htmlgenerator/__init__.c"]),
-        Extension("htmlgenerator.base", ["htmlgenerator/base.c"]),
-        Extension("htmlgenerator.htmltags", ["htmlgenerator/htmltags.c"]),
-        Extension("htmlgenerator.lazy", ["htmlgenerator/lazy.c"]),
-        Extension("htmlgenerator.safestring", ["htmlgenerator/safestring.c"]),
-    ]
+    pass
 
 
 setup(
@@ -48,7 +50,6 @@ setup(
     packages=find_packages(),
     ext_modules=extensions,
     zip_safe=False,
-    include_package_data=True,
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Console",
