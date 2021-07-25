@@ -1,4 +1,3 @@
-from Cython.Build import cythonize
 from setuptools import Extension, find_packages, setup
 
 with open("README.md") as f:
@@ -13,13 +12,27 @@ with open("htmlgenerator/__init__.pyx") as f:
         .strip('"')
     )
 
-extensions = [
-    Extension("htmlgenerator", ["htmlgenerator/__init__.pyx"]),
-    Extension("htmlgenerator.base", ["htmlgenerator/base.pyx"]),
-    Extension("htmlgenerator.htmltags", ["htmlgenerator/htmltags.pyx"]),
-    Extension("htmlgenerator.lazy", ["htmlgenerator/lazy.pyx"]),
-    Extension("htmlgenerator.safestring", ["htmlgenerator/safestring.pyx"]),
-]
+try:
+    from Cython.Build import cythonize
+
+    extensions = cythonize(
+        [
+            Extension("htmlgenerator", ["htmlgenerator/__init__.pyx"]),
+            Extension("htmlgenerator.base", ["htmlgenerator/base.pyx"]),
+            Extension("htmlgenerator.htmltags", ["htmlgenerator/htmltags.pyx"]),
+            Extension("htmlgenerator.lazy", ["htmlgenerator/lazy.pyx"]),
+            Extension("htmlgenerator.safestring", ["htmlgenerator/safestring.pyx"]),
+        ],
+        language_level=3,
+    )
+except ImportError:
+    extensions = [
+        Extension("htmlgenerator", ["htmlgenerator/__init__.c"]),
+        Extension("htmlgenerator.base", ["htmlgenerator/base.c"]),
+        Extension("htmlgenerator.htmltags", ["htmlgenerator/htmltags.c"]),
+        Extension("htmlgenerator.lazy", ["htmlgenerator/lazy.c"]),
+        Extension("htmlgenerator.safestring", ["htmlgenerator/safestring.c"]),
+    ]
 
 
 setup(
@@ -33,7 +46,7 @@ setup(
     version=version,
     license="New BSD License",
     packages=find_packages(),
-    ext_modules=cythonize(extensions, annotate=True, language_level=3),
+    ext_modules=extensions,
     zip_safe=False,
     include_package_data=True,
     classifiers=[

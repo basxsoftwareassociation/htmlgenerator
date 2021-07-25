@@ -6,7 +6,6 @@
 **/.vscode
 **/.pyc
 **/.eggs
-*.c
 *.so
 *.html
 
