@@ -170,6 +170,9 @@ class BaseElement(list):
             treewalk(BaseElement(self), (), filter_func=filter_func, apply=delfunc)
         )
 
+    def replace(self, *args, **kwargs):
+        return self._replace(*args, **kwargs)
+
     # untested code
     def _replace(
         self, select_func: typing.Callable, replacement: BaseElement, all: bool = False
