@@ -1054,7 +1054,7 @@ static const char __pyx_k_[] = "*";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_test[] = "__test__";
-static const char __pyx_k_2_0_0[] = "2.0.0";
+static const char __pyx_k_2_0_1[] = "2.0.1";
 static const char __pyx_k_DEBUG[] = "DEBUG";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_version[] = "__version__";
@@ -1065,7 +1065,7 @@ static const char __pyx_k_htmlgenerator_lazy[] = "htmlgenerator.lazy";
 static const char __pyx_k_htmlgenerator_htmltags[] = "htmlgenerator.htmltags";
 static const char __pyx_k_htmlgenerator_safestring[] = "htmlgenerator.safestring";
 static PyObject *__pyx_n_s_;
-static PyObject *__pyx_kp_u_2_0_0;
+static PyObject *__pyx_kp_u_2_0_1;
 static PyObject *__pyx_n_s_DEBUG;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_htmlgenerator_base;
@@ -1255,7 +1255,7 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 1},
-  {&__pyx_kp_u_2_0_0, __pyx_k_2_0_0, sizeof(__pyx_k_2_0_0), 0, 1, 0, 0},
+  {&__pyx_kp_u_2_0_1, __pyx_k_2_0_1, sizeof(__pyx_k_2_0_1), 0, 1, 0, 0},
   {&__pyx_n_s_DEBUG, __pyx_k_DEBUG, sizeof(__pyx_k_DEBUG), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_htmlgenerator_base, __pyx_k_htmlgenerator_base, sizeof(__pyx_k_htmlgenerator_base), 0, 0, 1, 1},
@@ -1612,7 +1612,7 @@ if (!__Pyx_RefNanny) {
  * from htmlgenerator.lazy import *  # noqa
  * from htmlgenerator.safestring import mark_safe  # noqa             # <<<<<<<<<<<<<<
  * 
- * __version__ = "2.0.0"
+ * __version__ = "2.0.1"
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -1631,11 +1631,11 @@ if (!__Pyx_RefNanny) {
   /* "htmlgenerator/__init__.pyx":8
  * from htmlgenerator.safestring import mark_safe  # noqa
  * 
- * __version__ = "2.0.0"             # <<<<<<<<<<<<<<
+ * __version__ = "2.0.1"             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_kp_u_2_0_0) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_kp_u_2_0_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
 
   /* "htmlgenerator/__init__.pyx":11
  * 
