@@ -3,7 +3,7 @@ from htmlgenerator.htmltags import *  # noqa
 from htmlgenerator.lazy import *  # noqa
 from htmlgenerator.safestring import mark_safe  # noqa
 
-__version__ = "2.0.0"
+__version__ = "2.0.1"
 
 
 DEBUG: bool = False
