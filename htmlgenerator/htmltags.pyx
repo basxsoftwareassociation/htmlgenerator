@@ -27,17 +27,9 @@ cdef class HTMLElement(BaseElement):
         self.lazy_attributes = lazy_attributes
 
     cpdef str render(self, dict context):
-        attr_str = flatattrs(
-            {
-                **self.attributes,
-                **(_resolve_lazy_internal(self.lazy_attributes, context, self) or {}),
-            },
-            context,
-            self,
-        )
-        # quirk to prevent tags having a single space if there are no attributes
-        attr_str = (" " + attr_str) if attr_str else attr_str
-        return f"<{self.tag}{attr_str}>" + self.render_children(context) + f"</{self.tag}>"
+        attrs = dict(self.attributes)
+        attrs.update(_resolve_lazy_internal(self.lazy_attributes, context, self) or {})
+        return f"<{self.tag}{flatattrs(attrs, context, self)}>" + self.render_children(context) + f"</{self.tag}>"
 
     # mostly for debugging purposes
     def __repr__(self):
@@ -59,7 +51,9 @@ cdef class VoidElement(HTMLElement):
         super().__init__(**kwargs)
 
     cpdef str render(self, dict context):
-        return f"<{self.tag} {flatattrs(self.attributes, context, self)} />"
+        attrs = dict(self.attributes)
+        attrs.update(_resolve_lazy_internal(self.lazy_attributes, context, self) or {})
+        return f"<{self.tag}{flatattrs(self.attributes, context, self)} />"
 
 
 cdef class A(HTMLElement):
@@ -828,32 +822,25 @@ cdef class XMP(HTMLElement):
 
 
 # TODO: remove element parameter
-cdef flatattrs(dict attributes, dict context, element):
+cdef str flatattrs(dict attributes, dict context, object element):
     """Converts a dictionary to a string of HTML-attributes.
     Leading underscores are removed and other underscores are replaced with dashes."""
 
-    attlist = []
+    cdef str attlist = ""
     for key, value in attributes.items():
         value = _resolve_lazy_internal(value, context, element)
         if isinstance(value, BaseElement):
-            rendered = list(value.render(context))
-            value = "".join(rendered) if rendered else None
-        if value is None or value == "False":
+            value = value.render(context)
+        value = str(value)
+        if value in ("None", "", "False") and key != "value":
             continue
-        if value == "False":
-            value = False
-        if value == "True":
-            value = True
-
         if key[0] == "_":
             key = key[1:]
         key = key.replace("_", "-")
-        if isinstance(value, bool) and key != "value":
-            if value is True:
-                attlist.append(f"{key}")
-        else:
-            attlist.append(f'{key}="{value}"')
-    return " ".join(attlist)
+        attlist += " " + key
+        if value != "True" or key == "value":
+            attlist += '="' + value + '"'
+    return attlist
 
 
 cdef append_attribute(attrs, key, value, separator=None):

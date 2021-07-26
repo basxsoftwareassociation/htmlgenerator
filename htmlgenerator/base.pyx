@@ -152,6 +152,7 @@ cdef class If(BaseElement):
             return self._try_render(self[0], context)
         elif len(self) > 1:
             return self._try_render(self[1], context)
+        return ""
 
 
 cdef class Iterator(BaseElement):

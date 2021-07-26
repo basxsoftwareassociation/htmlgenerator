@@ -942,7 +942,7 @@ struct __pyx_obj_13htmlgenerator_4base_Iterator {
 };
 
 
-/* "htmlgenerator/base.pyx":178
+/* "htmlgenerator/base.pyx":179
  * 
  * 
  * cdef class WithContext(BaseElement):             # <<<<<<<<<<<<<<
@@ -968,7 +968,7 @@ struct __pyx_obj_13htmlgenerator_4base___pyx_scope_struct__wrap {
 };
 
 
-/* "htmlgenerator/base.pyx":196
+/* "htmlgenerator/base.pyx":197
  * 
  * 
  * def treewalk(element, ancestors, filter_func, apply=None):             # <<<<<<<<<<<<<<
@@ -1079,7 +1079,7 @@ struct __pyx_vtabstruct_13htmlgenerator_4base_If {
 static struct __pyx_vtabstruct_13htmlgenerator_4base_If *__pyx_vtabptr_13htmlgenerator_4base_If;
 
 
-/* "htmlgenerator/base.pyx":157
+/* "htmlgenerator/base.pyx":158
  * 
  * 
  * cdef class Iterator(BaseElement):             # <<<<<<<<<<<<<<
@@ -1093,7 +1093,7 @@ struct __pyx_vtabstruct_13htmlgenerator_4base_Iterator {
 static struct __pyx_vtabstruct_13htmlgenerator_4base_Iterator *__pyx_vtabptr_13htmlgenerator_4base_Iterator;
 
 
-/* "htmlgenerator/base.pyx":178
+/* "htmlgenerator/base.pyx":179
  * 
  * 
  * cdef class WithContext(BaseElement):             # <<<<<<<<<<<<<<
@@ -5464,7 +5464,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_2If_render(struct __pyx_obj_13htm
  *             return self._try_render(self[0], context)
  *         elif len(self) > 1:             # <<<<<<<<<<<<<<
  *             return self._try_render(self[1], context)
- * 
+ *         return ""
  */
   __pyx_t_6 = PyObject_Length(((PyObject *)__pyx_v_self)); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 153, __pyx_L1_error)
   __pyx_t_5 = ((__pyx_t_6 > 1) != 0);
@@ -5474,7 +5474,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_2If_render(struct __pyx_obj_13htm
  *             return self._try_render(self[0], context)
  *         elif len(self) > 1:
  *             return self._try_render(self[1], context)             # <<<<<<<<<<<<<<
- * 
+ *         return ""
  * 
  */
     __Pyx_XDECREF(__pyx_r);
@@ -5492,9 +5492,21 @@ static PyObject *__pyx_f_13htmlgenerator_4base_2If_render(struct __pyx_obj_13htm
  *             return self._try_render(self[0], context)
  *         elif len(self) > 1:             # <<<<<<<<<<<<<<
  *             return self._try_render(self[1], context)
- * 
+ *         return ""
  */
   }
+
+  /* "htmlgenerator/base.pyx":155
+ *         elif len(self) > 1:
+ *             return self._try_render(self[1], context)
+ *         return ""             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_kp_u_);
+  __pyx_r = __pyx_kp_u_;
+  goto __pyx_L0;
 
   /* "htmlgenerator/base.pyx":148
  *         self.condition = condition
@@ -5505,8 +5517,6 @@ static PyObject *__pyx_f_13htmlgenerator_4base_2If_render(struct __pyx_obj_13htm
  */
 
   /* function exit code */
-  __pyx_r = ((PyObject*)Py_None); __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
@@ -5861,7 +5871,7 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_2If_6__setstate_cython__(struct 
   return __pyx_r;
 }
 
-/* "htmlgenerator/base.pyx":158
+/* "htmlgenerator/base.pyx":159
  * 
  * cdef class Iterator(BaseElement):
  *     def __init__(             # <<<<<<<<<<<<<<
@@ -5906,17 +5916,17 @@ static int __pyx_pw_13htmlgenerator_4base_8Iterator_1__init__(PyObject *__pyx_v_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_loopvariable)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 1); __PYX_ERR(0, 158, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 1); __PYX_ERR(0, 159, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_content)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 2); __PYX_ERR(0, 158, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 2); __PYX_ERR(0, 159, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 158, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 159, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -5931,7 +5941,7 @@ static int __pyx_pw_13htmlgenerator_4base_8Iterator_1__init__(PyObject *__pyx_v_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 158, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 159, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("htmlgenerator.base.Iterator.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5955,7 +5965,7 @@ static int __pyx_pf_13htmlgenerator_4base_8Iterator___init__(struct __pyx_obj_13
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "htmlgenerator/base.pyx":164
+  /* "htmlgenerator/base.pyx":165
  *         content,
  *     ):
  *         self.iterator = iterator             # <<<<<<<<<<<<<<
@@ -5968,14 +5978,14 @@ static int __pyx_pf_13htmlgenerator_4base_8Iterator___init__(struct __pyx_obj_13
   __Pyx_DECREF(__pyx_v_self->iterator);
   __pyx_v_self->iterator = __pyx_v_iterator;
 
-  /* "htmlgenerator/base.pyx":165
+  /* "htmlgenerator/base.pyx":166
  *     ):
  *         self.iterator = iterator
  *         self.loopvariable = loopvariable             # <<<<<<<<<<<<<<
  *         super().__init__(content)
  * 
  */
-  if (!(likely(PyUnicode_CheckExact(__pyx_v_loopvariable))||((__pyx_v_loopvariable) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_v_loopvariable)->tp_name), 0))) __PYX_ERR(0, 165, __pyx_L1_error)
+  if (!(likely(PyUnicode_CheckExact(__pyx_v_loopvariable))||((__pyx_v_loopvariable) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_v_loopvariable)->tp_name), 0))) __PYX_ERR(0, 166, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_loopvariable;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -5984,14 +5994,14 @@ static int __pyx_pf_13htmlgenerator_4base_8Iterator___init__(struct __pyx_obj_13
   __pyx_v_self->loopvariable = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "htmlgenerator/base.pyx":166
+  /* "htmlgenerator/base.pyx":167
  *         self.iterator = iterator
  *         self.loopvariable = loopvariable
  *         super().__init__(content)             # <<<<<<<<<<<<<<
  * 
  *     cpdef str render(self, dict context):
  */
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 167, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_13htmlgenerator_4base_Iterator));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_13htmlgenerator_4base_Iterator));
@@ -5999,10 +6009,10 @@ static int __pyx_pf_13htmlgenerator_4base_8Iterator___init__(struct __pyx_obj_13
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_2, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 167, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 167, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -6017,12 +6027,12 @@ static int __pyx_pf_13htmlgenerator_4base_8Iterator___init__(struct __pyx_obj_13
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_content) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_content);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 166, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "htmlgenerator/base.pyx":158
+  /* "htmlgenerator/base.pyx":159
  * 
  * cdef class Iterator(BaseElement):
  *     def __init__(             # <<<<<<<<<<<<<<
@@ -6044,7 +6054,7 @@ static int __pyx_pf_13htmlgenerator_4base_8Iterator___init__(struct __pyx_obj_13
   return __pyx_r;
 }
 
-/* "htmlgenerator/base.pyx":168
+/* "htmlgenerator/base.pyx":169
  *         super().__init__(content)
  * 
  *     cpdef str render(self, dict context):             # <<<<<<<<<<<<<<
@@ -6080,7 +6090,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_8Iterator_render(struct __pyx_obj
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_render); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 168, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_render); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_13htmlgenerator_4base_8Iterator_3render)) {
         __Pyx_XDECREF(__pyx_r);
@@ -6097,10 +6107,10 @@ static PyObject *__pyx_f_13htmlgenerator_4base_8Iterator_render(struct __pyx_obj
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_context) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_context);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 168, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 169, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (!(likely(PyUnicode_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 168, __pyx_L1_error)
+        if (!(likely(PyUnicode_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 169, __pyx_L1_error)
         __pyx_r = ((PyObject*)__pyx_t_2);
         __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -6119,7 +6129,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_8Iterator_render(struct __pyx_obj
     #endif
   }
 
-  /* "htmlgenerator/base.pyx":169
+  /* "htmlgenerator/base.pyx":170
  * 
  *     cpdef str render(self, dict context):
  *         context = dict(context)             # <<<<<<<<<<<<<<
@@ -6128,26 +6138,26 @@ static PyObject *__pyx_f_13htmlgenerator_4base_8Iterator_render(struct __pyx_obj
  */
   if (unlikely(__pyx_v_context == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' is not iterable");
-    __PYX_ERR(0, 169, __pyx_L1_error)
+    __PYX_ERR(0, 170, __pyx_L1_error)
   }
-  __pyx_t_1 = PyDict_Copy(__pyx_v_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __pyx_t_1 = PyDict_Copy(__pyx_v_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 170, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF_SET(__pyx_v_context, ((PyObject*)__pyx_t_1));
   __pyx_t_1 = 0;
 
-  /* "htmlgenerator/base.pyx":170
+  /* "htmlgenerator/base.pyx":171
  *     cpdef str render(self, dict context):
  *         context = dict(context)
  *         ret = []             # <<<<<<<<<<<<<<
  *         for i, value in enumerate(_resolve_lazy_internal(self.iterator, context, self)):
  *             context[self.loopvariable] = value
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_ret = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "htmlgenerator/base.pyx":171
+  /* "htmlgenerator/base.pyx":172
  *         context = dict(context)
  *         ret = []
  *         for i, value in enumerate(_resolve_lazy_internal(self.iterator, context, self)):             # <<<<<<<<<<<<<<
@@ -6158,16 +6168,16 @@ static PyObject *__pyx_f_13htmlgenerator_4base_8Iterator_render(struct __pyx_obj
   __pyx_t_1 = __pyx_int_0;
   __pyx_t_2 = __pyx_v_self->iterator;
   __Pyx_INCREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_f_13htmlgenerator_4lazy__resolve_lazy_internal(__pyx_t_2, __pyx_v_context, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_3 = __pyx_f_13htmlgenerator_4lazy__resolve_lazy_internal(__pyx_t_2, __pyx_v_context, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
     __pyx_t_2 = __pyx_t_3; __Pyx_INCREF(__pyx_t_2); __pyx_t_5 = 0;
     __pyx_t_6 = NULL;
   } else {
-    __pyx_t_5 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_5 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 172, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_6 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 172, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   for (;;) {
@@ -6175,17 +6185,17 @@ static PyObject *__pyx_f_13htmlgenerator_4base_8Iterator_render(struct __pyx_obj
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 171, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 172, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 172, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 171, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 172, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 172, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -6195,7 +6205,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_8Iterator_render(struct __pyx_obj
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 171, __pyx_L1_error)
+          else __PYX_ERR(0, 172, __pyx_L1_error)
         }
         break;
       }
@@ -6205,46 +6215,46 @@ static PyObject *__pyx_f_13htmlgenerator_4base_8Iterator_render(struct __pyx_obj
     __pyx_t_3 = 0;
     __Pyx_INCREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
-    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 172, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1);
     __pyx_t_1 = __pyx_t_3;
     __pyx_t_3 = 0;
 
-    /* "htmlgenerator/base.pyx":172
+    /* "htmlgenerator/base.pyx":173
  *         ret = []
  *         for i, value in enumerate(_resolve_lazy_internal(self.iterator, context, self)):
  *             context[self.loopvariable] = value             # <<<<<<<<<<<<<<
  *             context[self.loopvariable + "_index"] = i
  *             ret.append(self.render_children(context))
  */
-    if (unlikely(PyDict_SetItem(__pyx_v_context, __pyx_v_self->loopvariable, __pyx_v_value) < 0)) __PYX_ERR(0, 172, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_context, __pyx_v_self->loopvariable, __pyx_v_value) < 0)) __PYX_ERR(0, 173, __pyx_L1_error)
 
-    /* "htmlgenerator/base.pyx":173
+    /* "htmlgenerator/base.pyx":174
  *         for i, value in enumerate(_resolve_lazy_internal(self.iterator, context, self)):
  *             context[self.loopvariable] = value
  *             context[self.loopvariable + "_index"] = i             # <<<<<<<<<<<<<<
  *             ret.append(self.render_children(context))
  *         return "".join(ret)
  */
-    __pyx_t_3 = __Pyx_PyUnicode_ConcatSafe(__pyx_v_self->loopvariable, __pyx_n_u_index); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 173, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyUnicode_ConcatSafe(__pyx_v_self->loopvariable, __pyx_n_u_index); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 174, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely(PyDict_SetItem(__pyx_v_context, __pyx_t_3, __pyx_v_i) < 0)) __PYX_ERR(0, 173, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_context, __pyx_t_3, __pyx_v_i) < 0)) __PYX_ERR(0, 174, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "htmlgenerator/base.pyx":174
+    /* "htmlgenerator/base.pyx":175
  *             context[self.loopvariable] = value
  *             context[self.loopvariable + "_index"] = i
  *             ret.append(self.render_children(context))             # <<<<<<<<<<<<<<
  *         return "".join(ret)
  * 
  */
-    __pyx_t_3 = ((struct __pyx_vtabstruct_13htmlgenerator_4base_Iterator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.render_children(((struct __pyx_obj_13htmlgenerator_4base_BaseElement *)__pyx_v_self), __pyx_v_context, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 174, __pyx_L1_error)
+    __pyx_t_3 = ((struct __pyx_vtabstruct_13htmlgenerator_4base_Iterator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.render_children(((struct __pyx_obj_13htmlgenerator_4base_BaseElement *)__pyx_v_self), __pyx_v_context, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 175, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_ret, __pyx_t_3); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 174, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_ret, __pyx_t_3); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 175, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "htmlgenerator/base.pyx":171
+    /* "htmlgenerator/base.pyx":172
  *         context = dict(context)
  *         ret = []
  *         for i, value in enumerate(_resolve_lazy_internal(self.iterator, context, self)):             # <<<<<<<<<<<<<<
@@ -6255,7 +6265,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_8Iterator_render(struct __pyx_obj
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "htmlgenerator/base.pyx":175
+  /* "htmlgenerator/base.pyx":176
  *             context[self.loopvariable + "_index"] = i
  *             ret.append(self.render_children(context))
  *         return "".join(ret)             # <<<<<<<<<<<<<<
@@ -6263,13 +6273,13 @@ static PyObject *__pyx_f_13htmlgenerator_4base_8Iterator_render(struct __pyx_obj
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyUnicode_Join(__pyx_kp_u_, __pyx_v_ret); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 175, __pyx_L1_error)
+  __pyx_t_1 = PyUnicode_Join(__pyx_kp_u_, __pyx_v_ret); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "htmlgenerator/base.pyx":168
+  /* "htmlgenerator/base.pyx":169
  *         super().__init__(content)
  * 
  *     cpdef str render(self, dict context):             # <<<<<<<<<<<<<<
@@ -6304,7 +6314,7 @@ static PyObject *__pyx_pw_13htmlgenerator_4base_8Iterator_3render(PyObject *__py
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("render (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_context), (&PyDict_Type), 1, "context", 1))) __PYX_ERR(0, 168, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_context), (&PyDict_Type), 1, "context", 1))) __PYX_ERR(0, 169, __pyx_L1_error)
   __pyx_r = __pyx_pf_13htmlgenerator_4base_8Iterator_2render(((struct __pyx_obj_13htmlgenerator_4base_Iterator *)__pyx_v_self), ((PyObject*)__pyx_v_context));
 
   /* function exit code */
@@ -6325,7 +6335,7 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_8Iterator_2render(struct __pyx_o
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("render", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_13htmlgenerator_4base_8Iterator_render(__pyx_v_self, __pyx_v_context, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_13htmlgenerator_4base_8Iterator_render(__pyx_v_self, __pyx_v_context, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6849,7 +6859,7 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_8Iterator_6__setstate_cython__(s
   return __pyx_r;
 }
 
-/* "htmlgenerator/base.pyx":188
+/* "htmlgenerator/base.pyx":189
  *     cdef dict additional_context
  * 
  *     def __init__(self, *children, **kwargs):             # <<<<<<<<<<<<<<
@@ -6889,7 +6899,7 @@ static int __pyx_pf_13htmlgenerator_4base_11WithContext___init__(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "htmlgenerator/base.pyx":189
+  /* "htmlgenerator/base.pyx":190
  * 
  *     def __init__(self, *children, **kwargs):
  *         self.additional_context = kwargs             # <<<<<<<<<<<<<<
@@ -6902,14 +6912,14 @@ static int __pyx_pf_13htmlgenerator_4base_11WithContext___init__(struct __pyx_ob
   __Pyx_DECREF(__pyx_v_self->additional_context);
   __pyx_v_self->additional_context = __pyx_v_kwargs;
 
-  /* "htmlgenerator/base.pyx":190
+  /* "htmlgenerator/base.pyx":191
  *     def __init__(self, *children, **kwargs):
  *         self.additional_context = kwargs
  *         super().__init__(*children)             # <<<<<<<<<<<<<<
  * 
  *     cpdef str render(self, dict context):
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 190, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_13htmlgenerator_4base_WithContext));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_13htmlgenerator_4base_WithContext));
@@ -6917,18 +6927,18 @@ static int __pyx_pf_13htmlgenerator_4base_11WithContext___init__(struct __pyx_ob
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 190, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 190, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_children, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 190, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_children, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "htmlgenerator/base.pyx":188
+  /* "htmlgenerator/base.pyx":189
  *     cdef dict additional_context
  * 
  *     def __init__(self, *children, **kwargs):             # <<<<<<<<<<<<<<
@@ -6949,7 +6959,7 @@ static int __pyx_pf_13htmlgenerator_4base_11WithContext___init__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "htmlgenerator/base.pyx":192
+/* "htmlgenerator/base.pyx":193
  *         super().__init__(*children)
  * 
  *     cpdef str render(self, dict context):             # <<<<<<<<<<<<<<
@@ -6978,7 +6988,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_11WithContext_render(struct __pyx
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_render); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 192, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_render); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_13htmlgenerator_4base_11WithContext_3render)) {
         __Pyx_XDECREF(__pyx_r);
@@ -6995,10 +7005,10 @@ static PyObject *__pyx_f_13htmlgenerator_4base_11WithContext_render(struct __pyx
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_context) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_context);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 193, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (!(likely(PyUnicode_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 192, __pyx_L1_error)
+        if (!(likely(PyUnicode_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 193, __pyx_L1_error)
         __pyx_r = ((PyObject*)__pyx_t_2);
         __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -7017,7 +7027,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_11WithContext_render(struct __pyx
     #endif
   }
 
-  /* "htmlgenerator/base.pyx":193
+  /* "htmlgenerator/base.pyx":194
  * 
  *     cpdef str render(self, dict context):
  *         return self.render_children({**context, **self.additional_context})             # <<<<<<<<<<<<<<
@@ -7027,26 +7037,26 @@ static PyObject *__pyx_f_13htmlgenerator_4base_11WithContext_render(struct __pyx
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(__pyx_v_context == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "argument after ** must be a mapping, not NoneType");
-    __PYX_ERR(0, 193, __pyx_L1_error)
+    __PYX_ERR(0, 194, __pyx_L1_error)
   }
-  __pyx_t_1 = PyDict_Copy(__pyx_v_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __pyx_t_1 = PyDict_Copy(__pyx_v_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 194, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_v_self->additional_context == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "argument after ** must be a mapping, not NoneType");
-    __PYX_ERR(0, 193, __pyx_L1_error)
+    __PYX_ERR(0, 194, __pyx_L1_error)
   }
   if (unlikely(PyDict_Update(__pyx_t_1, __pyx_v_self->additional_context) < 0)) {
     if (PyErr_ExceptionMatches(PyExc_AttributeError)) __Pyx_RaiseMappingExpectedError(__pyx_v_self->additional_context);
-    __PYX_ERR(0, 193, __pyx_L1_error)
+    __PYX_ERR(0, 194, __pyx_L1_error)
   }
-  __pyx_t_2 = ((struct __pyx_vtabstruct_13htmlgenerator_4base_WithContext *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.render_children(((struct __pyx_obj_13htmlgenerator_4base_BaseElement *)__pyx_v_self), ((PyObject*)__pyx_t_1), 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __pyx_t_2 = ((struct __pyx_vtabstruct_13htmlgenerator_4base_WithContext *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.render_children(((struct __pyx_obj_13htmlgenerator_4base_BaseElement *)__pyx_v_self), ((PyObject*)__pyx_t_1), 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 194, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "htmlgenerator/base.pyx":192
+  /* "htmlgenerator/base.pyx":193
  *         super().__init__(*children)
  * 
  *     cpdef str render(self, dict context):             # <<<<<<<<<<<<<<
@@ -7077,7 +7087,7 @@ static PyObject *__pyx_pw_13htmlgenerator_4base_11WithContext_3render(PyObject *
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("render (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_context), (&PyDict_Type), 1, "context", 1))) __PYX_ERR(0, 192, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_context), (&PyDict_Type), 1, "context", 1))) __PYX_ERR(0, 193, __pyx_L1_error)
   __pyx_r = __pyx_pf_13htmlgenerator_4base_11WithContext_2render(((struct __pyx_obj_13htmlgenerator_4base_WithContext *)__pyx_v_self), ((PyObject*)__pyx_v_context));
 
   /* function exit code */
@@ -7098,7 +7108,7 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_11WithContext_2render(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("render", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_13htmlgenerator_4base_11WithContext_render(__pyx_v_self, __pyx_v_context, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_13htmlgenerator_4base_11WithContext_render(__pyx_v_self, __pyx_v_context, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7409,7 +7419,7 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_11WithContext_6__setstate_cython
 }
 static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject *__pyx_generator, CYTHON_UNUSED PyThreadState *__pyx_tstate, PyObject *__pyx_sent_value); /* proto */
 
-/* "htmlgenerator/base.pyx":196
+/* "htmlgenerator/base.pyx":197
  * 
  * 
  * def treewalk(element, ancestors, filter_func, apply=None):             # <<<<<<<<<<<<<<
@@ -7459,13 +7469,13 @@ static PyObject *__pyx_pw_13htmlgenerator_4base_1treewalk(PyObject *__pyx_self, 
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_ancestors)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("treewalk", 0, 3, 4, 1); __PYX_ERR(0, 196, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("treewalk", 0, 3, 4, 1); __PYX_ERR(0, 197, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_filter_func)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("treewalk", 0, 3, 4, 2); __PYX_ERR(0, 196, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("treewalk", 0, 3, 4, 2); __PYX_ERR(0, 197, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
@@ -7475,7 +7485,7 @@ static PyObject *__pyx_pw_13htmlgenerator_4base_1treewalk(PyObject *__pyx_self, 
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "treewalk") < 0)) __PYX_ERR(0, 196, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "treewalk") < 0)) __PYX_ERR(0, 197, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -7495,7 +7505,7 @@ static PyObject *__pyx_pw_13htmlgenerator_4base_1treewalk(PyObject *__pyx_self, 
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("treewalk", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 196, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("treewalk", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 197, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("htmlgenerator.base.treewalk", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -7520,7 +7530,7 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_treewalk(CYTHON_UNUSED PyObject 
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_13htmlgenerator_4base___pyx_scope_struct_1_treewalk *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 196, __pyx_L1_error)
+    __PYX_ERR(0, 197, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -7537,7 +7547,7 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_treewalk(CYTHON_UNUSED PyObject 
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_apply);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_apply);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_13htmlgenerator_4base_2generator, __pyx_codeobj__6, (PyObject *) __pyx_cur_scope, __pyx_n_s_treewalk, __pyx_n_s_treewalk, __pyx_n_s_htmlgenerator_base); if (unlikely(!gen)) __PYX_ERR(0, 196, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_13htmlgenerator_4base_2generator, __pyx_codeobj__6, (PyObject *) __pyx_cur_scope, __pyx_n_s_treewalk, __pyx_n_s_treewalk, __pyx_n_s_htmlgenerator_base); if (unlikely(!gen)) __PYX_ERR(0, 197, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -7585,24 +7595,24 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 196, __pyx_L1_error)
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 197, __pyx_L1_error)
 
-  /* "htmlgenerator/base.pyx":197
+  /* "htmlgenerator/base.pyx":198
  * 
  * def treewalk(element, ancestors, filter_func, apply=None):
  *     from .htmltags import HTMLElement             # <<<<<<<<<<<<<<
  * 
  *     matchelements = []
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_HTMLElement);
   __Pyx_GIVEREF(__pyx_n_s_HTMLElement);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_HTMLElement);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_htmltags, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_htmltags, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_HTMLElement); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_HTMLElement); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -7610,20 +7620,20 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "htmlgenerator/base.pyx":199
+  /* "htmlgenerator/base.pyx":200
  *     from .htmltags import HTMLElement
  * 
  *     matchelements = []             # <<<<<<<<<<<<<<
  * 
  *     for i, e in enumerate(list(element)):
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_2);
   __pyx_cur_scope->__pyx_v_matchelements = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "htmlgenerator/base.pyx":201
+  /* "htmlgenerator/base.pyx":202
  *     matchelements = []
  * 
  *     for i, e in enumerate(list(element)):             # <<<<<<<<<<<<<<
@@ -7632,16 +7642,16 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
  */
   __Pyx_INCREF(__pyx_int_0);
   __pyx_t_2 = __pyx_int_0;
-  __pyx_t_1 = PySequence_List(__pyx_cur_scope->__pyx_v_element); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_t_1 = PySequence_List(__pyx_cur_scope->__pyx_v_element); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __pyx_t_1; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
     if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 201, __pyx_L1_error)
+    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 202, __pyx_L1_error)
     #else
-    __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 201, __pyx_L1_error)
+    __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     #endif
     __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_e);
@@ -7652,13 +7662,13 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
     __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_i);
     __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_i, __pyx_t_2);
     __Pyx_GIVEREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_t_2, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 201, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_t_2, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2);
     __pyx_t_2 = __pyx_t_1;
     __pyx_t_1 = 0;
 
-    /* "htmlgenerator/base.pyx":202
+    /* "htmlgenerator/base.pyx":203
  * 
  *     for i, e in enumerate(list(element)):
  *         if isinstance(e, BaseElement):             # <<<<<<<<<<<<<<
@@ -7669,7 +7679,7 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
     __pyx_t_6 = (__pyx_t_5 != 0);
     if (__pyx_t_6) {
 
-      /* "htmlgenerator/base.pyx":203
+      /* "htmlgenerator/base.pyx":204
  *     for i, e in enumerate(list(element)):
  *         if isinstance(e, BaseElement):
  *             if filter_func is None or filter_func(e, ancestors):             # <<<<<<<<<<<<<<
@@ -7699,7 +7709,7 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_8)) {
         PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_cur_scope->__pyx_v_e, __pyx_cur_scope->__pyx_v_ancestors};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
@@ -7707,13 +7717,13 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
         PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_cur_scope->__pyx_v_e, __pyx_cur_scope->__pyx_v_ancestors};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
       #endif
       {
-        __pyx_t_11 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 203, __pyx_L1_error)
+        __pyx_t_11 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 204, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         if (__pyx_t_9) {
           __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -7724,18 +7734,18 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
         __Pyx_INCREF(__pyx_cur_scope->__pyx_v_ancestors);
         __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_ancestors);
         PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_10, __pyx_cur_scope->__pyx_v_ancestors);
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       }
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 204, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_6 = __pyx_t_7;
       __pyx_L8_bool_binop_done:;
       if (__pyx_t_6) {
 
-        /* "htmlgenerator/base.pyx":204
+        /* "htmlgenerator/base.pyx":205
  *         if isinstance(e, BaseElement):
  *             if filter_func is None or filter_func(e, ancestors):
  *                 yield e             # <<<<<<<<<<<<<<
@@ -7763,16 +7773,16 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
         __pyx_cur_scope->__pyx_t_1 = 0;
         __Pyx_XGOTREF(__pyx_t_3);
         __pyx_t_4 = __pyx_cur_scope->__pyx_t_2;
-        if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 204, __pyx_L1_error)
+        if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 205, __pyx_L1_error)
 
-        /* "htmlgenerator/base.pyx":205
+        /* "htmlgenerator/base.pyx":206
  *             if filter_func is None or filter_func(e, ancestors):
  *                 yield e
  *                 matchelements.append((i, e))             # <<<<<<<<<<<<<<
  *             if isinstance(e, HTMLElement):
  *                 yield from treewalk(
  */
-        __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 205, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 206, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_INCREF(__pyx_cur_scope->__pyx_v_i);
         __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_i);
@@ -7780,10 +7790,10 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
         __Pyx_INCREF(__pyx_cur_scope->__pyx_v_e);
         __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_e);
         PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_cur_scope->__pyx_v_e);
-        __pyx_t_12 = __Pyx_PyList_Append(__pyx_cur_scope->__pyx_v_matchelements, __pyx_t_1); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 205, __pyx_L1_error)
+        __pyx_t_12 = __Pyx_PyList_Append(__pyx_cur_scope->__pyx_v_matchelements, __pyx_t_1); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 206, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "htmlgenerator/base.pyx":203
+        /* "htmlgenerator/base.pyx":204
  *     for i, e in enumerate(list(element)):
  *         if isinstance(e, BaseElement):
  *             if filter_func is None or filter_func(e, ancestors):             # <<<<<<<<<<<<<<
@@ -7792,37 +7802,37 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
  */
       }
 
-      /* "htmlgenerator/base.pyx":206
+      /* "htmlgenerator/base.pyx":207
  *                 yield e
  *                 matchelements.append((i, e))
  *             if isinstance(e, HTMLElement):             # <<<<<<<<<<<<<<
  *                 yield from treewalk(
  *                     list(e.attributes.values()),
  */
-      __pyx_t_6 = PyObject_IsInstance(__pyx_cur_scope->__pyx_v_e, __pyx_cur_scope->__pyx_v_HTMLElement); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 206, __pyx_L1_error)
+      __pyx_t_6 = PyObject_IsInstance(__pyx_cur_scope->__pyx_v_e, __pyx_cur_scope->__pyx_v_HTMLElement); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 207, __pyx_L1_error)
       __pyx_t_7 = (__pyx_t_6 != 0);
       if (__pyx_t_7) {
 
-        /* "htmlgenerator/base.pyx":207
+        /* "htmlgenerator/base.pyx":208
  *                 matchelements.append((i, e))
  *             if isinstance(e, HTMLElement):
  *                 yield from treewalk(             # <<<<<<<<<<<<<<
  *                     list(e.attributes.values()),
  *                     ancestors + (e,),
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_treewalk); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 207, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_treewalk); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 208, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
 
-        /* "htmlgenerator/base.pyx":208
+        /* "htmlgenerator/base.pyx":209
  *             if isinstance(e, HTMLElement):
  *                 yield from treewalk(
  *                     list(e.attributes.values()),             # <<<<<<<<<<<<<<
  *                     ancestors + (e,),
  *                     filter_func=filter_func,
  */
-        __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_e, __pyx_n_s_attributes); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 208, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_e, __pyx_n_s_attributes); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 209, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_values); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 208, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_values); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 209, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         __pyx_t_11 = NULL;
@@ -7837,37 +7847,37 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
         }
         __pyx_t_8 = (__pyx_t_11) ? __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_11) : __Pyx_PyObject_CallNoArg(__pyx_t_9);
         __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-        if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 208, __pyx_L1_error)
+        if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 209, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = PySequence_List(__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 208, __pyx_L1_error)
+        __pyx_t_9 = PySequence_List(__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 209, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-        /* "htmlgenerator/base.pyx":209
+        /* "htmlgenerator/base.pyx":210
  *                 yield from treewalk(
  *                     list(e.attributes.values()),
  *                     ancestors + (e,),             # <<<<<<<<<<<<<<
  *                     filter_func=filter_func,
  *                     apply=apply,
  */
-        __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 209, __pyx_L1_error)
+        __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 210, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_INCREF(__pyx_cur_scope->__pyx_v_e);
         __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_e);
         PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_cur_scope->__pyx_v_e);
-        __pyx_t_11 = PyNumber_Add(__pyx_cur_scope->__pyx_v_ancestors, __pyx_t_8); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 209, __pyx_L1_error)
+        __pyx_t_11 = PyNumber_Add(__pyx_cur_scope->__pyx_v_ancestors, __pyx_t_8); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 210, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-        /* "htmlgenerator/base.pyx":207
+        /* "htmlgenerator/base.pyx":208
  *                 matchelements.append((i, e))
  *             if isinstance(e, HTMLElement):
  *                 yield from treewalk(             # <<<<<<<<<<<<<<
  *                     list(e.attributes.values()),
  *                     ancestors + (e,),
  */
-        __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 207, __pyx_L1_error)
+        __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 208, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_GIVEREF(__pyx_t_9);
         PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_9);
@@ -7876,34 +7886,34 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
         __pyx_t_9 = 0;
         __pyx_t_11 = 0;
 
-        /* "htmlgenerator/base.pyx":210
+        /* "htmlgenerator/base.pyx":211
  *                     list(e.attributes.values()),
  *                     ancestors + (e,),
  *                     filter_func=filter_func,             # <<<<<<<<<<<<<<
  *                     apply=apply,
  *                 )
  */
-        __pyx_t_11 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 210, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 211, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
-        if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_filter_func, __pyx_cur_scope->__pyx_v_filter_func) < 0) __PYX_ERR(0, 210, __pyx_L1_error)
+        if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_filter_func, __pyx_cur_scope->__pyx_v_filter_func) < 0) __PYX_ERR(0, 211, __pyx_L1_error)
 
-        /* "htmlgenerator/base.pyx":211
+        /* "htmlgenerator/base.pyx":212
  *                     ancestors + (e,),
  *                     filter_func=filter_func,
  *                     apply=apply,             # <<<<<<<<<<<<<<
  *                 )
  *             yield from treewalk(
  */
-        if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_apply, __pyx_cur_scope->__pyx_v_apply) < 0) __PYX_ERR(0, 210, __pyx_L1_error)
+        if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_apply, __pyx_cur_scope->__pyx_v_apply) < 0) __PYX_ERR(0, 211, __pyx_L1_error)
 
-        /* "htmlgenerator/base.pyx":207
+        /* "htmlgenerator/base.pyx":208
  *                 matchelements.append((i, e))
  *             if isinstance(e, HTMLElement):
  *                 yield from treewalk(             # <<<<<<<<<<<<<<
  *                     list(e.attributes.values()),
  *                     ancestors + (e,),
  */
-        __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_8, __pyx_t_11); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 207, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_8, __pyx_t_11); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 208, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -7931,16 +7941,16 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
           __pyx_cur_scope->__pyx_t_1 = 0;
           __Pyx_XGOTREF(__pyx_t_3);
           __pyx_t_4 = __pyx_cur_scope->__pyx_t_2;
-          if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 207, __pyx_L1_error)
+          if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 208, __pyx_L1_error)
         } else {
           PyObject* exc_type = __Pyx_PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || (exc_type != PyExc_GeneratorExit && __Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration)))) PyErr_Clear();
-            else __PYX_ERR(0, 207, __pyx_L1_error)
+            else __PYX_ERR(0, 208, __pyx_L1_error)
           }
         }
 
-        /* "htmlgenerator/base.pyx":206
+        /* "htmlgenerator/base.pyx":207
  *                 yield e
  *                 matchelements.append((i, e))
  *             if isinstance(e, HTMLElement):             # <<<<<<<<<<<<<<
@@ -7949,40 +7959,40 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
  */
       }
 
-      /* "htmlgenerator/base.pyx":213
+      /* "htmlgenerator/base.pyx":214
  *                     apply=apply,
  *                 )
  *             yield from treewalk(             # <<<<<<<<<<<<<<
  *                 e, ancestors + (e,), filter_func=filter_func, apply=apply
  *             )
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_treewalk); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 213, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_treewalk); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 214, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
 
-      /* "htmlgenerator/base.pyx":214
+      /* "htmlgenerator/base.pyx":215
  *                 )
  *             yield from treewalk(
  *                 e, ancestors + (e,), filter_func=filter_func, apply=apply             # <<<<<<<<<<<<<<
  *             )
  * 
  */
-      __pyx_t_11 = PyTuple_New(1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 214, __pyx_L1_error)
+      __pyx_t_11 = PyTuple_New(1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 215, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       __Pyx_INCREF(__pyx_cur_scope->__pyx_v_e);
       __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_e);
       PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_cur_scope->__pyx_v_e);
-      __pyx_t_8 = PyNumber_Add(__pyx_cur_scope->__pyx_v_ancestors, __pyx_t_11); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 214, __pyx_L1_error)
+      __pyx_t_8 = PyNumber_Add(__pyx_cur_scope->__pyx_v_ancestors, __pyx_t_11); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 215, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-      /* "htmlgenerator/base.pyx":213
+      /* "htmlgenerator/base.pyx":214
  *                     apply=apply,
  *                 )
  *             yield from treewalk(             # <<<<<<<<<<<<<<
  *                 e, ancestors + (e,), filter_func=filter_func, apply=apply
  *             )
  */
-      __pyx_t_11 = PyTuple_New(2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 213, __pyx_L1_error)
+      __pyx_t_11 = PyTuple_New(2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 214, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       __Pyx_INCREF(__pyx_cur_scope->__pyx_v_e);
       __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_e);
@@ -7991,26 +8001,26 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
       PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_t_8);
       __pyx_t_8 = 0;
 
-      /* "htmlgenerator/base.pyx":214
+      /* "htmlgenerator/base.pyx":215
  *                 )
  *             yield from treewalk(
  *                 e, ancestors + (e,), filter_func=filter_func, apply=apply             # <<<<<<<<<<<<<<
  *             )
  * 
  */
-      __pyx_t_8 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 214, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 215, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_filter_func, __pyx_cur_scope->__pyx_v_filter_func) < 0) __PYX_ERR(0, 214, __pyx_L1_error)
-      if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_apply, __pyx_cur_scope->__pyx_v_apply) < 0) __PYX_ERR(0, 214, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_filter_func, __pyx_cur_scope->__pyx_v_filter_func) < 0) __PYX_ERR(0, 215, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_apply, __pyx_cur_scope->__pyx_v_apply) < 0) __PYX_ERR(0, 215, __pyx_L1_error)
 
-      /* "htmlgenerator/base.pyx":213
+      /* "htmlgenerator/base.pyx":214
  *                     apply=apply,
  *                 )
  *             yield from treewalk(             # <<<<<<<<<<<<<<
  *                 e, ancestors + (e,), filter_func=filter_func, apply=apply
  *             )
  */
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_11, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_11, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 214, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
@@ -8038,16 +8048,16 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
         __pyx_cur_scope->__pyx_t_1 = 0;
         __Pyx_XGOTREF(__pyx_t_3);
         __pyx_t_4 = __pyx_cur_scope->__pyx_t_2;
-        if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 213, __pyx_L1_error)
+        if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 214, __pyx_L1_error)
       } else {
         PyObject* exc_type = __Pyx_PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || (exc_type != PyExc_GeneratorExit && __Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration)))) PyErr_Clear();
-          else __PYX_ERR(0, 213, __pyx_L1_error)
+          else __PYX_ERR(0, 214, __pyx_L1_error)
         }
       }
 
-      /* "htmlgenerator/base.pyx":202
+      /* "htmlgenerator/base.pyx":203
  * 
  *     for i, e in enumerate(list(element)):
  *         if isinstance(e, BaseElement):             # <<<<<<<<<<<<<<
@@ -8056,7 +8066,7 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
  */
     }
 
-    /* "htmlgenerator/base.pyx":201
+    /* "htmlgenerator/base.pyx":202
  *     matchelements = []
  * 
  *     for i, e in enumerate(list(element)):             # <<<<<<<<<<<<<<
@@ -8067,17 +8077,17 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "htmlgenerator/base.pyx":217
+  /* "htmlgenerator/base.pyx":218
  *             )
  * 
  *     if apply:             # <<<<<<<<<<<<<<
  *         for i, e in matchelements:
  *             apply(element, i, e)
  */
-  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_cur_scope->__pyx_v_apply); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_cur_scope->__pyx_v_apply); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 218, __pyx_L1_error)
   if (__pyx_t_7) {
 
-    /* "htmlgenerator/base.pyx":218
+    /* "htmlgenerator/base.pyx":219
  * 
  *     if apply:
  *         for i, e in matchelements:             # <<<<<<<<<<<<<<
@@ -8088,9 +8098,9 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
     for (;;) {
       if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_2)) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 218, __pyx_L1_error)
+      __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 219, __pyx_L1_error)
       #else
-      __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 218, __pyx_L1_error)
+      __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 219, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       #endif
       if ((likely(PyTuple_CheckExact(__pyx_t_3))) || (PyList_CheckExact(__pyx_t_3))) {
@@ -8099,7 +8109,7 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
         if (unlikely(size != 2)) {
           if (size > 2) __Pyx_RaiseTooManyValuesError(2);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 218, __pyx_L1_error)
+          __PYX_ERR(0, 219, __pyx_L1_error)
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
         if (likely(PyTuple_CheckExact(sequence))) {
@@ -8112,15 +8122,15 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
         __Pyx_INCREF(__pyx_t_1);
         __Pyx_INCREF(__pyx_t_8);
         #else
-        __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 218, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 219, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_8 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 218, __pyx_L1_error)
+        __pyx_t_8 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 219, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         #endif
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_11 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 218, __pyx_L1_error)
+        __pyx_t_11 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 219, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_t_13 = Py_TYPE(__pyx_t_11)->tp_iternext;
@@ -8128,7 +8138,7 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
         __Pyx_GOTREF(__pyx_t_1);
         index = 1; __pyx_t_8 = __pyx_t_13(__pyx_t_11); if (unlikely(!__pyx_t_8)) goto __pyx_L17_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_8);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_13(__pyx_t_11), 2) < 0) __PYX_ERR(0, 218, __pyx_L1_error)
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_13(__pyx_t_11), 2) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
         __pyx_t_13 = NULL;
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         goto __pyx_L18_unpacking_done;
@@ -8136,7 +8146,7 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         __pyx_t_13 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 218, __pyx_L1_error)
+        __PYX_ERR(0, 219, __pyx_L1_error)
         __pyx_L18_unpacking_done:;
       }
       __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_i);
@@ -8148,7 +8158,7 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
       __Pyx_GIVEREF(__pyx_t_8);
       __pyx_t_8 = 0;
 
-      /* "htmlgenerator/base.pyx":219
+      /* "htmlgenerator/base.pyx":220
  *     if apply:
  *         for i, e in matchelements:
  *             apply(element, i, e)             # <<<<<<<<<<<<<<
@@ -8171,7 +8181,7 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_8)) {
         PyObject *__pyx_temp[4] = {__pyx_t_1, __pyx_cur_scope->__pyx_v_element, __pyx_cur_scope->__pyx_v_i, __pyx_cur_scope->__pyx_v_e};
-        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 219, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 220, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_GOTREF(__pyx_t_3);
       } else
@@ -8179,13 +8189,13 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
         PyObject *__pyx_temp[4] = {__pyx_t_1, __pyx_cur_scope->__pyx_v_element, __pyx_cur_scope->__pyx_v_i, __pyx_cur_scope->__pyx_v_e};
-        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 219, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 220, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_GOTREF(__pyx_t_3);
       } else
       #endif
       {
-        __pyx_t_11 = PyTuple_New(3+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 219, __pyx_L1_error)
+        __pyx_t_11 = PyTuple_New(3+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 220, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         if (__pyx_t_1) {
           __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_1); __pyx_t_1 = NULL;
@@ -8199,14 +8209,14 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
         __Pyx_INCREF(__pyx_cur_scope->__pyx_v_e);
         __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_e);
         PyTuple_SET_ITEM(__pyx_t_11, 2+__pyx_t_10, __pyx_cur_scope->__pyx_v_e);
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_11, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 219, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_11, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 220, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       }
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "htmlgenerator/base.pyx":218
+      /* "htmlgenerator/base.pyx":219
  * 
  *     if apply:
  *         for i, e in matchelements:             # <<<<<<<<<<<<<<
@@ -8216,7 +8226,7 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "htmlgenerator/base.pyx":217
+    /* "htmlgenerator/base.pyx":218
  *             )
  * 
  *     if apply:             # <<<<<<<<<<<<<<
@@ -8226,7 +8236,7 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
   }
   CYTHON_MAYBE_UNUSED_VAR(__pyx_cur_scope);
 
-  /* "htmlgenerator/base.pyx":196
+  /* "htmlgenerator/base.pyx":197
  * 
  * 
  * def treewalk(element, ancestors, filter_func, apply=None):             # <<<<<<<<<<<<<<
@@ -8256,7 +8266,7 @@ static PyObject *__pyx_gb_13htmlgenerator_4base_2generator(__pyx_CoroutineObject
   return __pyx_r;
 }
 
-/* "htmlgenerator/base.pyx":225
+/* "htmlgenerator/base.pyx":226
  * 
  * 
  * def html_id(object, prefix="id"):             # <<<<<<<<<<<<<<
@@ -8305,7 +8315,7 @@ static PyObject *__pyx_pw_13htmlgenerator_4base_4html_id(PyObject *__pyx_self, P
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "html_id") < 0)) __PYX_ERR(0, 225, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "html_id") < 0)) __PYX_ERR(0, 226, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -8321,7 +8331,7 @@ static PyObject *__pyx_pw_13htmlgenerator_4base_4html_id(PyObject *__pyx_self, P
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("html_id", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 225, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("html_id", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 226, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("htmlgenerator.base.html_id", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -8353,38 +8363,38 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_3html_id(CYTHON_UNUSED PyObject 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("html_id", 0);
 
-  /* "htmlgenerator/base.pyx":239
+  /* "htmlgenerator/base.pyx":240
  *     # 4. str: Because html-ids need to be strings we convert again to string
  *     # 5. [1:]: in order to prevent negative numbers we remove the first character which might be a "-"
  *     _id = prefix + "-" + str(hash(str(id(object))))[1:]             # <<<<<<<<<<<<<<
  *     n = 0
  *     nid = _id
  */
-  __pyx_t_1 = PyNumber_Add(__pyx_v_prefix, __pyx_kp_u__7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Add(__pyx_v_prefix, __pyx_kp_u__7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, __pyx_v_object); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, __pyx_v_object); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyUnicode_Type)), __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyUnicode_Type)), __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = PyObject_Hash(__pyx_t_3); if (unlikely(__pyx_t_4 == ((Py_hash_t)-1))) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_4 = PyObject_Hash(__pyx_t_3); if (unlikely(__pyx_t_4 == ((Py_hash_t)-1))) __PYX_ERR(0, 240, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_FromHash_t(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_FromHash_t(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyUnicode_Type)), __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyUnicode_Type)), __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyUnicode_Substring(__pyx_t_2, 1, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyUnicode_Substring(__pyx_t_2, 1, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v__id = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "htmlgenerator/base.pyx":240
+  /* "htmlgenerator/base.pyx":241
  *     # 5. [1:]: in order to prevent negative numbers we remove the first character which might be a "-"
  *     _id = prefix + "-" + str(hash(str(id(object))))[1:]
  *     n = 0             # <<<<<<<<<<<<<<
@@ -8394,7 +8404,7 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_3html_id(CYTHON_UNUSED PyObject 
   __Pyx_INCREF(__pyx_int_0);
   __pyx_v_n = __pyx_int_0;
 
-  /* "htmlgenerator/base.pyx":241
+  /* "htmlgenerator/base.pyx":242
  *     _id = prefix + "-" + str(hash(str(id(object))))[1:]
  *     n = 0
  *     nid = _id             # <<<<<<<<<<<<<<
@@ -8404,7 +8414,7 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_3html_id(CYTHON_UNUSED PyObject 
   __Pyx_INCREF(__pyx_v__id);
   __pyx_v_nid = __pyx_v__id;
 
-  /* "htmlgenerator/base.pyx":242
+  /* "htmlgenerator/base.pyx":243
  *     n = 0
  *     nid = _id
  *     while nid in html_id_cache:             # <<<<<<<<<<<<<<
@@ -8412,25 +8422,25 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_3html_id(CYTHON_UNUSED PyObject 
  *         n += 1
  */
   while (1) {
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_html_id_cache); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 242, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_html_id_cache); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 243, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_v_nid, __pyx_t_2, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 242, __pyx_L1_error)
+    __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_v_nid, __pyx_t_2, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 243, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_6 = (__pyx_t_5 != 0);
     if (!__pyx_t_6) break;
 
-    /* "htmlgenerator/base.pyx":243
+    /* "htmlgenerator/base.pyx":244
  *     nid = _id
  *     while nid in html_id_cache:
  *         nid = f"{_id}-{n}"             # <<<<<<<<<<<<<<
  *         n += 1
  *     html_id_cache.add(nid)
  */
-    __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 243, __pyx_L1_error)
+    __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 244, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_7 = 0;
     __pyx_t_8 = 127;
-    __pyx_t_3 = __Pyx_PyObject_FormatSimple(__pyx_v__id, __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 243, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_FormatSimple(__pyx_v__id, __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 244, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_8 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_3) > __pyx_t_8) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_3) : __pyx_t_8;
     __pyx_t_7 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3);
@@ -8441,42 +8451,42 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_3html_id(CYTHON_UNUSED PyObject 
     __pyx_t_7 += 1;
     __Pyx_GIVEREF(__pyx_kp_u__7);
     PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_kp_u__7);
-    __pyx_t_3 = __Pyx_PyObject_FormatSimple(__pyx_v_n, __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 243, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_FormatSimple(__pyx_v_n, __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 244, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_8 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_3) > __pyx_t_8) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_3) : __pyx_t_8;
     __pyx_t_7 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyUnicode_Join(__pyx_t_2, 3, __pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 243, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyUnicode_Join(__pyx_t_2, 3, __pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 244, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF_SET(__pyx_v_nid, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "htmlgenerator/base.pyx":244
+    /* "htmlgenerator/base.pyx":245
  *     while nid in html_id_cache:
  *         nid = f"{_id}-{n}"
  *         n += 1             # <<<<<<<<<<<<<<
  *     html_id_cache.add(nid)
  *     return nid
  */
-    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_v_n, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 244, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_v_n, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 245, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF_SET(__pyx_v_n, __pyx_t_3);
     __pyx_t_3 = 0;
   }
 
-  /* "htmlgenerator/base.pyx":245
+  /* "htmlgenerator/base.pyx":246
  *         nid = f"{_id}-{n}"
  *         n += 1
  *     html_id_cache.add(nid)             # <<<<<<<<<<<<<<
  *     return nid
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_html_id_cache); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_html_id_cache); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_add); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 245, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_add); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -8491,12 +8501,12 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_3html_id(CYTHON_UNUSED PyObject 
   }
   __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_2, __pyx_v_nid) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_nid);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 245, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "htmlgenerator/base.pyx":246
+  /* "htmlgenerator/base.pyx":247
  *         n += 1
  *     html_id_cache.add(nid)
  *     return nid             # <<<<<<<<<<<<<<
@@ -8508,7 +8518,7 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_3html_id(CYTHON_UNUSED PyObject 
   __pyx_r = __pyx_v_nid;
   goto __pyx_L0;
 
-  /* "htmlgenerator/base.pyx":225
+  /* "htmlgenerator/base.pyx":226
  * 
  * 
  * def html_id(object, prefix="id"):             # <<<<<<<<<<<<<<
@@ -8532,7 +8542,7 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_3html_id(CYTHON_UNUSED PyObject 
   return __pyx_r;
 }
 
-/* "htmlgenerator/base.pyx":248
+/* "htmlgenerator/base.pyx":249
  *     return nid
  * 
  * cdef default_handler(context, message):             # <<<<<<<<<<<<<<
@@ -8553,38 +8563,38 @@ static PyObject *__pyx_f_13htmlgenerator_4base_default_handler(CYTHON_UNUSED PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("default_handler", 0);
 
-  /* "htmlgenerator/base.pyx":249
+  /* "htmlgenerator/base.pyx":250
  * 
  * cdef default_handler(context, message):
  *     import sys             # <<<<<<<<<<<<<<
  *     import traceback
  *     traceback.print_exc()
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 250, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_sys = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "htmlgenerator/base.pyx":250
+  /* "htmlgenerator/base.pyx":251
  * cdef default_handler(context, message):
  *     import sys
  *     import traceback             # <<<<<<<<<<<<<<
  *     traceback.print_exc()
  *     print(message, file=sys.stderr)
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_traceback, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 250, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_traceback, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 251, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_traceback = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "htmlgenerator/base.pyx":251
+  /* "htmlgenerator/base.pyx":252
  *     import sys
  *     import traceback
  *     traceback.print_exc()             # <<<<<<<<<<<<<<
  *     print(message, file=sys.stderr)
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_traceback, __pyx_n_s_print_exc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 251, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_traceback, __pyx_n_s_print_exc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 252, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -8598,36 +8608,36 @@ static PyObject *__pyx_f_13htmlgenerator_4base_default_handler(CYTHON_UNUSED PyO
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 251, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 252, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "htmlgenerator/base.pyx":252
+  /* "htmlgenerator/base.pyx":253
  *     import traceback
  *     traceback.print_exc()
  *     print(message, file=sys.stderr)             # <<<<<<<<<<<<<<
  * 
  * def _delfunc(container, i, e):
  */
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 253, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_message);
   __Pyx_GIVEREF(__pyx_v_message);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_message);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 253, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_sys, __pyx_n_s_stderr); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_sys, __pyx_n_s_stderr); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 253, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_file, __pyx_t_3) < 0) __PYX_ERR(0, 252, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_file, __pyx_t_3) < 0) __PYX_ERR(0, 253, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 253, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "htmlgenerator/base.pyx":248
+  /* "htmlgenerator/base.pyx":249
  *     return nid
  * 
  * cdef default_handler(context, message):             # <<<<<<<<<<<<<<
@@ -8652,7 +8662,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_default_handler(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "htmlgenerator/base.pyx":254
+/* "htmlgenerator/base.pyx":255
  *     print(message, file=sys.stderr)
  * 
  * def _delfunc(container, i, e):             # <<<<<<<<<<<<<<
@@ -8698,17 +8708,17 @@ static PyObject *__pyx_pw_13htmlgenerator_4base_6_delfunc(PyObject *__pyx_self, 
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_i)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_delfunc", 1, 3, 3, 1); __PYX_ERR(0, 254, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_delfunc", 1, 3, 3, 1); __PYX_ERR(0, 255, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_e)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_delfunc", 1, 3, 3, 2); __PYX_ERR(0, 254, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_delfunc", 1, 3, 3, 2); __PYX_ERR(0, 255, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_delfunc") < 0)) __PYX_ERR(0, 254, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_delfunc") < 0)) __PYX_ERR(0, 255, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -8723,7 +8733,7 @@ static PyObject *__pyx_pw_13htmlgenerator_4base_6_delfunc(PyObject *__pyx_self, 
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_delfunc", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 254, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_delfunc", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 255, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("htmlgenerator.base._delfunc", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -8747,14 +8757,14 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_5_delfunc(CYTHON_UNUSED PyObject
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_delfunc", 0);
 
-  /* "htmlgenerator/base.pyx":255
+  /* "htmlgenerator/base.pyx":256
  * 
  * def _delfunc(container, i, e):
  *     container.remove(e)             # <<<<<<<<<<<<<<
  * 
  * class ReachFirstException(Exception):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_container, __pyx_n_s_remove); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 255, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_container, __pyx_n_s_remove); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 256, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -8768,12 +8778,12 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_5_delfunc(CYTHON_UNUSED PyObject
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_e) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_e);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 255, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 256, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "htmlgenerator/base.pyx":254
+  /* "htmlgenerator/base.pyx":255
  *     print(message, file=sys.stderr)
  * 
  * def _delfunc(container, i, e):             # <<<<<<<<<<<<<<
@@ -8796,7 +8806,7 @@ static PyObject *__pyx_pf_13htmlgenerator_4base_5_delfunc(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "htmlgenerator/base.pyx":260
+/* "htmlgenerator/base.pyx":261
  *     pass
  * 
  * cdef walk(element, ancestors, replacement, select_func):             # <<<<<<<<<<<<<<
@@ -8828,41 +8838,41 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("walk", 0);
 
-  /* "htmlgenerator/base.pyx":261
+  /* "htmlgenerator/base.pyx":262
  * 
  * cdef walk(element, ancestors, replacement, select_func):
  *     from .htmltags import HTMLElement             # <<<<<<<<<<<<<<
  *     replacment_indices = []
  *     for i, e in enumerate(element):
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_HTMLElement);
   __Pyx_GIVEREF(__pyx_n_s_HTMLElement);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_HTMLElement);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_htmltags, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_htmltags, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_HTMLElement); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_HTMLElement); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_t_1);
   __pyx_v_HTMLElement = __pyx_t_1;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "htmlgenerator/base.pyx":262
+  /* "htmlgenerator/base.pyx":263
  * cdef walk(element, ancestors, replacement, select_func):
  *     from .htmltags import HTMLElement
  *     replacment_indices = []             # <<<<<<<<<<<<<<
  *     for i, e in enumerate(element):
  *         if isinstance(e, BaseElement):
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 262, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_replacment_indices = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "htmlgenerator/base.pyx":263
+  /* "htmlgenerator/base.pyx":264
  *     from .htmltags import HTMLElement
  *     replacment_indices = []
  *     for i, e in enumerate(element):             # <<<<<<<<<<<<<<
@@ -8875,26 +8885,26 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
     __pyx_t_1 = __pyx_v_element; __Pyx_INCREF(__pyx_t_1); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_element); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 263, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_element); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 264, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 263, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 264, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_4)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 263, __pyx_L1_error)
+        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 264, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 263, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 264, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 263, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 264, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 263, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 264, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       }
@@ -8904,7 +8914,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 263, __pyx_L1_error)
+          else __PYX_ERR(0, 264, __pyx_L1_error)
         }
         break;
       }
@@ -8914,13 +8924,13 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
     __pyx_t_5 = 0;
     __Pyx_INCREF(__pyx_t_2);
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_2);
-    __pyx_t_5 = __Pyx_PyInt_AddObjC(__pyx_t_2, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 263, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_AddObjC(__pyx_t_2, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 264, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2);
     __pyx_t_2 = __pyx_t_5;
     __pyx_t_5 = 0;
 
-    /* "htmlgenerator/base.pyx":264
+    /* "htmlgenerator/base.pyx":265
  *     replacment_indices = []
  *     for i, e in enumerate(element):
  *         if isinstance(e, BaseElement):             # <<<<<<<<<<<<<<
@@ -8931,7 +8941,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
     __pyx_t_7 = (__pyx_t_6 != 0);
     if (__pyx_t_7) {
 
-      /* "htmlgenerator/base.pyx":265
+      /* "htmlgenerator/base.pyx":266
  *     for i, e in enumerate(element):
  *         if isinstance(e, BaseElement):
  *             if select_func(e, ancestors):             # <<<<<<<<<<<<<<
@@ -8954,7 +8964,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_8)) {
         PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_v_e, __pyx_v_ancestors};
-        __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 266, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_5);
       } else
@@ -8962,13 +8972,13 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
         PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_v_e, __pyx_v_ancestors};
-        __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 266, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_5);
       } else
       #endif
       {
-        __pyx_t_11 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 265, __pyx_L1_error)
+        __pyx_t_11 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         if (__pyx_t_9) {
           __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -8979,25 +8989,25 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
         __Pyx_INCREF(__pyx_v_ancestors);
         __Pyx_GIVEREF(__pyx_v_ancestors);
         PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_10, __pyx_v_ancestors);
-        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_11, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_11, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       }
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 265, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 266, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       if (__pyx_t_7) {
 
-        /* "htmlgenerator/base.pyx":266
+        /* "htmlgenerator/base.pyx":267
  *         if isinstance(e, BaseElement):
  *             if select_func(e, ancestors):
  *                 replacment_indices.append(i)             # <<<<<<<<<<<<<<
  *             if isinstance(e, HTMLElement):
  *                 walk(list(e.attributes.values()), ancestors + (e,), replacement, select_func)
  */
-        __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_replacment_indices, __pyx_v_i); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 266, __pyx_L1_error)
+        __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_replacment_indices, __pyx_v_i); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 267, __pyx_L1_error)
 
-        /* "htmlgenerator/base.pyx":265
+        /* "htmlgenerator/base.pyx":266
  *     for i, e in enumerate(element):
  *         if isinstance(e, BaseElement):
  *             if select_func(e, ancestors):             # <<<<<<<<<<<<<<
@@ -9006,27 +9016,27 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
  */
       }
 
-      /* "htmlgenerator/base.pyx":267
+      /* "htmlgenerator/base.pyx":268
  *             if select_func(e, ancestors):
  *                 replacment_indices.append(i)
  *             if isinstance(e, HTMLElement):             # <<<<<<<<<<<<<<
  *                 walk(list(e.attributes.values()), ancestors + (e,), replacement, select_func)
  *             walk(e, ancestors + (e,), replacement, select_func)
  */
-      __pyx_t_7 = PyObject_IsInstance(__pyx_v_e, __pyx_v_HTMLElement); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 267, __pyx_L1_error)
+      __pyx_t_7 = PyObject_IsInstance(__pyx_v_e, __pyx_v_HTMLElement); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 268, __pyx_L1_error)
       __pyx_t_6 = (__pyx_t_7 != 0);
       if (__pyx_t_6) {
 
-        /* "htmlgenerator/base.pyx":268
+        /* "htmlgenerator/base.pyx":269
  *                 replacment_indices.append(i)
  *             if isinstance(e, HTMLElement):
  *                 walk(list(e.attributes.values()), ancestors + (e,), replacement, select_func)             # <<<<<<<<<<<<<<
  *             walk(e, ancestors + (e,), replacement, select_func)
  *     for i in replacment_indices:
  */
-        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_e, __pyx_n_s_attributes); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 268, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_e, __pyx_n_s_attributes); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 269, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_values); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 268, __pyx_L1_error)
+        __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_values); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 269, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __pyx_t_8 = NULL;
@@ -9041,27 +9051,27 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
         }
         __pyx_t_5 = (__pyx_t_8) ? __Pyx_PyObject_CallOneArg(__pyx_t_11, __pyx_t_8) : __Pyx_PyObject_CallNoArg(__pyx_t_11);
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-        if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 268, __pyx_L1_error)
+        if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 269, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __pyx_t_11 = PySequence_List(__pyx_t_5); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 268, __pyx_L1_error)
+        __pyx_t_11 = PySequence_List(__pyx_t_5); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 269, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 268, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 269, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_INCREF(__pyx_v_e);
         __Pyx_GIVEREF(__pyx_v_e);
         PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_e);
-        __pyx_t_8 = PyNumber_Add(__pyx_v_ancestors, __pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 268, __pyx_L1_error)
+        __pyx_t_8 = PyNumber_Add(__pyx_v_ancestors, __pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 269, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __pyx_f_13htmlgenerator_4base_walk(__pyx_t_11, __pyx_t_8, __pyx_v_replacement, __pyx_v_select_func); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 268, __pyx_L1_error)
+        __pyx_t_5 = __pyx_f_13htmlgenerator_4base_walk(__pyx_t_11, __pyx_t_8, __pyx_v_replacement, __pyx_v_select_func); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 269, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-        /* "htmlgenerator/base.pyx":267
+        /* "htmlgenerator/base.pyx":268
  *             if select_func(e, ancestors):
  *                 replacment_indices.append(i)
  *             if isinstance(e, HTMLElement):             # <<<<<<<<<<<<<<
@@ -9070,27 +9080,27 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
  */
       }
 
-      /* "htmlgenerator/base.pyx":269
+      /* "htmlgenerator/base.pyx":270
  *             if isinstance(e, HTMLElement):
  *                 walk(list(e.attributes.values()), ancestors + (e,), replacement, select_func)
  *             walk(e, ancestors + (e,), replacement, select_func)             # <<<<<<<<<<<<<<
  *     for i in replacment_indices:
  *         element.pop(i)
  */
-      __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 269, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 270, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_INCREF(__pyx_v_e);
       __Pyx_GIVEREF(__pyx_v_e);
       PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_e);
-      __pyx_t_8 = PyNumber_Add(__pyx_v_ancestors, __pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 269, __pyx_L1_error)
+      __pyx_t_8 = PyNumber_Add(__pyx_v_ancestors, __pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 270, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __pyx_f_13htmlgenerator_4base_walk(__pyx_v_e, __pyx_t_8, __pyx_v_replacement, __pyx_v_select_func); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 269, __pyx_L1_error)
+      __pyx_t_5 = __pyx_f_13htmlgenerator_4base_walk(__pyx_v_e, __pyx_t_8, __pyx_v_replacement, __pyx_v_select_func); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 270, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "htmlgenerator/base.pyx":264
+      /* "htmlgenerator/base.pyx":265
  *     replacment_indices = []
  *     for i, e in enumerate(element):
  *         if isinstance(e, BaseElement):             # <<<<<<<<<<<<<<
@@ -9099,7 +9109,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
  */
     }
 
-    /* "htmlgenerator/base.pyx":263
+    /* "htmlgenerator/base.pyx":264
  *     from .htmltags import HTMLElement
  *     replacment_indices = []
  *     for i, e in enumerate(element):             # <<<<<<<<<<<<<<
@@ -9110,7 +9120,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "htmlgenerator/base.pyx":270
+  /* "htmlgenerator/base.pyx":271
  *                 walk(list(e.attributes.values()), ancestors + (e,), replacement, select_func)
  *             walk(e, ancestors + (e,), replacement, select_func)
  *     for i in replacment_indices:             # <<<<<<<<<<<<<<
@@ -9121,22 +9131,22 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
   for (;;) {
     if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 270, __pyx_L1_error)
+    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 271, __pyx_L1_error)
     #else
-    __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 270, __pyx_L1_error)
+    __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 271, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "htmlgenerator/base.pyx":271
+    /* "htmlgenerator/base.pyx":272
  *             walk(e, ancestors + (e,), replacement, select_func)
  *     for i in replacment_indices:
  *         element.pop(i)             # <<<<<<<<<<<<<<
  *         if replacement is not None:
  *             element.insert(i, replacement)
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_element, __pyx_n_s_pop); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 271, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_element, __pyx_n_s_pop); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 272, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -9150,12 +9160,12 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
     }
     __pyx_t_1 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_8, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_i);
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 271, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 272, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "htmlgenerator/base.pyx":272
+    /* "htmlgenerator/base.pyx":273
  *     for i in replacment_indices:
  *         element.pop(i)
  *         if replacement is not None:             # <<<<<<<<<<<<<<
@@ -9166,14 +9176,14 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
     __pyx_t_7 = (__pyx_t_6 != 0);
     if (__pyx_t_7) {
 
-      /* "htmlgenerator/base.pyx":273
+      /* "htmlgenerator/base.pyx":274
  *         element.pop(i)
  *         if replacement is not None:
  *             element.insert(i, replacement)             # <<<<<<<<<<<<<<
  *         if not all:
  *             raise ReachFirstException()
  */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_element, __pyx_n_s_insert); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 273, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_element, __pyx_n_s_insert); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 274, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_8 = NULL;
       __pyx_t_10 = 0;
@@ -9190,7 +9200,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_v_i, __pyx_v_replacement};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 273, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 274, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
@@ -9198,13 +9208,13 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_v_i, __pyx_v_replacement};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 273, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 274, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
       #endif
       {
-        __pyx_t_11 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 273, __pyx_L1_error)
+        __pyx_t_11 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 274, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         if (__pyx_t_8) {
           __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -9215,14 +9225,14 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
         __Pyx_INCREF(__pyx_v_replacement);
         __Pyx_GIVEREF(__pyx_v_replacement);
         PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_10, __pyx_v_replacement);
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 273, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 274, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       }
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "htmlgenerator/base.pyx":272
+      /* "htmlgenerator/base.pyx":273
  *     for i in replacment_indices:
  *         element.pop(i)
  *         if replacement is not None:             # <<<<<<<<<<<<<<
@@ -9231,22 +9241,22 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
  */
     }
 
-    /* "htmlgenerator/base.pyx":274
+    /* "htmlgenerator/base.pyx":275
  *         if replacement is not None:
  *             element.insert(i, replacement)
  *         if not all:             # <<<<<<<<<<<<<<
  *             raise ReachFirstException()
  */
-    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_builtin_all); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 274, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_builtin_all); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 275, __pyx_L1_error)
     __pyx_t_6 = ((!__pyx_t_7) != 0);
     if (unlikely(__pyx_t_6)) {
 
-      /* "htmlgenerator/base.pyx":275
+      /* "htmlgenerator/base.pyx":276
  *             element.insert(i, replacement)
  *         if not all:
  *             raise ReachFirstException()             # <<<<<<<<<<<<<<
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_ReachFirstException); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 275, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_ReachFirstException); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 276, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_11 = NULL;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -9260,14 +9270,14 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
       }
       __pyx_t_1 = (__pyx_t_11) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_11) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 275, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 276, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_Raise(__pyx_t_1, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __PYX_ERR(0, 275, __pyx_L1_error)
+      __PYX_ERR(0, 276, __pyx_L1_error)
 
-      /* "htmlgenerator/base.pyx":274
+      /* "htmlgenerator/base.pyx":275
  *         if replacement is not None:
  *             element.insert(i, replacement)
  *         if not all:             # <<<<<<<<<<<<<<
@@ -9275,7 +9285,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
  */
     }
 
-    /* "htmlgenerator/base.pyx":270
+    /* "htmlgenerator/base.pyx":271
  *                 walk(list(e.attributes.values()), ancestors + (e,), replacement, select_func)
  *             walk(e, ancestors + (e,), replacement, select_func)
  *     for i in replacment_indices:             # <<<<<<<<<<<<<<
@@ -9285,7 +9295,7 @@ static PyObject *__pyx_f_13htmlgenerator_4base_walk(PyObject *__pyx_v_element, P
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "htmlgenerator/base.pyx":260
+  /* "htmlgenerator/base.pyx":261
  *     pass
  * 
  * cdef walk(element, ancestors, replacement, select_func):             # <<<<<<<<<<<<<<
@@ -12133,10 +12143,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(0, 13, __pyx_L1_error)
   __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 24, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(0, 44, __pyx_L1_error)
-  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 171, __pyx_L1_error)
-  __pyx_builtin_id = __Pyx_GetBuiltinName(__pyx_n_s_id); if (!__pyx_builtin_id) __PYX_ERR(0, 239, __pyx_L1_error)
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 252, __pyx_L1_error)
-  __pyx_builtin_all = __Pyx_GetBuiltinName(__pyx_n_s_all); if (!__pyx_builtin_all) __PYX_ERR(0, 274, __pyx_L1_error)
+  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_builtin_id = __Pyx_GetBuiltinName(__pyx_n_s_id); if (!__pyx_builtin_id) __PYX_ERR(0, 240, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 253, __pyx_L1_error)
+  __pyx_builtin_all = __Pyx_GetBuiltinName(__pyx_n_s_all); if (!__pyx_builtin_all) __PYX_ERR(0, 275, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -12170,41 +12180,41 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__8);
   __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_wrap, 65, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(1, 65, __pyx_L1_error)
 
-  /* "htmlgenerator/base.pyx":196
+  /* "htmlgenerator/base.pyx":197
  * 
  * 
  * def treewalk(element, ancestors, filter_func, apply=None):             # <<<<<<<<<<<<<<
  *     from .htmltags import HTMLElement
  * 
  */
-  __pyx_tuple__10 = PyTuple_Pack(8, __pyx_n_s_element, __pyx_n_s_ancestors, __pyx_n_s_filter_func, __pyx_n_s_apply, __pyx_n_s_HTMLElement, __pyx_n_s_matchelements, __pyx_n_s_i, __pyx_n_s_e); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_tuple__10 = PyTuple_Pack(8, __pyx_n_s_element, __pyx_n_s_ancestors, __pyx_n_s_filter_func, __pyx_n_s_apply, __pyx_n_s_HTMLElement, __pyx_n_s_matchelements, __pyx_n_s_i, __pyx_n_s_e); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
-  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(4, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_htmlgenerator_base_pyx, __pyx_n_s_treewalk, 196, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(4, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_htmlgenerator_base_pyx, __pyx_n_s_treewalk, 197, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 197, __pyx_L1_error)
 
-  /* "htmlgenerator/base.pyx":225
+  /* "htmlgenerator/base.pyx":226
  * 
  * 
  * def html_id(object, prefix="id"):             # <<<<<<<<<<<<<<
  *     """Generate a unique HTML id from an object"""
  *     # Explanation of the chained call:
  */
-  __pyx_tuple__11 = PyTuple_Pack(5, __pyx_n_s_object, __pyx_n_s_prefix, __pyx_n_s_id_2, __pyx_n_s_n, __pyx_n_s_nid); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(5, __pyx_n_s_object, __pyx_n_s_prefix, __pyx_n_s_id_2, __pyx_n_s_n, __pyx_n_s_nid); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_htmlgenerator_base_pyx, __pyx_n_s_html_id, 225, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_htmlgenerator_base_pyx, __pyx_n_s_html_id, 226, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 226, __pyx_L1_error)
 
-  /* "htmlgenerator/base.pyx":254
+  /* "htmlgenerator/base.pyx":255
  *     print(message, file=sys.stderr)
  * 
  * def _delfunc(container, i, e):             # <<<<<<<<<<<<<<
  *     container.remove(e)
  * 
  */
-  __pyx_tuple__13 = PyTuple_Pack(3, __pyx_n_s_container, __pyx_n_s_i, __pyx_n_s_e); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 254, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(3, __pyx_n_s_container, __pyx_n_s_i, __pyx_n_s_e); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 255, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_htmlgenerator_base_pyx, __pyx_n_s_delfunc, 254, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 254, __pyx_L1_error)
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_htmlgenerator_base_pyx, __pyx_n_s_delfunc, 255, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 255, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_BaseElement(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
@@ -12347,31 +12357,31 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_13htmlgenerator_4base_Iterator.__pyx_base = *__pyx_vtabptr_13htmlgenerator_4base_BaseElement;
   __pyx_vtable_13htmlgenerator_4base_Iterator.__pyx_base.render = (PyObject *(*)(struct __pyx_obj_13htmlgenerator_4base_BaseElement *, PyObject *, int __pyx_skip_dispatch))__pyx_f_13htmlgenerator_4base_8Iterator_render;
   __pyx_type_13htmlgenerator_4base_Iterator.tp_base = __pyx_ptype_13htmlgenerator_4base_BaseElement;
-  if (PyType_Ready(&__pyx_type_13htmlgenerator_4base_Iterator) < 0) __PYX_ERR(0, 157, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_13htmlgenerator_4base_Iterator) < 0) __PYX_ERR(0, 158, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_13htmlgenerator_4base_Iterator.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_13htmlgenerator_4base_Iterator.tp_dictoffset && __pyx_type_13htmlgenerator_4base_Iterator.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_13htmlgenerator_4base_Iterator.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_13htmlgenerator_4base_Iterator.tp_dict, __pyx_vtabptr_13htmlgenerator_4base_Iterator) < 0) __PYX_ERR(0, 157, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Iterator, (PyObject *)&__pyx_type_13htmlgenerator_4base_Iterator) < 0) __PYX_ERR(0, 157, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_13htmlgenerator_4base_Iterator) < 0) __PYX_ERR(0, 157, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_13htmlgenerator_4base_Iterator.tp_dict, __pyx_vtabptr_13htmlgenerator_4base_Iterator) < 0) __PYX_ERR(0, 158, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Iterator, (PyObject *)&__pyx_type_13htmlgenerator_4base_Iterator) < 0) __PYX_ERR(0, 158, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_13htmlgenerator_4base_Iterator) < 0) __PYX_ERR(0, 158, __pyx_L1_error)
   __pyx_ptype_13htmlgenerator_4base_Iterator = &__pyx_type_13htmlgenerator_4base_Iterator;
   __pyx_vtabptr_13htmlgenerator_4base_WithContext = &__pyx_vtable_13htmlgenerator_4base_WithContext;
   __pyx_vtable_13htmlgenerator_4base_WithContext.__pyx_base = *__pyx_vtabptr_13htmlgenerator_4base_BaseElement;
   __pyx_vtable_13htmlgenerator_4base_WithContext.__pyx_base.render = (PyObject *(*)(struct __pyx_obj_13htmlgenerator_4base_BaseElement *, PyObject *, int __pyx_skip_dispatch))__pyx_f_13htmlgenerator_4base_11WithContext_render;
   __pyx_type_13htmlgenerator_4base_WithContext.tp_base = __pyx_ptype_13htmlgenerator_4base_BaseElement;
-  if (PyType_Ready(&__pyx_type_13htmlgenerator_4base_WithContext) < 0) __PYX_ERR(0, 178, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_13htmlgenerator_4base_WithContext) < 0) __PYX_ERR(0, 179, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_13htmlgenerator_4base_WithContext.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_13htmlgenerator_4base_WithContext.tp_dictoffset && __pyx_type_13htmlgenerator_4base_WithContext.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_13htmlgenerator_4base_WithContext.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_13htmlgenerator_4base_WithContext.tp_dict, __pyx_vtabptr_13htmlgenerator_4base_WithContext) < 0) __PYX_ERR(0, 178, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_WithContext, (PyObject *)&__pyx_type_13htmlgenerator_4base_WithContext) < 0) __PYX_ERR(0, 178, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_13htmlgenerator_4base_WithContext) < 0) __PYX_ERR(0, 178, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_13htmlgenerator_4base_WithContext.tp_dict, __pyx_vtabptr_13htmlgenerator_4base_WithContext) < 0) __PYX_ERR(0, 179, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_WithContext, (PyObject *)&__pyx_type_13htmlgenerator_4base_WithContext) < 0) __PYX_ERR(0, 179, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_13htmlgenerator_4base_WithContext) < 0) __PYX_ERR(0, 179, __pyx_L1_error)
   __pyx_ptype_13htmlgenerator_4base_WithContext = &__pyx_type_13htmlgenerator_4base_WithContext;
   if (PyType_Ready(&__pyx_type_13htmlgenerator_4base___pyx_scope_struct__wrap) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -12381,7 +12391,7 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_type_13htmlgenerator_4base___pyx_scope_struct__wrap.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
   __pyx_ptype_13htmlgenerator_4base___pyx_scope_struct__wrap = &__pyx_type_13htmlgenerator_4base___pyx_scope_struct__wrap;
-  if (PyType_Ready(&__pyx_type_13htmlgenerator_4base___pyx_scope_struct_1_treewalk) < 0) __PYX_ERR(0, 196, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_13htmlgenerator_4base___pyx_scope_struct_1_treewalk) < 0) __PYX_ERR(0, 197, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_13htmlgenerator_4base___pyx_scope_struct_1_treewalk.tp_print = 0;
   #endif
@@ -12803,73 +12813,73 @@ if (!__Pyx_RefNanny) {
     __pyx_L7_try_end:;
   }
 
-  /* "htmlgenerator/base.pyx":196
+  /* "htmlgenerator/base.pyx":197
  * 
  * 
  * def treewalk(element, ancestors, filter_func, apply=None):             # <<<<<<<<<<<<<<
  *     from .htmltags import HTMLElement
  * 
  */
-  __pyx_t_7 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_4base_1treewalk, NULL, __pyx_n_s_htmlgenerator_base); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_t_7 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_4base_1treewalk, NULL, __pyx_n_s_htmlgenerator_base); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_treewalk, __pyx_t_7) < 0) __PYX_ERR(0, 196, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_treewalk, __pyx_t_7) < 0) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "htmlgenerator/base.pyx":222
+  /* "htmlgenerator/base.pyx":223
  * 
  * 
  * html_id_cache = set()             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_7 = PySet_New(0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 222, __pyx_L1_error)
+  __pyx_t_7 = PySet_New(0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_html_id_cache, __pyx_t_7) < 0) __PYX_ERR(0, 222, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_html_id_cache, __pyx_t_7) < 0) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "htmlgenerator/base.pyx":225
+  /* "htmlgenerator/base.pyx":226
  * 
  * 
  * def html_id(object, prefix="id"):             # <<<<<<<<<<<<<<
  *     """Generate a unique HTML id from an object"""
  *     # Explanation of the chained call:
  */
-  __pyx_t_7 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_4base_4html_id, NULL, __pyx_n_s_htmlgenerator_base); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_7 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_4base_4html_id, NULL, __pyx_n_s_htmlgenerator_base); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_html_id, __pyx_t_7) < 0) __PYX_ERR(0, 225, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_html_id, __pyx_t_7) < 0) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "htmlgenerator/base.pyx":254
+  /* "htmlgenerator/base.pyx":255
  *     print(message, file=sys.stderr)
  * 
  * def _delfunc(container, i, e):             # <<<<<<<<<<<<<<
  *     container.remove(e)
  * 
  */
-  __pyx_t_7 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_4base_6_delfunc, NULL, __pyx_n_s_htmlgenerator_base); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 254, __pyx_L1_error)
+  __pyx_t_7 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_4base_6_delfunc, NULL, __pyx_n_s_htmlgenerator_base); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 255, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_delfunc, __pyx_t_7) < 0) __PYX_ERR(0, 254, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_delfunc, __pyx_t_7) < 0) __PYX_ERR(0, 255, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "htmlgenerator/base.pyx":257
+  /* "htmlgenerator/base.pyx":258
  *     container.remove(e)
  * 
  * class ReachFirstException(Exception):             # <<<<<<<<<<<<<<
  *     pass
  * 
  */
-  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 257, __pyx_L1_error)
+  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 258, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_INCREF(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])));
   __Pyx_GIVEREF(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])));
   PyTuple_SET_ITEM(__pyx_t_7, 0, ((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])));
-  __pyx_t_1 = __Pyx_CalculateMetaclass(NULL, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 257, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CalculateMetaclass(NULL, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 258, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_7, __pyx_n_s_ReachFirstException, __pyx_n_s_ReachFirstException, (PyObject *) NULL, __pyx_n_s_htmlgenerator_base, (PyObject *) NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 257, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_7, __pyx_n_s_ReachFirstException, __pyx_n_s_ReachFirstException, (PyObject *) NULL, __pyx_n_s_htmlgenerator_base, (PyObject *) NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 258, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_9 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_ReachFirstException, __pyx_t_7, __pyx_t_5, NULL, 0, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 257, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_ReachFirstException, __pyx_t_7, __pyx_t_5, NULL, 0, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 258, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ReachFirstException, __pyx_t_9) < 0) __PYX_ERR(0, 257, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ReachFirstException, __pyx_t_9) < 0) __PYX_ERR(0, 258, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
