@@ -53,7 +53,7 @@ class BaseElement(list):
         to be able to return non-string objects during rendering.
         """
         while isinstance(element, Lazy):
-            element = element.resolve(context, self)
+            element = element.resolve(context)
         if isinstance(element, BaseElement):
             yield from element.render(context)
         elif element is not None:
