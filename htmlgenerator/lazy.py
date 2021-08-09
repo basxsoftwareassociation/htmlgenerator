@@ -6,21 +6,19 @@ import typing
 import htmlgenerator
 
 
-def resolve_lazy(
-    value: typing.Any, context: dict, element: "htmlgenerator.BaseElement"
-):
+def resolve_lazy(value: typing.Any, context: dict):
     """Shortcut to resolve a value in case it is a Lazy value"""
 
     while isinstance(value, Lazy):
-        value = value.resolve(context, element)
+        value = value.resolve(context)
     return value
 
 
 def getattr_lazy(lazyobject: Lazy, attr: str) -> F:
     """Takes a lazy object and returns a new lazy object which will resolve the attribute on the object"""
 
-    def wrapper(c, e):
-        ret = getattr(resolve_lazy(lazyobject, c, e), attr)
+    def wrapper(c):
+        ret = getattr(resolve_lazy(lazyobject, c), attr)
         return ret() if callable(ret) else ret
 
     return F(wrapper)
@@ -76,9 +74,7 @@ def resolve_lookup(
 class Lazy:
     """Lazy values will be evaluated at render time via the resolve method."""
 
-    def resolve(
-        self, context: dict, element: "htmlgenerator.BaseElement"
-    ) -> typing.Any:
+    def resolve(self, context: dict) -> typing.Any:
         raise NotImplementedError("Lazy needs to be subclassed")
 
 
@@ -86,9 +82,7 @@ class ContextValue(Lazy):
     def __init__(self, value: str):
         self.value = value
 
-    def resolve(
-        self, context: dict, element: "htmlgenerator.BaseElement"
-    ) -> typing.Any:
+    def resolve(self, context: dict) -> typing.Any:
         return resolve_lookup(context, self.value)
 
 
@@ -101,10 +95,8 @@ class ContextFunction(Lazy):
         assert callable(func), "ContextFunction needs to be callable"
         self.func = func
 
-    def resolve(
-        self, context: dict, element: "htmlgenerator.BaseElement"
-    ) -> typing.Any:
-        return self.func(context, element)
+    def resolve(self, context: dict) -> typing.Any:
+        return self.func(context)
 
 
 C = ContextValue

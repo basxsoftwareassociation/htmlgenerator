@@ -30,10 +30,9 @@ class HTMLElement(BaseElement):
         attr_str = flatattrs(
             {
                 **self.attributes,
-                **(resolve_lazy(self.lazy_attributes, context, self) or {}),
+                **(resolve_lazy(self.lazy_attributes, context) or {}),
             },
             context,
-            self,
         )
         # quirk to prevent tags having a single space if there are no attributes
         attr_str = (" " + attr_str) if attr_str else attr_str
@@ -58,7 +57,7 @@ class VoidElement(HTMLElement):
         super().__init__(**kwargs)
 
     def render(self, context) -> typing.Generator[str, None, None]:
-        yield f"<{self.tag} {flatattrs(self.attributes, context, self)} />"
+        yield f"<{self.tag} {flatattrs(self.attributes, context)} />"
 
 
 class A(HTMLElement):
@@ -675,13 +674,13 @@ class XMP(HTMLElement):
     tag = "xmp"
 
 
-def flatattrs(attributes: dict, context: dict, element: BaseElement) -> str:
+def flatattrs(attributes: dict, context: dict) -> str:
     """Converts a dictionary to a string of HTML-attributes.
     Leading underscores are removed and other underscores are replaced with dashes."""
 
     attlist = []
     for key, value in attributes.items():
-        value = resolve_lazy(value, context, element)
+        value = resolve_lazy(value, context)
         if isinstance(value, If):
             rendered = list(value.render(context, stringify=False))
             if len(rendered) == 1 and isinstance(rendered[0], bool):

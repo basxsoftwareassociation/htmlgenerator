@@ -53,7 +53,7 @@ class BaseElement(list):
         to be able to return non-string objects during rendering.
         """
         while isinstance(element, Lazy):
-            element = element.resolve(context, self)
+            element = element.resolve(context)
         if isinstance(element, BaseElement):
             yield from element.render(context)
         elif element is not None:
@@ -222,7 +222,7 @@ class If(BaseElement):
     def render(self, context: dict, stringify=True):
         """The stringy argument can be set to False in order to get a python object
         instead of a rendered string returned. This is usefull when evaluating"""
-        if resolve_lazy(self.condition, context, self):
+        if resolve_lazy(self.condition, context):
             yield from self._try_render(self[0], context, stringify)
         elif len(self) > 1:
             yield from self._try_render(self[1], context, stringify)
@@ -241,7 +241,7 @@ class Iterator(BaseElement):
 
     def render(self, context: dict, stringify: bool = True):
         context = dict(context)
-        for i, value in enumerate(resolve_lazy(self.iterator, context, self)):
+        for i, value in enumerate(resolve_lazy(self.iterator, context)):
             context[self.loopvariable] = value
             context[self.loopvariable + "_index"] = i
             yield from self.render_children(context, stringify)
