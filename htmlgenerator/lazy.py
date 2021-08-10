@@ -83,7 +83,9 @@ class ContextValue(Lazy):
         self.value = value
 
     def resolve(self, context: dict) -> typing.Any:
-        return resolve_lookup(context, self.value)
+        if isinstance(self.value, str):
+            return resolve_lookup(context, self.value)
+        return self.value
 
 
 class ContextFunction(Lazy):
