@@ -1,7 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
 name: Automated Release
-uses: marvinpinto/action-automatic-releases
 
 # Controls when the workflow will run
 on:
