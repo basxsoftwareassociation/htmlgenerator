@@ -23,4 +23,4 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
-      - uses: "htmlgenerator/python-publish@main"
+      - uses: ./.github/actions/python-publish
