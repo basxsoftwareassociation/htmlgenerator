@@ -6,7 +6,6 @@ name: Automated Release
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ main ]
     tags: [ "v*" ]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -16,7 +15,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   tagged-release:
-    if: github.event.base_ref == 'refs/heads/master'
+    if: github.event.base_ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
