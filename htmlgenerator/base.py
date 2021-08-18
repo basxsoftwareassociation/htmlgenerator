@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import inspect
+import string
 import typing
 
 from .lazy import Lazy, resolve_lazy
@@ -360,3 +361,28 @@ def html_id(object: typing.Any, prefix: str = "id") -> str:
         n += 1
     html_id_cache.add(nid)
     return nid
+
+
+class ContextFormatter(string.Formatter):
+    context: dict
+
+    def __init__(self, context: dict):
+        super().__init__()
+        self.context = context
+
+    def get_value(self, key, args, kwds):
+        return render(super().get_value(key, args, kwds), self.context)
+
+
+class FormatString(BaseElement):
+    def __init__(self, *args, **kwargs):
+        super().__init__()
+        self.args = args
+        self.kwargs = kwargs
+
+    def render(self, context):
+        return ContextFormatter(context).format(*self.args, **self.kwargs)
+
+
+def format(*args, **kwargs):
+    return FormatString(*args, **kwargs)
