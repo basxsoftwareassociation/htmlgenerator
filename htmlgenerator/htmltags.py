@@ -20,10 +20,6 @@ class HTMLElement(BaseElement):
             )
         self.attributes: dict = attributes
         super().__init__(*children)
-        if lazy_attributes and not isinstance(lazy_attributes, Lazy):
-            raise ValueError(
-                f"Argument 'lazy_attributes' must have type 'Lazy' but has type {type(lazy_attributes)}"
-            )
         self.lazy_attributes = lazy_attributes
 
     def render(self, context: dict) -> typing.Generator[str, None, None]:
