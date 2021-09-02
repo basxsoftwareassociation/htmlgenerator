@@ -92,7 +92,7 @@ class ContextFunction(Lazy):
     """Call a function a render time, usefull for calculation of more complex"""
 
     def __init__(
-        self, func: typing.Callable[[dict, "htmlgenerator.BaseElement"], typing.Any]
+        self, func: typing.Callable[[dict], typing.Any]
     ):
         assert callable(func), "ContextFunction needs to be callable"
         self.func = func
