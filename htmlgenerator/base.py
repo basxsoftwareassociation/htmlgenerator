@@ -371,7 +371,7 @@ class ContextFormatter(string.Formatter):
         self.context = context
 
     def get_value(self, key, args, kwds):
-        return render(super().get_value(key, args, kwds), self.context)
+        return render(BaseElement(super().get_value(key, args, kwds)), self.context)
 
 
 class FormatString(BaseElement):

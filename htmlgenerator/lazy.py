@@ -3,8 +3,6 @@ from __future__ import annotations
 import inspect
 import typing
 
-import htmlgenerator
-
 
 def resolve_lazy(value: typing.Any, context: dict):
     """Shortcut to resolve a value in case it is a Lazy value"""
@@ -91,9 +89,7 @@ class ContextValue(Lazy):
 class ContextFunction(Lazy):
     """Call a function a render time, usefull for calculation of more complex"""
 
-    def __init__(
-        self, func: typing.Callable[[dict], typing.Any]
-    ):
+    def __init__(self, func: typing.Callable[[dict], typing.Any]):
         assert callable(func), "ContextFunction needs to be callable"
         self.func = func
 
