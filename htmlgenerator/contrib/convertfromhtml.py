@@ -104,7 +104,14 @@ def convert(tag, level, compact):
         raise RuntimeError(f"Unknown element type: {tag}")
 
 
-def converthtml(html, formatting, compact):
+def parsehtml2object(html):
+    """Helper function to get directly a htmlgenerator.BaseElement back, should be rather slow"""
+    _locals = {}
+    exec(parsehtml(html, False, True), {}, _locals)
+    return _locals["html"]
+
+
+def parsehtml(html, formatting, compact):
     out = [
         "import htmlgenerator as hg\nfrom htmlgenerator import mark_safe as s\nhtml = hg.BaseElement(",
     ]
@@ -142,11 +149,11 @@ def main():
     if compactflag in files:
         files.remove(compactflag)
     if not files:
-        print(converthtml(sys.stdin.read(), formatting, compact), end="")
+        print(parsehtml(sys.stdin.read(), formatting, compact), end="")
     for _file in files:
         with open(_file) as rf:
             with open(_file + ".py", "w") as wf:
-                wf.write(converthtml(rf.read(), formatting, compact))
+                wf.write(parsehtml(rf.read(), formatting, compact))
 
 
 if __name__ == "__main__":
