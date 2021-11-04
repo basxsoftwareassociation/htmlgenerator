@@ -53,12 +53,15 @@ class BaseElement(list):
         That behaviour should only be overriden by elements which consciously want
         to be able to return non-string objects during rendering.
         """
-        while isinstance(element, Lazy):
-            element = element.resolve(context)
-        if isinstance(element, BaseElement):
-            yield from element.render(context)
-        elif element is not None:
-            yield conditional_escape(element) if stringify else element
+        try:
+            while isinstance(element, Lazy):
+                element = element.resolve(context)
+            if isinstance(element, BaseElement):
+                yield from element.render(context)
+            elif element is not None:
+                yield conditional_escape(element) if stringify else element
+        except (Exception, RuntimeError) as e:
+            _handle_exception(e, context)
 
     def render_children(
         self, context: dict, stringify: bool = True
@@ -71,42 +74,7 @@ class BaseElement(list):
         self, context: dict, stringify: bool = True
     ) -> typing.Generator[str, None, None]:
         """Renders this element and its children. Can be overwritten by subclassing elements."""
-        try:
-            yield from self.render_children(context, stringify)
-        except (Exception, RuntimeError) as e:
-            import sys
-            import traceback
-
-            def default_handler(context, message):
-                traceback.print_exc()
-                print(message, file=sys.stderr)
-
-            last_obj = None
-            indent = 0
-            message = []
-            for i in traceback.StackSummary.extract(
-                traceback.walk_tb(sys.exc_info()[2]), capture_locals=True
-            ):
-                if (
-                    i.locals is not None
-                    and "self" in i.locals
-                    and i.locals["self"] != last_obj
-                ):
-                    message.append(" " * indent + str(i.locals["self"]))
-                    last_obj = i.locals["self"]
-                    indent += 2
-            message.append(" " * indent + str(e))
-            message = "\n".join(message)
-
-            context.get(EXCEPTION_HANDLER_NAME, default_handler)(context, message)
-
-            yield (
-                ""
-                + '<pre style="border: solid 1px red; color: red; padding: 1rem; background-color: #ffdddd">'
-                + f"    <code>~~~ Exception: {conditional_escape(e)} ~~~</code>"
-                + "</pre>"
-                + f'<script>alert("Error: {conditional_escape(e)}")</script>'
-            )
+        yield from self.render_children(context, stringify)
 
     """
     Tree functions
@@ -306,36 +274,6 @@ def render(root: BaseElement, basecontext: dict) -> str:
     return "".join(root.render(basecontext))
 
 
-def print_logical_tree(root: BaseElement) -> None:
-    from .htmltags import HTMLElement
-
-    def print_node(node: BaseElement, level: int) -> None:
-        attrlist = [
-            f"{attr}: {getattr(node, attr)}"
-            for attr in dir(node)
-            if not attr.startswith("_")
-            and not callable(getattr(node, attr))
-            and attr not in ("attributes", "tag")
-        ]
-        attrs = ", ".join(attrlist)
-        name = type(node).__name__
-        if name == "__proxy__":
-            name = "str"
-        neednewlevel = False
-        if isinstance(node, str):
-            print(level * "    " + f'"{node}"')
-            neednewlevel = True
-        elif HTMLElement not in type(node).__bases__:
-            print(level * "    " + f"{name}({attrs})")
-            neednewlevel = True
-        if isinstance(node, BaseElement):
-            for child in node:
-                if child is not None:
-                    print_node(child, level + (1 if neednewlevel else 0))
-
-    print_node(root, level=0)
-
-
 html_id_cache = set()
 
 
@@ -386,3 +324,35 @@ class FormatString(BaseElement):
 
 def format(*args, **kwargs):
     return FormatString(*args, **kwargs)
+
+
+def _handle_exception(exception, context):
+    import sys
+    import traceback
+
+    def default_handler(context, message):
+        traceback.print_exc()
+        print(message, file=sys.stderr)
+
+    last_obj = None
+    indent = 0
+    message = []
+    for i in traceback.StackSummary.extract(
+        traceback.walk_tb(sys.exc_info()[2]), capture_locals=True
+    ):
+        if i.locals is not None and "self" in i.locals and i.locals["self"] != last_obj:
+            message.append(" " * indent + str(i.locals["self"]))
+            last_obj = i.locals["self"]
+            indent += 2
+    message.append(" " * indent + str(exception))
+    message = "\n".join(message)
+
+    context.get(EXCEPTION_HANDLER_NAME, default_handler)(context, message)
+
+    yield (
+        ""
+        + '<pre style="border: solid 1px red; color: red; padding: 1rem; background-color: #ffdddd">'
+        + f"    <code>~~~ Exception: {conditional_escape(exception)} ~~~</code>"
+        + "</pre>"
+        + f'<script>alert("Error: {conditional_escape(exception)}")</script>'
+    )
