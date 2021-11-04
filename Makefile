@@ -14,10 +14,9 @@ raise_and_release_minor_version:
 	git push
 	NEWVERSION=$$(                              \
 	   echo -n '__version__ = ' &&              \
-	   cat bread/__init__.py |            \
+	   cat htmlgenerator/__init__.py | grep __version__ |            \
 	   cut -d = -f 2 |                          \
 	   python3 -c 'i = input().strip().strip("\""); print("\"" + ".".join(i.split(".")[:-1] + [str(int(i.split(".")[-1]) + 1) + "\""]))' \
 ) &&                                        \
-	echo $$NEWVERSION > bread/__init__.py
-	git commit -m 'bump version' bread/__init__.py && git push && git push --tags
-
+	sed -i "s/.*__version__.*/$$NEWVERSION/g" htmlgenerator/__init__.py
+	git commit -m 'bump version' htmlgenerator/__init__.py && git push && git push --tags
