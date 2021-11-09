@@ -16,7 +16,8 @@ class HTMLElement(BaseElement):
         assert self.tag != ""
         if any(attr == "class" for attr in attributes.keys()):
             warnings.warn(
-                'You should use "_class" instead of "class" when specifiying HTML classes in htmlgenerator ("class" is a python keyword).'
+                'You should use "_class" instead of "class" when specifiying HTML'
+                'classes in htmlgenerator ("class" is a python keyword).'
             )
         self.attributes: dict = attributes
         super().__init__(*children)

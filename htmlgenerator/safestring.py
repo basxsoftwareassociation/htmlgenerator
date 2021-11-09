@@ -3,8 +3,11 @@ from __future__ import annotations
 import html
 import typing
 
-# copied from django/utils/safestring.py in order to avoid a dependency only for the escaping-functionality
-# this is condensed and doc-strings are removed, please read https://github.com/django/django/blob/master/django/utils/safestring.py for proper documentation
+# copied from django/utils/safestring.py in order to avoid a dependency
+# only for the escaping-functionality
+# this is condensed and doc-strings are removed, please read
+# https://github.com/django/django/blob/master/django/utils/safestring.py
+# for proper documentation
 
 
 class SafeData:
@@ -26,7 +29,8 @@ class SafeString(str, SafeData):
 def mark_safe(s: typing.Union[str, SafeString]) -> typing.Any:
     if hasattr(
         s, "__html__"
-    ):  # instead of using isinstance we use __html__ because that is what some other frameworks use too
+    ):  # instead of using isinstance we use __html__ because that
+        # is what some other frameworks use too
         return s
     return SafeString(s)
 

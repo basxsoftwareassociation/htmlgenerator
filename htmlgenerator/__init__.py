@@ -7,5 +7,7 @@ __version__ = "1.1.10"
 
 
 DEBUG: bool = False
-"Turning on this flag will add html attributes with information about the source of the generated html output",
-# not sure whether this is a smart idea, but environment variables do not really seem better...
+"Turning on this flag will add html attributes with information "
+"about the source of the generated html output",
+# not sure whether this is a smart idea, but environment variables
+# do not really seem better...

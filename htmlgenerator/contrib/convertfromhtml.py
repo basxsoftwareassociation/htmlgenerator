@@ -105,15 +105,21 @@ def convert(tag, level, compact):
 
 
 def parsehtml2object(html):
-    """Helper function to get directly a htmlgenerator.BaseElement back, should be rather slow"""
+    """
+    Helper function to get directly a htmlgenerator.BaseElement back,
+    should be rather slow
+    """
     _locals = {}
-    exec(parsehtml(html, False, True), {}, _locals)
+    # should not be used in production, however the code should be escaped correctly
+    exec(parsehtml(html, False, True), {}, _locals)  # nosec
     return _locals["html"]
 
 
 def parsehtml(html, formatting, compact):
     out = [
-        "import htmlgenerator as hg\nfrom htmlgenerator import mark_safe as s\nhtml = hg.BaseElement(",
+        """import htmlgenerator as hg
+from htmlgenerator import mark_safe as s
+html = hg.BaseElement(""",
     ]
 
     soup = BeautifulSoup(

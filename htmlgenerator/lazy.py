@@ -13,7 +13,10 @@ def resolve_lazy(value: typing.Any, context: dict):
 
 
 def getattr_lazy(lazyobject: Lazy, attr: str) -> F:
-    """Takes a lazy object and returns a new lazy object which will resolve the attribute on the object"""
+    """
+    Takes a lazy object and returns a new lazy object which will
+    resolve the attribute on the object
+    """
 
     def wrapper(c):
         ret = getattr(resolve_lazy(lazyobject, c), attr)
@@ -27,8 +30,10 @@ def resolve_lookup(
 ) -> typing.Any:
     """
     Helper function to extract a value out of a context-dict.
-    A lookup string can access attributes, dict-keys, methods without parameters and indexes by using the dot-accessor (e.g. ``person.name``)
-    This is based on the implementation of the variable lookup of the django template system:
+    A lookup string can access attributes, dict-keys, methods without
+    parameters and indexes by using the dot-accessor (e.g. ``person.name``)
+    This is based on the implementation of the variable lookup of the django
+    template system:
     https://github.com/django/django/blob/master/django/template/base.py
     """
     current = context
@@ -62,7 +67,9 @@ def resolve_lookup(
                 try:
                     signature.bind()
                 except TypeError:  # arguments *were* required
-                    pass  # but we continue because we might use an attribute on the object instead of calling it
+                    # but we continue because we might use an attribute on the
+                    # object instead of calling it
+                    pass
                 else:
                     raise
 

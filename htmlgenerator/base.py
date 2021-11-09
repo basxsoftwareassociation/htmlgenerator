@@ -8,7 +8,8 @@ import typing
 from .lazy import Lazy, resolve_lazy
 
 EXCEPTION_HANDLER_NAME = "_htmlgenerator_exception_handler"
-"Must be a function without arguments, will be called when an exception happens during rendering an element"
+"Must be a function without arguments, will be called when an "
+"exception happens during rendering an element"
 
 # for integration with the django safe string objects, optional
 try:
@@ -19,17 +20,22 @@ except ImportError:
 
 class BaseElement(list):
     """The base render element
-    All nodes used in a render tree should have this class as a base. Leaves in the tree may be strings or Lazy objects.
+    All nodes used in a render tree should have this class as a base.
+    Leaves in the tree may be strings or Lazy objects.
     """
 
     def __init__(self, *children):
-        """Uses the given arguments to initialize the list which represents the child objects"""
+        """
+        Uses the given arguments to initialize the list which
+        represents the child objects
+        """
         super().__init__(children)
         from . import DEBUG
 
         if DEBUG:
-            # This will add the source location of where this element has been instantiated as a data attributte
-            # and a python attribute _src_location with (filename, linenumber, functionname) to this object
+            # This will add the source location of where this element has
+            # been instantiated as a data attributte and a python attribute
+            # _src_location with (filename, linenumber, functionname) to this object
             for frame in inspect.stack():
                 if frame.function != "__init__":
                     break
@@ -66,22 +72,33 @@ class BaseElement(list):
     def render_children(
         self, context: dict, stringify: bool = True
     ) -> typing.Generator[str, None, None]:
-        """Renders all elements inside the list. Can be used by subclassing elements if they need to controll where child elements are rendered."""
+        """
+        Renders all elements inside the list.
+        Can be used by subclassing elements if they need to controll
+        where child elements are rendered.
+        """
         for element in self:
             yield from self._try_render(element, context, stringify)
 
     def render(
         self, context: dict, stringify: bool = True
     ) -> typing.Generator[str, None, None]:
-        """Renders this element and its children. Can be overwritten by subclassing elements."""
+        """
+        Renders this element and its children.
+        Can be overwritten by subclassing elements.
+        """
         yield from self.render_children(context, stringify)
 
     """
     Tree functions
-    Tree functions can be used to modify or gathering information from the sub-tree of a BaseElement.
-    Tree functions walk the tree with the calling BaseElement as root. The root is not walked itself.
-    Tree functions always take an argument filter_func which has the signature (element, ancestors) => bool where ancestors is a tuple of all elements
-    filter_func will determine which Child elements inside the sub-tree should be considered.
+    Tree functions can be used to modify or gathering information from
+    the sub-tree of a BaseElement.
+    Tree functions walk the tree with the calling BaseElement as root.
+    The root is not walked itself.
+    Tree functions always take an argument filter_func which has the
+    signature (element, ancestors) => bool where ancestors is a tuple of all elements
+    filter_func will determine which Child elements inside the sub-tree should be
+    considered.
     Tree functions:
     - filter
     - wrap
@@ -94,7 +111,9 @@ class BaseElement(list):
             [BaseElement, typing.Tuple[BaseElement, ...]], bool
         ],
     ) -> typing.Generator[BaseElement, None, None]:
-        """Walks through the tree (including self) and yields each element for which a call to filter_func evaluates to True.
+        """
+        Walks through the tree (including self) and yields each
+        element for which a call to filter_func evaluates to True.
         filter_func expects an element and a tuple of all ancestors as arguments.
         returns: A generater which yields the matching elements
         """
@@ -108,7 +127,9 @@ class BaseElement(list):
         ],
         wrapperelement: BaseElement,
     ) -> list[BaseElement]:
-        """Walks through the tree (including self) and wraps each element for which a call to filter_func evaluates to True.
+        """
+        Walks through the tree (including self) and wraps each element
+        for which a call to filter_func evaluates to True.
         filter_func expects an element and a tuple of all ancestors as arguments.
         wrapper: the element which will wrap the
         """
@@ -128,7 +149,9 @@ class BaseElement(list):
             [BaseElement, typing.Tuple[BaseElement, ...]], bool
         ],
     ) -> list[BaseElement]:
-        """Walks through the tree (including self) and removes each element for which a call to filter_func evaluates to True.
+        """
+        Walks through the tree (including self) and removes each element
+        for which a call to filter_func evaluates to True.
         filter_func expects an element and a tuple of all ancestors as arguments.
         """
 
@@ -184,7 +207,11 @@ class If(BaseElement):
         true_child: BaseElement,
         false_child: typing.Optional[BaseElement] = None,
     ):
-        """condition: Value which determines which child to render (true_child or false_child. Can also be ContextValue or ContextFunction"""
+        """
+        condition: Value which determines which child to render
+                   (true_child or false_child. Can also be ContextValue or
+                   ContextFunction
+        """
         super().__init__(true_child, false_child)
         self.condition = condition
 
@@ -219,9 +246,11 @@ class Iterator(BaseElement):
 class WithContext(BaseElement):
     """
     Pass additional names into the context.
-    The additional context names are namespaced to the current element and its child elements.
+    The additional context names are namespaced to the current element
+    and its child elements.
     It can be helpfull for shadowing or aliasing names in the context.
-    This element is required because context is otherwise only set by the render function and the loop-variable of Iterator which can be limiting.
+    This element is required because context is otherwise only set by the
+    render function and the loop-variable of Iterator which can be limiting.
     """
 
     additional_context: dict = {}
@@ -290,7 +319,8 @@ def html_id(object: typing.Any, prefix: str = "id") -> str:
     # 3. hash: Prevent the leaking of any memory layout information. The python hash
     #         function is hard to reverse (https://en.wikipedia.org/wiki/SipHash)
     # 4. str: Because html-ids need to be strings we convert again to string
-    # 5. [1:]: in order to prevent negative numbers we remove the first character which might be a "-"
+    # 5. [1:]: in order to prevent negative numbers we remove the first character which
+    #          might be a "-"
     _id = prefix + "-" + str(hash(str(id(object))))[1:]
     n = 0
     nid = _id
@@ -350,9 +380,9 @@ def _handle_exception(exception, context):
     context.get(EXCEPTION_HANDLER_NAME, default_handler)(context, message)
 
     yield (
-        ""
-        + '<pre style="border: solid 1px red; color: red; padding: 1rem; background-color: #ffdddd">'
-        + f"    <code>~~~ Exception: {conditional_escape(exception)} ~~~</code>"
-        + "</pre>"
-        + f'<script>alert("Error: {conditional_escape(exception)}")</script>'
+        '<pre style="border: solid 1px red; color: red; padding: 1rem; '
+        'background-color: #ffdddd">'
+        f"    <code>~~~ Exception: {conditional_escape(exception)} ~~~</code>"
+        "</pre>"
+        f'<script>alert("Error: {conditional_escape(exception)}")</script>'
     )
