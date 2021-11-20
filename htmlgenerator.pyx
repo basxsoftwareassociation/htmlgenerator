@@ -72,6 +72,26 @@ cdef class ContextFunction(Lazy):
 C = ContextValue
 F = ContextFunction
 
+
+cdef str _try_render(object element, dict context):
+    """Renders an element to a string
+    """
+    try:
+        while isinstance(element, Lazy):
+            element = element.resolve(context)
+
+        if isinstance(element, BaseElement):
+            return str(element.render(context))
+        elif element is not None:
+            if hasattr(element, "__html__"):
+                return str(element.__html__())
+            else:
+                return html.escape(str(element))
+        return ""
+    except (Exception, RuntimeError) as e:
+        return _handle_exception(e, context)
+
+
 cdef class BaseElement(list):
     """The base render element
     All nodes used in a render tree should have this class as a base.
@@ -85,47 +105,13 @@ cdef class BaseElement(list):
         """
         super(BaseElement, self).__init__(children)
 
-    cdef str _try_render(self, element, dict context):
-        """Renders an element as a generator which yields strings
-        The stringify parameter should normally be true in order return
-        escaped strings. In some circumstances if is however desirable to
-        get the actual value and not a string returned. For such cases
-        stringify can be set to ``False``. An example are HTML attribute values
-        which us a ``hg.If`` element and return ``True`` or ``False`` to dynamically
-        control the appearance of the attribute.
-        The render_children method will use a default of ``True`` for strinfigy.
-        That behaviour should only be overriden by elements which consciously want
-        to be able to return non-string objects during rendering.
-        """
-        try:
-            while isinstance(element, Lazy):
-                element = element.resolve(context)
-
-            if isinstance(element, BaseElement):
-                return str(element.render(context))
-            elif element is not None:
-                if hasattr(element, "__html__"):
-                    return str(element.__html__())
-                else:
-                    return html.escape(str(element))
-            return ""
-        except (Exception, RuntimeError) as e:
-            return _handle_exception(e, context)
-
-    cpdef str render_children(self, dict context):
-        """
-        Renders all elements inside the list.
-        Can be used by subclassing elements if they need to controll
-        where child elements are rendered.
-        """
-        return "".join([self._try_render(element, context) for element in self])
 
     cpdef str render(self, dict context):
         """
         Renders this element and its children.
         Can be overwritten by subclassing elements.
         """
-        return self.render_children(context)
+        return "".join([_try_render(element, context) for element in self])
 
     """
     Tree functions
@@ -235,9 +221,9 @@ cdef class If(BaseElement):
         """The stringy argument can be set to False in order to get a python object
         instead of a rendered string returned. This is usefull when evaluating"""
         if resolve_lazy(self.condition, context):
-            return self._try_render(self[0], context)
+            return _try_render(self[0], context)
         elif len(self) > 1:
-            return self._try_render(self[1], context)
+            return _try_render(self[1], context)
         return ""
 
 
@@ -256,7 +242,7 @@ cdef class Iterator(BaseElement):
         for i, value in enumerate(resolve_lazy(self.iterator, context)):
             context[self.loopvariable] = value
             context[self.loopvariable + "_index"] = i
-            ret.append(self.render_children(context))
+            ret.append(super(Iterator, self).render(context))
         return "".join(ret)
 
 
@@ -340,7 +326,7 @@ class ContextFormatter(string.Formatter):
         self.context = context
 
     def get_value(self, key, args, kwds):
-        return render(BaseElement(super(ContextFormatter, self).get_value(key, args, kwds)), self.context)
+        return BaseElement(super(ContextFormatter, self).get_value(key, args, kwds)).render(self.context)
 
 
 cdef class FormatString(BaseElement):
@@ -413,7 +399,7 @@ cdef class HTMLElement(BaseElement):
         )
         # quirk to prevent tags having a single space if there are no attributes
         attr_str = (" " + attr_str) if attr_str else attr_str
-        return f"<{self.tag}{attr_str}>" + super(HTMLElement, self).render_children(context) + f"</{self.tag}>"
+        return f"<{self.tag}{attr_str}>" + super(HTMLElement, self).render(context) + f"</{self.tag}>"
 
     # mostly for debugging purposes
     def __repr__(self):
@@ -1203,7 +1189,7 @@ cdef str flatattrs(dict attributes, dict context):
     """Converts a dictionary to a string of HTML-attributes.
     Leading underscores are removed and other underscores are replaced with dashes."""
 
-    attlist = []
+    cdef list attlist = []
     for key, value in attributes.items():
         value = resolve_lazy(value, context)
         if isinstance(value, If):
@@ -1340,8 +1326,3 @@ cpdef object resolve_lookup(object context, str lookup, bint call_functions=True
                     raise
 
     return current
-
-# only for API compatability
-def render(root, basecontext):
-    """Shortcut to serialize an object tree into a string"""
-    return root.render(basecontext)
