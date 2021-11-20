@@ -1,9 +1,9 @@
-from setuptools import find_packages, setup
+from setuptools import Extension, setup
 
 with open("README.md") as f:
     long_description = f.read()
 
-with open("htmlgenerator/__init__.py") as f:
+with open("htmlgenerator.pyx") as f:
     # magic n stuff
     version = (
         [i for i in f.readlines() if "__version__" in i][-1]
@@ -11,6 +11,23 @@ with open("htmlgenerator/__init__.py") as f:
         .strip()
         .strip('"')
     )
+
+
+try:
+    from Cython.Build import cythonize
+
+    extensions = cythonize(
+        [
+            Extension("htmlgenerator", ["htmlgenerator.pyx"]),
+        ],
+        language_level=3,
+        annotate=True,
+    )
+except ImportError:
+    extensions = [
+        Extension("htmlgenerator", ["htmlgenerator.c"]),
+    ]
+
 
 setup(
     name="htmlgenerator",
@@ -22,9 +39,9 @@ setup(
     author_email="sam@basx.dev",
     version=version,
     license="New BSD License",
-    packages=find_packages(),
     zip_safe=False,
     include_package_data=True,
+    ext_modules=extensions,
     extras_require={"all": ["black", "beautifulsoup4", "lxml"]},
     entry_points={
         "console_scripts": [

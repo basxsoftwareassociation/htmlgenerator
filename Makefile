@@ -1,5 +1,8 @@
 all: dist upload
 
+build:
+	python setup.py build_ext --inplace
+
 dist: 
 	python3 setup.py sdist bdist_wheel
 
@@ -9,6 +12,8 @@ upload:
 
 clean:
 	rm -rf build dist *.egg-info .eggs
+	rm -f htmlgenerator.c
+	rm -f *.so
 
 raise_and_release_minor_version:
 	git push
