@@ -4,13 +4,19 @@ import inspect
 import string
 import sys
 import traceback
-import typing
-import warnings
 
-# define below if we don't have django
+# copied from django/utils/safestring.py in order to avoid a dependency
+# only for the escaping-functionality
+# this is condensed and doc-strings are removed, please read
+# https://github.com/django/django/blob/master/django/utils/safestring.py
+# for proper documentation
+
+__version__ = "1.1.10"
+
+
 cdef class SafeString(str):
     def __add__(self, rhs):
-        t = super().__add__(rhs)
+        t = super(SafeString, self).__add__(rhs)
         if isinstance(rhs, SafeString):
             return SafeString(t)
         return t
@@ -21,6 +27,7 @@ cdef class SafeString(str):
     def __str__(self):
         return self
 
+
 def mark_safe(s):
     if hasattr(
         s, "__html__"
@@ -29,32 +36,21 @@ def mark_safe(s):
         return s
     return SafeString(s)
 
-def conditional_escape(value):
-    if hasattr(value, "__html__"):
-        return value.__html__()
-    else:
-        return mark_safe(html.escape(str(value)))
-
-
-__version__ = "1.1.10"
-DEBUG = False
-"Must be a function without arguments, will be called when an "
-"exception happens during rendering an element"
-
 
 cdef class Lazy:
     """Lazy values will be evaluated at render time via the resolve method."""
 
-    def resolve(self, context):
+    cpdef object resolve(self, dict context):
         raise NotImplementedError("Lazy needs to be subclassed")
 
 
 cdef class ContextValue(Lazy):
     cdef readonly object value
+
     def __init__(self, value):
         self.value = value
 
-    def resolve(self, context):
+    cpdef object resolve(self, dict context):
         if isinstance(self.value, str):
             return resolve_lookup(context, self.value)
         return self.value
@@ -69,19 +65,12 @@ cdef class ContextFunction(Lazy):
         assert callable(func), "ContextFunction needs to be callable"
         self.func = func
 
-    def resolve(self, context):
+    cpdef object resolve(self, dict context):
         return self.func(context)
 
 
 C = ContextValue
 F = ContextFunction
-
-# copied from django/utils/safestring.py in order to avoid a dependency
-# only for the escaping-functionality
-# this is condensed and doc-strings are removed, please read
-# https://github.com/django/django/blob/master/django/utils/safestring.py
-# for proper documentation
-
 
 cdef class BaseElement(list):
     """The base render element
@@ -94,22 +83,9 @@ cdef class BaseElement(list):
         Uses the given arguments to initialize the list which
         represents the child objects
         """
-        super().__init__(children)
+        super(BaseElement, self).__init__(children)
 
-        if DEBUG:
-            # This will add the source location of where this element has
-            # been instantiated as a data attributte and a python attribute
-            # _src_location with (filename, linenumber, functionname) to this object
-            for frame in inspect.stack():
-                if frame.function != "__init__":
-                    break
-            if hasattr(self, "attributes"):
-                self.attributes[
-                    "data_source_location"
-                ] = f"{frame.filename}:{frame.lineno} in {frame.function}"
-            self._src_location = (frame.filename, frame.lineno, frame.function)
-
-    def _try_render(self, element, context, stringify):
+    cdef str _try_render(self, element, dict context):
         """Renders an element as a generator which yields strings
         The stringify parameter should normally be true in order return
         escaped strings. In some circumstances if is however desirable to
@@ -124,28 +100,32 @@ cdef class BaseElement(list):
         try:
             while isinstance(element, Lazy):
                 element = element.resolve(context)
-            if isinstance(element, BaseElement):
-                yield from element.render(context)
-            elif element is not None:
-                yield conditional_escape(element) if stringify else element
-        except (Exception, RuntimeError) as e:
-            _handle_exception(e, context)
 
-    def render_children(self, context, stringify=True):
+            if isinstance(element, BaseElement):
+                return str(element.render(context))
+            elif element is not None:
+                if hasattr(element, "__html__"):
+                    return str(element.__html__())
+                else:
+                    return html.escape(str(element))
+            return ""
+        except (Exception, RuntimeError) as e:
+            return _handle_exception(e, context)
+
+    cpdef str render_children(self, dict context):
         """
         Renders all elements inside the list.
         Can be used by subclassing elements if they need to controll
         where child elements are rendered.
         """
-        for element in self:
-            yield from self._try_render(element, context, stringify)
+        return "".join([self._try_render(element, context) for element in self])
 
-    def render(self, context, stringify=True):
+    cpdef str render(self, dict context):
         """
         Renders this element and its children.
         Can be overwritten by subclassing elements.
         """
-        yield from self.render_children(context, stringify)
+        return self.render_children(context)
 
     """
     Tree functions
@@ -241,39 +221,43 @@ cdef class BaseElement(list):
 
 cdef class If(BaseElement):
     cdef object condition
-    def __init__(self, condition, true_child, false_child=None):
+
+    def __init__(self, object condition, object true_child, object false_child=None):
         """
         condition: Value which determines which child to render
                    (true_child or false_child. Can also be ContextValue or
                    ContextFunction
         """
-        super().__init__(true_child, false_child)
+        super(If, self).__init__(true_child, false_child)
         self.condition = condition
 
-    def render(self, context, stringify=True):
+    cpdef str render(self, dict context):
         """The stringy argument can be set to False in order to get a python object
         instead of a rendered string returned. This is usefull when evaluating"""
         if resolve_lazy(self.condition, context):
-            yield from self._try_render(self[0], context, stringify)
+            return self._try_render(self[0], context)
         elif len(self) > 1:
-            yield from self._try_render(self[1], context, stringify)
+            return self._try_render(self[1], context)
+        return ""
 
 
 cdef class Iterator(BaseElement):
     cdef readonly object iterator
     cdef readonly str loopvariable
 
-    def __init__(self, iterator, loopvariable, content):
+    def __init__(self, object iterator, str loopvariable, object content):
         self.iterator = iterator
         self.loopvariable = loopvariable
-        super().__init__(content)
+        super(Iterator, self).__init__(content)
 
-    def render(self, context, stringify=True):
+    cpdef str render(self, dict context):
         context = dict(context)
+        ret = []
         for i, value in enumerate(resolve_lazy(self.iterator, context)):
             context[self.loopvariable] = value
             context[self.loopvariable + "_index"] = i
-            yield from self.render_children(context, stringify)
+            ret.append(self.render_children(context))
+        return "".join(ret)
 
 
 cdef class WithContext(BaseElement):
@@ -290,10 +274,10 @@ cdef class WithContext(BaseElement):
 
     def __init__(self, *children, **kwargs):
         self.additional_context = kwargs
-        super().__init__(*children)
+        super(WithContext, self).__init__(*children)
 
-    def render(self, context):
-        return super().render({**context, **self.additional_context})
+    cpdef str render(self, dict context):
+        return super(WithContext, self).render({**context, **self.additional_context})
 
 
 def treewalk(element, ancestors, filter_func, apply=None):
@@ -325,7 +309,7 @@ def treewalk(element, ancestors, filter_func, apply=None):
 html_id_cache = set()
 
 
-def html_id(object, prefix="id"):
+cpdef str html_id(object object, str prefix="id"):
     """Generate a unique HTML id from an object"""
     # Explanation of the chained call:
     # 1. id: We want a guaranteed unique ID. Since the lifespan of an HTML-response is
@@ -352,11 +336,11 @@ def html_id(object, prefix="id"):
 
 class ContextFormatter(string.Formatter):
     def __init__(self, context):
-        super().__init__()
+        super(ContextFormatter, self).__init__()
         self.context = context
 
     def get_value(self, key, args, kwds):
-        return render(BaseElement(super().get_value(key, args, kwds)), self.context)
+        return render(BaseElement(super(ContextFormatter, self).get_value(key, args, kwds)), self.context)
 
 
 cdef class FormatString(BaseElement):
@@ -364,11 +348,11 @@ cdef class FormatString(BaseElement):
     cdef dict kwargs
 
     def __init__(self, *args, **kwargs):
-        super().__init__()
+        super(FormatString, self).__init__()
         self.args = args
         self.kwargs = kwargs
 
-    def render(self, context):
+    cpdef str render(self, dict context):
         return ContextFormatter(context).format(*self.args, **self.kwargs)
 
 
@@ -396,12 +380,12 @@ def _handle_exception(exception, context):
 
     default_handler(context, message)
 
-    yield (
+    return (
         '<pre style="border: solid 1px red; color: red; padding: 1rem; '
         'background-color: #ffdddd">'
-        f"    <code>~~~ Exception: {conditional_escape(exception)} ~~~</code>"
+        f"    <code>~~~ Exception: {html.escape(str(exception))} ~~~</code>"
         "</pre>"
-        f'<script>alert("Error: {conditional_escape(exception)}")</script>'
+        f'<script>alert("Error: {html.escape(str(exception))}")</script>'
     )
 
 
@@ -416,10 +400,10 @@ cdef class HTMLElement(BaseElement):
         self, *children, lazy_attributes=None, **attributes
     ):
         self.attributes = attributes
-        super().__init__(*children)
+        super(HTMLElement, self).__init__(*children)
         self.lazy_attributes = lazy_attributes
 
-    def render(self, context):
+    cpdef str render(self, dict context):
         attr_str = flatattrs(
             {
                 **self.attributes,
@@ -429,9 +413,7 @@ cdef class HTMLElement(BaseElement):
         )
         # quirk to prevent tags having a single space if there are no attributes
         attr_str = (" " + attr_str) if attr_str else attr_str
-        yield f"<{self.tag}{attr_str}>"
-        yield from super().render_children(context)
-        yield f"</{self.tag}>"
+        return f"<{self.tag}{attr_str}>" + super(HTMLElement, self).render_children(context) + f"</{self.tag}>"
 
     # mostly for debugging purposes
     def __repr__(self):
@@ -447,10 +429,10 @@ cdef class VoidElement(HTMLElement):
 
     # does not accept children
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        super(VoidElement, self).__init__(**kwargs)
 
-    def render(self, context):
-        yield f"<{self.tag} {flatattrs(self.attributes, context)} />"
+    cpdef str render(self, dict context):
+        return f"<{self.tag} {flatattrs(self.attributes, context)} />"
 
 
 cdef class A(HTMLElement):
@@ -461,7 +443,7 @@ cdef class A(HTMLElement):
         if newtab:
             kwargs["target"] = "_blank"
             kwargs["rel"] = "noopener noreferrer"
-        super().__init__(*args, **kwargs)
+        super(A, self).__init__(*args, **kwargs)
 
 
 cdef class ABBR(HTMLElement):
@@ -759,7 +741,7 @@ cdef class HEAD(HTMLElement):
         self.tag = "head"
 
     def __init__(self, *children):
-        super().__init__(
+        super(HEAD, self).__init__(
             META(charset="utf-8"),
             META(name="viewport", content="width=device-width, initial-scale=1.0"),
             *children,
@@ -782,13 +764,19 @@ cdef class HR(VoidElement):
 
 
 cdef class HTML(HTMLElement):
+    cdef bint doctype
+
     def __cinit__(self, *args, **kwargs):
         self.tag = "html"
 
-    def __init__(self, *args, doctype=False, **kwargs):
-        if doctype:
-            args += ("<!DOCTYPE html>",)
-        super().__init__(*args, **kwargs)
+    def __init__(self, *args, bint doctype=False, **kwargs):
+        self.doctype = doctype
+        super(HTML, self).__init__(*args, **kwargs)
+
+    cpdef str render(self, dict context):
+        if self.doctype:
+            return mark_safe("<!DOCTYPE html>") + super(HTML, self).render(context)
+        return super(HTML, self).render(context)
 
 
 cdef class I(HTMLElement):  # noqa
@@ -1211,7 +1199,7 @@ cdef class XMP(HTMLElement):
         self.tag = "xmp"
 
 
-def flatattrs(attributes, context):
+cdef str flatattrs(dict attributes, dict context):
     """Converts a dictionary to a string of HTML-attributes.
     Leading underscores are removed and other underscores are replaced with dashes."""
 
@@ -1219,7 +1207,7 @@ def flatattrs(attributes, context):
     for key, value in attributes.items():
         value = resolve_lazy(value, context)
         if isinstance(value, If):
-            rendered = list(value.render(context, stringify=False))
+            rendered = list(value.render(context))
             if len(rendered) == 1 and isinstance(rendered[0], bool):
                 value = rendered[0]
             else:
@@ -1284,7 +1272,7 @@ def append_attribute(attrs, key, value, separator=None):
         attrs[key] = value
 
 
-def resolve_lazy(value, context):
+cpdef object resolve_lazy(object value, dict context):
     """Shortcut to resolve a value in case it is a Lazy value"""
 
     while isinstance(value, Lazy):
@@ -1305,7 +1293,7 @@ def getattr_lazy(lazyobject, attr):
     return F(wrapper)
 
 
-def resolve_lookup(context, lookup, call_functions=True):
+cpdef object resolve_lookup(object context, str lookup, bint call_functions=True):
     """
     Helper function to extract a value out of a context-dict.
     A lookup string can access attributes, dict-keys, methods without
@@ -1353,6 +1341,7 @@ def resolve_lookup(context, lookup, call_functions=True):
 
     return current
 
+# only for API compatability
 def render(root, basecontext):
     """Shortcut to serialize an object tree into a string"""
-    return "".join(root.render(basecontext))
+    return root.render(basecontext)
