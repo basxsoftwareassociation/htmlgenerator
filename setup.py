@@ -18,14 +18,20 @@ try:
 
     extensions = cythonize(
         [
-            Extension("htmlgenerator", ["htmlgenerator.pyx"]),
+            Extension(
+                "htmlgenerator",
+                ["htmlgenerator.pyx"],
+            ),
         ],
         language_level=3,
         annotate=True,
     )
 except ImportError:
     extensions = [
-        Extension("htmlgenerator", ["htmlgenerator.c"]),
+        Extension(
+            "htmlgenerator",
+            ["htmlgenerator.c"],
+        ),
     ]
 
 

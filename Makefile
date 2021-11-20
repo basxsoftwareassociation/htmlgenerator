@@ -1,7 +1,7 @@
 all: dist upload
 
 build:
-	python setup.py build_ext --inplace
+	. .venv/bin/activate && python setup.py build_ext --inplace
 
 dist: 
 	python3 setup.py sdist bdist_wheel
