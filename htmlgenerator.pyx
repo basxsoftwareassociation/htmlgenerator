@@ -1326,3 +1326,8 @@ cpdef object resolve_lookup(object context, str lookup, bint call_functions=True
                     raise
 
     return current
+
+# API compatability
+
+def render(element, context):
+    return element.render(context)

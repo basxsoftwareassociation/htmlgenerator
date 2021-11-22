@@ -7790,17 +7790,18 @@ static PyObject *__pyx_pf_13htmlgenerator_13resolve_lazy(CYTHON_UNUSED PyObject 
 static PyObject *__pyx_pf_13htmlgenerator_12getattr_lazy_wrapper(PyObject *__pyx_self, PyObject *__pyx_v_c); /* proto */
 static PyObject *__pyx_pf_13htmlgenerator_15getattr_lazy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lazyobject, PyObject *__pyx_v_attr); /* proto */
 static PyObject *__pyx_pf_13htmlgenerator_17resolve_lookup(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_context, PyObject *__pyx_v_lookup, int __pyx_v_call_functions); /* proto */
-static PyObject *__pyx_pf_13htmlgenerator_19__pyx_unpickle_SafeString(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_13htmlgenerator_21__pyx_unpickle_Lazy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_13htmlgenerator_23__pyx_unpickle_ContextValue(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_13htmlgenerator_25__pyx_unpickle_ContextFunction(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_13htmlgenerator_27__pyx_unpickle_BaseElement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_13htmlgenerator_29__pyx_unpickle_If(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_13htmlgenerator_31__pyx_unpickle_Iterator(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_13htmlgenerator_33__pyx_unpickle_WithContext(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_13htmlgenerator_35__pyx_unpickle_FormatString(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_13htmlgenerator_37__pyx_unpickle_HTMLElement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_13htmlgenerator_39__pyx_unpickle_VoidElement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_13htmlgenerator_19render(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_element, PyObject *__pyx_v_context); /* proto */
+static PyObject *__pyx_pf_13htmlgenerator_21__pyx_unpickle_SafeString(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_13htmlgenerator_23__pyx_unpickle_Lazy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_13htmlgenerator_25__pyx_unpickle_ContextValue(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_13htmlgenerator_27__pyx_unpickle_ContextFunction(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_13htmlgenerator_29__pyx_unpickle_BaseElement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_13htmlgenerator_31__pyx_unpickle_If(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_13htmlgenerator_33__pyx_unpickle_Iterator(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_13htmlgenerator_35__pyx_unpickle_WithContext(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_13htmlgenerator_37__pyx_unpickle_FormatString(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_13htmlgenerator_39__pyx_unpickle_HTMLElement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_13htmlgenerator_41__pyx_unpickle_VoidElement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_13htmlgenerator_SafeString(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_13htmlgenerator_Lazy(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_13htmlgenerator_ContextValue(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -8305,6 +8306,7 @@ static PyObject *__pyx_tuple__357;
 static PyObject *__pyx_tuple__359;
 static PyObject *__pyx_tuple__361;
 static PyObject *__pyx_tuple__363;
+static PyObject *__pyx_tuple__365;
 static PyObject *__pyx_codeobj__12;
 static PyObject *__pyx_codeobj__324;
 static PyObject *__pyx_codeobj__326;
@@ -8326,6 +8328,7 @@ static PyObject *__pyx_codeobj__358;
 static PyObject *__pyx_codeobj__360;
 static PyObject *__pyx_codeobj__362;
 static PyObject *__pyx_codeobj__364;
+static PyObject *__pyx_codeobj__366;
 /* Late includes */
 
 /* "htmlgenerator.pyx":18
@@ -48984,6 +48987,8 @@ static PyObject *__pyx_f_13htmlgenerator_resolve_lookup(PyObject *__pyx_v_contex
  *                     raise
  * 
  *     return current             # <<<<<<<<<<<<<<
+ * 
+ * # API compatability
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_current);
@@ -49138,6 +49143,136 @@ static PyObject *__pyx_pf_13htmlgenerator_17resolve_lookup(CYTHON_UNUSED PyObjec
   return __pyx_r;
 }
 
+/* "htmlgenerator.pyx":1332
+ * # API compatability
+ * 
+ * def render(element, context):             # <<<<<<<<<<<<<<
+ *     return element.render(context)
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_13htmlgenerator_20render(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_13htmlgenerator_20render = {"render", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_20render, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_13htmlgenerator_20render(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_element = 0;
+  PyObject *__pyx_v_context = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("render (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_element,&__pyx_n_s_context,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_element)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_context)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("render", 1, 2, 2, 1); __PYX_ERR(0, 1332, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "render") < 0)) __PYX_ERR(0, 1332, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_element = values[0];
+    __pyx_v_context = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("render", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1332, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("htmlgenerator.render", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_13htmlgenerator_19render(__pyx_self, __pyx_v_element, __pyx_v_context);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_13htmlgenerator_19render(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_element, PyObject *__pyx_v_context) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("render", 0);
+
+  /* "htmlgenerator.pyx":1333
+ * 
+ * def render(element, context):
+ *     return element.render(context)             # <<<<<<<<<<<<<<
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_element, __pyx_n_s_render); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1333, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_context) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_context);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1333, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "htmlgenerator.pyx":1332
+ * # API compatability
+ * 
+ * def render(element, context):             # <<<<<<<<<<<<<<
+ *     return element.render(context)
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("htmlgenerator.render", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "(tree fragment)":1
  * def __pyx_unpickle_SafeString(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
@@ -49145,9 +49280,9 @@ static PyObject *__pyx_pf_13htmlgenerator_17resolve_lookup(CYTHON_UNUSED PyObjec
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13htmlgenerator_20__pyx_unpickle_SafeString(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_13htmlgenerator_20__pyx_unpickle_SafeString = {"__pyx_unpickle_SafeString", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_20__pyx_unpickle_SafeString, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_13htmlgenerator_20__pyx_unpickle_SafeString(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_13htmlgenerator_22__pyx_unpickle_SafeString(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_13htmlgenerator_22__pyx_unpickle_SafeString = {"__pyx_unpickle_SafeString", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_22__pyx_unpickle_SafeString, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_13htmlgenerator_22__pyx_unpickle_SafeString(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -49213,14 +49348,14 @@ static PyObject *__pyx_pw_13htmlgenerator_20__pyx_unpickle_SafeString(PyObject *
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_13htmlgenerator_19__pyx_unpickle_SafeString(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_13htmlgenerator_21__pyx_unpickle_SafeString(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13htmlgenerator_19__pyx_unpickle_SafeString(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_13htmlgenerator_21__pyx_unpickle_SafeString(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -49523,9 +49658,9 @@ static PyObject *__pyx_f_13htmlgenerator___pyx_unpickle_SafeString__set_state(st
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13htmlgenerator_22__pyx_unpickle_Lazy(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_13htmlgenerator_22__pyx_unpickle_Lazy = {"__pyx_unpickle_Lazy", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_22__pyx_unpickle_Lazy, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_13htmlgenerator_22__pyx_unpickle_Lazy(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_13htmlgenerator_24__pyx_unpickle_Lazy(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_13htmlgenerator_24__pyx_unpickle_Lazy = {"__pyx_unpickle_Lazy", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_24__pyx_unpickle_Lazy, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_13htmlgenerator_24__pyx_unpickle_Lazy(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -49591,14 +49726,14 @@ static PyObject *__pyx_pw_13htmlgenerator_22__pyx_unpickle_Lazy(PyObject *__pyx_
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_13htmlgenerator_21__pyx_unpickle_Lazy(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_13htmlgenerator_23__pyx_unpickle_Lazy(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13htmlgenerator_21__pyx_unpickle_Lazy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_13htmlgenerator_23__pyx_unpickle_Lazy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -49901,9 +50036,9 @@ static PyObject *__pyx_f_13htmlgenerator___pyx_unpickle_Lazy__set_state(struct _
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13htmlgenerator_24__pyx_unpickle_ContextValue(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_13htmlgenerator_24__pyx_unpickle_ContextValue = {"__pyx_unpickle_ContextValue", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_24__pyx_unpickle_ContextValue, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_13htmlgenerator_24__pyx_unpickle_ContextValue(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_13htmlgenerator_26__pyx_unpickle_ContextValue(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_13htmlgenerator_26__pyx_unpickle_ContextValue = {"__pyx_unpickle_ContextValue", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_26__pyx_unpickle_ContextValue, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_13htmlgenerator_26__pyx_unpickle_ContextValue(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -49969,14 +50104,14 @@ static PyObject *__pyx_pw_13htmlgenerator_24__pyx_unpickle_ContextValue(PyObject
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_13htmlgenerator_23__pyx_unpickle_ContextValue(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_13htmlgenerator_25__pyx_unpickle_ContextValue(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13htmlgenerator_23__pyx_unpickle_ContextValue(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_13htmlgenerator_25__pyx_unpickle_ContextValue(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -50298,9 +50433,9 @@ static PyObject *__pyx_f_13htmlgenerator___pyx_unpickle_ContextValue__set_state(
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13htmlgenerator_26__pyx_unpickle_ContextFunction(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_13htmlgenerator_26__pyx_unpickle_ContextFunction = {"__pyx_unpickle_ContextFunction", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_26__pyx_unpickle_ContextFunction, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_13htmlgenerator_26__pyx_unpickle_ContextFunction(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_13htmlgenerator_28__pyx_unpickle_ContextFunction(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_13htmlgenerator_28__pyx_unpickle_ContextFunction = {"__pyx_unpickle_ContextFunction", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_28__pyx_unpickle_ContextFunction, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_13htmlgenerator_28__pyx_unpickle_ContextFunction(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -50366,14 +50501,14 @@ static PyObject *__pyx_pw_13htmlgenerator_26__pyx_unpickle_ContextFunction(PyObj
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_13htmlgenerator_25__pyx_unpickle_ContextFunction(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_13htmlgenerator_27__pyx_unpickle_ContextFunction(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13htmlgenerator_25__pyx_unpickle_ContextFunction(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_13htmlgenerator_27__pyx_unpickle_ContextFunction(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -50695,9 +50830,9 @@ static PyObject *__pyx_f_13htmlgenerator___pyx_unpickle_ContextFunction__set_sta
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13htmlgenerator_28__pyx_unpickle_BaseElement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_13htmlgenerator_28__pyx_unpickle_BaseElement = {"__pyx_unpickle_BaseElement", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_28__pyx_unpickle_BaseElement, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_13htmlgenerator_28__pyx_unpickle_BaseElement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_13htmlgenerator_30__pyx_unpickle_BaseElement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_13htmlgenerator_30__pyx_unpickle_BaseElement = {"__pyx_unpickle_BaseElement", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_30__pyx_unpickle_BaseElement, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_13htmlgenerator_30__pyx_unpickle_BaseElement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -50763,14 +50898,14 @@ static PyObject *__pyx_pw_13htmlgenerator_28__pyx_unpickle_BaseElement(PyObject 
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_13htmlgenerator_27__pyx_unpickle_BaseElement(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_13htmlgenerator_29__pyx_unpickle_BaseElement(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13htmlgenerator_27__pyx_unpickle_BaseElement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_13htmlgenerator_29__pyx_unpickle_BaseElement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -51073,9 +51208,9 @@ static PyObject *__pyx_f_13htmlgenerator___pyx_unpickle_BaseElement__set_state(s
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13htmlgenerator_30__pyx_unpickle_If(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_13htmlgenerator_30__pyx_unpickle_If = {"__pyx_unpickle_If", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_30__pyx_unpickle_If, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_13htmlgenerator_30__pyx_unpickle_If(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_13htmlgenerator_32__pyx_unpickle_If(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_13htmlgenerator_32__pyx_unpickle_If = {"__pyx_unpickle_If", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_32__pyx_unpickle_If, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_13htmlgenerator_32__pyx_unpickle_If(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -51141,14 +51276,14 @@ static PyObject *__pyx_pw_13htmlgenerator_30__pyx_unpickle_If(PyObject *__pyx_se
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_13htmlgenerator_29__pyx_unpickle_If(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_13htmlgenerator_31__pyx_unpickle_If(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13htmlgenerator_29__pyx_unpickle_If(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_13htmlgenerator_31__pyx_unpickle_If(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -51470,9 +51605,9 @@ static PyObject *__pyx_f_13htmlgenerator___pyx_unpickle_If__set_state(struct __p
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13htmlgenerator_32__pyx_unpickle_Iterator(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_13htmlgenerator_32__pyx_unpickle_Iterator = {"__pyx_unpickle_Iterator", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_32__pyx_unpickle_Iterator, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_13htmlgenerator_32__pyx_unpickle_Iterator(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_13htmlgenerator_34__pyx_unpickle_Iterator(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_13htmlgenerator_34__pyx_unpickle_Iterator = {"__pyx_unpickle_Iterator", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_34__pyx_unpickle_Iterator, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_13htmlgenerator_34__pyx_unpickle_Iterator(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -51538,14 +51673,14 @@ static PyObject *__pyx_pw_13htmlgenerator_32__pyx_unpickle_Iterator(PyObject *__
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_13htmlgenerator_31__pyx_unpickle_Iterator(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_13htmlgenerator_33__pyx_unpickle_Iterator(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13htmlgenerator_31__pyx_unpickle_Iterator(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_13htmlgenerator_33__pyx_unpickle_Iterator(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -51879,9 +52014,9 @@ static PyObject *__pyx_f_13htmlgenerator___pyx_unpickle_Iterator__set_state(stru
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13htmlgenerator_34__pyx_unpickle_WithContext(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_13htmlgenerator_34__pyx_unpickle_WithContext = {"__pyx_unpickle_WithContext", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_34__pyx_unpickle_WithContext, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_13htmlgenerator_34__pyx_unpickle_WithContext(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_13htmlgenerator_36__pyx_unpickle_WithContext(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_13htmlgenerator_36__pyx_unpickle_WithContext = {"__pyx_unpickle_WithContext", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_36__pyx_unpickle_WithContext, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_13htmlgenerator_36__pyx_unpickle_WithContext(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -51947,14 +52082,14 @@ static PyObject *__pyx_pw_13htmlgenerator_34__pyx_unpickle_WithContext(PyObject 
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_13htmlgenerator_33__pyx_unpickle_WithContext(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_13htmlgenerator_35__pyx_unpickle_WithContext(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13htmlgenerator_33__pyx_unpickle_WithContext(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_13htmlgenerator_35__pyx_unpickle_WithContext(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -52277,9 +52412,9 @@ static PyObject *__pyx_f_13htmlgenerator___pyx_unpickle_WithContext__set_state(s
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13htmlgenerator_36__pyx_unpickle_FormatString(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_13htmlgenerator_36__pyx_unpickle_FormatString = {"__pyx_unpickle_FormatString", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_36__pyx_unpickle_FormatString, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_13htmlgenerator_36__pyx_unpickle_FormatString(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_13htmlgenerator_38__pyx_unpickle_FormatString(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_13htmlgenerator_38__pyx_unpickle_FormatString = {"__pyx_unpickle_FormatString", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_38__pyx_unpickle_FormatString, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_13htmlgenerator_38__pyx_unpickle_FormatString(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -52345,14 +52480,14 @@ static PyObject *__pyx_pw_13htmlgenerator_36__pyx_unpickle_FormatString(PyObject
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_13htmlgenerator_35__pyx_unpickle_FormatString(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_13htmlgenerator_37__pyx_unpickle_FormatString(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13htmlgenerator_35__pyx_unpickle_FormatString(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_13htmlgenerator_37__pyx_unpickle_FormatString(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -52687,9 +52822,9 @@ static PyObject *__pyx_f_13htmlgenerator___pyx_unpickle_FormatString__set_state(
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13htmlgenerator_38__pyx_unpickle_HTMLElement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_13htmlgenerator_38__pyx_unpickle_HTMLElement = {"__pyx_unpickle_HTMLElement", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_38__pyx_unpickle_HTMLElement, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_13htmlgenerator_38__pyx_unpickle_HTMLElement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_13htmlgenerator_40__pyx_unpickle_HTMLElement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_13htmlgenerator_40__pyx_unpickle_HTMLElement = {"__pyx_unpickle_HTMLElement", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_40__pyx_unpickle_HTMLElement, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_13htmlgenerator_40__pyx_unpickle_HTMLElement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -52755,14 +52890,14 @@ static PyObject *__pyx_pw_13htmlgenerator_38__pyx_unpickle_HTMLElement(PyObject 
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_13htmlgenerator_37__pyx_unpickle_HTMLElement(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_13htmlgenerator_39__pyx_unpickle_HTMLElement(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13htmlgenerator_37__pyx_unpickle_HTMLElement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_13htmlgenerator_39__pyx_unpickle_HTMLElement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -53108,9 +53243,9 @@ static PyObject *__pyx_f_13htmlgenerator___pyx_unpickle_HTMLElement__set_state(s
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_13htmlgenerator_40__pyx_unpickle_VoidElement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_13htmlgenerator_40__pyx_unpickle_VoidElement = {"__pyx_unpickle_VoidElement", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_40__pyx_unpickle_VoidElement, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_13htmlgenerator_40__pyx_unpickle_VoidElement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_13htmlgenerator_42__pyx_unpickle_VoidElement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_13htmlgenerator_42__pyx_unpickle_VoidElement = {"__pyx_unpickle_VoidElement", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_13htmlgenerator_42__pyx_unpickle_VoidElement, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_13htmlgenerator_42__pyx_unpickle_VoidElement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -53176,14 +53311,14 @@ static PyObject *__pyx_pw_13htmlgenerator_40__pyx_unpickle_VoidElement(PyObject 
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_13htmlgenerator_39__pyx_unpickle_VoidElement(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_13htmlgenerator_41__pyx_unpickle_VoidElement(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_13htmlgenerator_39__pyx_unpickle_VoidElement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_13htmlgenerator_41__pyx_unpickle_VoidElement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -73585,55 +73720,66 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__341);
   __pyx_codeobj__342 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__341, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_htmlgenerator_pyx, __pyx_n_s_getattr_lazy, 1269, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__342)) __PYX_ERR(0, 1269, __pyx_L1_error)
 
+  /* "htmlgenerator.pyx":1332
+ * # API compatability
+ * 
+ * def render(element, context):             # <<<<<<<<<<<<<<
+ *     return element.render(context)
+ */
+  __pyx_tuple__343 = PyTuple_Pack(2, __pyx_n_s_element, __pyx_n_s_context); if (unlikely(!__pyx_tuple__343)) __PYX_ERR(0, 1332, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__343);
+  __Pyx_GIVEREF(__pyx_tuple__343);
+  __pyx_codeobj__344 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__343, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_htmlgenerator_pyx, __pyx_n_s_render, 1332, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__344)) __PYX_ERR(0, 1332, __pyx_L1_error)
+
   /* "(tree fragment)":1
  * def __pyx_unpickle_SafeString(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_tuple__343 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__343)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__343);
-  __Pyx_GIVEREF(__pyx_tuple__343);
-  __pyx_codeobj__344 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__343, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_SafeString, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__344)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_tuple__345 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__345)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__345);
   __Pyx_GIVEREF(__pyx_tuple__345);
-  __pyx_codeobj__346 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__345, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Lazy, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__346)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_codeobj__346 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__345, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_SafeString, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__346)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_tuple__347 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__347)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__347);
   __Pyx_GIVEREF(__pyx_tuple__347);
-  __pyx_codeobj__348 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__347, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_ContextValue, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__348)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_codeobj__348 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__347, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Lazy, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__348)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_tuple__349 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__349)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__349);
   __Pyx_GIVEREF(__pyx_tuple__349);
-  __pyx_codeobj__350 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__349, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_ContextFunction, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__350)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_codeobj__350 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__349, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_ContextValue, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__350)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_tuple__351 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__351)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__351);
   __Pyx_GIVEREF(__pyx_tuple__351);
-  __pyx_codeobj__352 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__351, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_BaseElement, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__352)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_codeobj__352 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__351, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_ContextFunction, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__352)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_tuple__353 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__353)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__353);
   __Pyx_GIVEREF(__pyx_tuple__353);
-  __pyx_codeobj__354 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__353, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_If, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__354)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_codeobj__354 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__353, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_BaseElement, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__354)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_tuple__355 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__355)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__355);
   __Pyx_GIVEREF(__pyx_tuple__355);
-  __pyx_codeobj__356 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__355, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Iterator, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__356)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_codeobj__356 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__355, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_If, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__356)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_tuple__357 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__357)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__357);
   __Pyx_GIVEREF(__pyx_tuple__357);
-  __pyx_codeobj__358 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__357, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_WithContext, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__358)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_codeobj__358 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__357, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Iterator, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__358)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_tuple__359 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__359)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__359);
   __Pyx_GIVEREF(__pyx_tuple__359);
-  __pyx_codeobj__360 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__359, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_FormatString, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__360)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_codeobj__360 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__359, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_WithContext, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__360)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_tuple__361 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__361)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__361);
   __Pyx_GIVEREF(__pyx_tuple__361);
-  __pyx_codeobj__362 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__361, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_HTMLElement, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__362)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_codeobj__362 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__361, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_FormatString, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__362)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_tuple__363 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__363)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__363);
   __Pyx_GIVEREF(__pyx_tuple__363);
-  __pyx_codeobj__364 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__363, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_VoidElement, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__364)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_codeobj__364 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__363, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_HTMLElement, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__364)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__365 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__365)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__365);
+  __Pyx_GIVEREF(__pyx_tuple__365);
+  __pyx_codeobj__366 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__365, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_VoidElement, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__366)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -76472,12 +76618,23 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_getattr_lazy, __pyx_t_1) < 0) __PYX_ERR(0, 1269, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
+  /* "htmlgenerator.pyx":1332
+ * # API compatability
+ * 
+ * def render(element, context):             # <<<<<<<<<<<<<<
+ *     return element.render(context)
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_20render, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1332, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_render, __pyx_t_1) < 0) __PYX_ERR(0, 1332, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
   /* "(tree fragment)":1
  * def __pyx_unpickle_SafeString(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_20__pyx_unpickle_SafeString, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_22__pyx_unpickle_SafeString, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_SafeString, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -76489,7 +76646,7 @@ if (!__Pyx_RefNanny) {
  *     if len(__pyx_state) > 0 and hasattr(__pyx_result, '__dict__'):
  *         __pyx_result.__dict__.update(__pyx_state[0])
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_22__pyx_unpickle_Lazy, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_24__pyx_unpickle_Lazy, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Lazy, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -76499,7 +76656,7 @@ if (!__Pyx_RefNanny) {
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_24__pyx_unpickle_ContextValue, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_26__pyx_unpickle_ContextValue, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_ContextValue, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -76511,7 +76668,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.value = __pyx_state[0]
  *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_26__pyx_unpickle_ContextFunction, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_28__pyx_unpickle_ContextFunction, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_ContextFunction, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -76521,7 +76678,7 @@ if (!__Pyx_RefNanny) {
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_28__pyx_unpickle_BaseElement, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_30__pyx_unpickle_BaseElement, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_BaseElement, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -76533,7 +76690,7 @@ if (!__Pyx_RefNanny) {
  *     if len(__pyx_state) > 0 and hasattr(__pyx_result, '__dict__'):
  *         __pyx_result.__dict__.update(__pyx_state[0])
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_30__pyx_unpickle_If, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_32__pyx_unpickle_If, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_If, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -76543,7 +76700,7 @@ if (!__Pyx_RefNanny) {
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_32__pyx_unpickle_Iterator, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_34__pyx_unpickle_Iterator, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Iterator, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -76555,7 +76712,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.iterator = __pyx_state[0]; __pyx_result.loopvariable = __pyx_state[1]
  *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_34__pyx_unpickle_WithContext, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_36__pyx_unpickle_WithContext, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_WithContext, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -76565,7 +76722,7 @@ if (!__Pyx_RefNanny) {
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_36__pyx_unpickle_FormatString, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_38__pyx_unpickle_FormatString, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_FormatString, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -76577,7 +76734,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.args = __pyx_state[0]; __pyx_result.kwargs = __pyx_state[1]
  *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_38__pyx_unpickle_HTMLElement, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_40__pyx_unpickle_HTMLElement, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_HTMLElement, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -76587,7 +76744,7 @@ if (!__Pyx_RefNanny) {
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_40__pyx_unpickle_VoidElement, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_13htmlgenerator_42__pyx_unpickle_VoidElement, NULL, __pyx_n_s_htmlgenerator); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_VoidElement, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
