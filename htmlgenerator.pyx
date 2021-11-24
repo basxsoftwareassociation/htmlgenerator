@@ -1193,12 +1193,14 @@ cdef str flatattrs(dict attributes, dict context):
     for key, value in attributes.items():
         value = resolve_lazy(value, context)
         if isinstance(value, If):
-            rendered = list(value.render(context))
-            if len(rendered) == 1 and isinstance(rendered[0], bool):
-                value = rendered[0]
-            else:
-                rendered = list(value.render(context))
-                value = "".join(rendered) if rendered else None
+            rendered = value.render(context)
+            value = {
+                "true": True,
+                "false": False,
+                None: False,
+                0: False,
+                1: True
+            }.get(rendered.lower(), rendered)
         elif isinstance(value, BaseElement):
             rendered = list(value.render(context))
             value = "".join(rendered) if rendered else None
