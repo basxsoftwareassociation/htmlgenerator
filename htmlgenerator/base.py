@@ -67,7 +67,7 @@ class BaseElement(list):
             elif element is not None:
                 yield conditional_escape(element) if stringify else element
         except (Exception, RuntimeError) as e:
-            _handle_exception(e, context)
+            yield from _handle_exception(e, context)
 
     def render_children(
         self, context: dict, stringify: bool = True
