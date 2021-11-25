@@ -354,13 +354,16 @@ def _handle_exception(exception, context):
     last_obj = None
     indent = 0
     message = []
-    for i in traceback.StackSummary.extract(
-        traceback.walk_tb(sys.exc_info()[2]), capture_locals=True
-    ):
-        if i.locals is not None and "self" in i.locals and i.locals["self"] != last_obj:
-            message.append(" " * indent + str(i.locals["self"]))
-            last_obj = i.locals["self"]
-            indent += 2
+    try:
+        for i in traceback.StackSummary.extract(
+            traceback.walk_tb(sys.exc_info()[2]), capture_locals=True
+        ):
+            if i.locals is not None and "self" in i.locals and i.locals["self"] != last_obj:
+                message.append(" " * indent + str(i.locals["self"]))
+                last_obj = i.locals["self"]
+                indent += 2
+    except Exception as e:
+        message.append(str(e))
     message.append(" " * indent + str(exception))
     message = "\n".join(message)
 
