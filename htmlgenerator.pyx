@@ -339,7 +339,7 @@ cdef class FormatString(BaseElement):
         self.kwargs = kwargs
 
     cpdef str render(self, dict context):
-        return ContextFormatter(context).format(*self.args, **self.kwargs)
+        return _try_render(ContextFormatter(context).format(*self.args, **self.kwargs), context)
 
 
 def format(*args, **kwargs):

@@ -17318,7 +17318,7 @@ static int __pyx_pf_13htmlgenerator_12FormatString___init__(struct __pyx_obj_13h
  *         self.kwargs = kwargs
  * 
  *     cpdef str render(self, dict context):             # <<<<<<<<<<<<<<
- *         return ContextFormatter(context).format(*self.args, **self.kwargs)
+ *         return _try_render(ContextFormatter(context).format(*self.args, **self.kwargs), context)
  * 
  */
 
@@ -17385,7 +17385,7 @@ static PyObject *__pyx_f_13htmlgenerator_12FormatString_render(struct __pyx_obj_
   /* "htmlgenerator.pyx":342
  * 
  *     cpdef str render(self, dict context):
- *         return ContextFormatter(context).format(*self.args, **self.kwargs)             # <<<<<<<<<<<<<<
+ *         return _try_render(ContextFormatter(context).format(*self.args, **self.kwargs), context)             # <<<<<<<<<<<<<<
  * 
  * 
  */
@@ -17424,16 +17424,18 @@ static PyObject *__pyx_f_13htmlgenerator_12FormatString_render(struct __pyx_obj_
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (!(likely(PyUnicode_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 342, __pyx_L1_error)
-  __pyx_r = ((PyObject*)__pyx_t_3);
-  __pyx_t_3 = 0;
+  __pyx_t_1 = __pyx_f_13htmlgenerator__try_render(__pyx_t_3, __pyx_v_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 342, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_r = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
   goto __pyx_L0;
 
   /* "htmlgenerator.pyx":341
  *         self.kwargs = kwargs
  * 
  *     cpdef str render(self, dict context):             # <<<<<<<<<<<<<<
- *         return ContextFormatter(context).format(*self.args, **self.kwargs)
+ *         return _try_render(ContextFormatter(context).format(*self.args, **self.kwargs), context)
  * 
  */
 
