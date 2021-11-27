@@ -349,7 +349,11 @@ class FormatString(BaseElement):
         self.kwargs = kwargs
 
     def render(self, context):
-        return ContextFormatter(context).format(*self.args, **self.kwargs)
+        yield from self._try_render(
+            ContextFormatter(context).format(*self.args, **self.kwargs),
+            context,
+            stringify=True,
+        )
 
 
 def format(*args, **kwargs):
