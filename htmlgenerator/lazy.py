@@ -83,7 +83,20 @@ class Lazy:
         return ContextFunction(lambda c: getattr(self.resolve(c), name))
 
     def __call__(self, *args, **kwargs):
-        return ContextFunction(lambda c: self.resolve(c)(*args, **kwargs))
+        def resolve_call(context):
+            value = self.resolve(context)
+            # value should in theory always be callable
+            # however, older versions of htmlgenerator
+            # use resolve_lookup which will try to call
+            # any attributes it encounters
+            # __callable__ marks this object as callable
+            # and will therefore be called inside resolve_lookup
+            # even though the resolved value is not callable
+            if callable(value):
+                return value(*args, **kwargs)
+            return value
+
+        return ContextFunction(resolve_call)
 
     def resolve(self, context: dict) -> typing.Any:
         raise NotImplementedError("Lazy needs to be subclassed")
