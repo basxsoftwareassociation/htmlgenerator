@@ -13,9 +13,9 @@ EXCEPTION_HANDLER_NAME = "_htmlgenerator_exception_handler"
 
 # for integration with the django safe string objects, optional
 try:
-    from django.utils.html import conditional_escape  # type: ignore
+    from django.utils.html import conditional_escape, mark_safe  # type: ignore
 except ImportError:
-    from .safestring import conditional_escape
+    from .safestring import conditional_escape, mark_safe
 
 
 class BaseElement(list):
@@ -338,8 +338,23 @@ class ContextFormatter(string.Formatter):
         super().__init__()
         self.context = context
 
+    def format(self, format_string, /, *args, **kwargs):
+        return mark_safe(super().format(format_string, *args, **kwargs))
+
+    def parse(self, format_string):
+        for literal_text, field_name, format_spec, conversion in super().parse(
+            format_string
+        ):
+            yield conditional_escape(literal_text), field_name, format_spec, conversion
+
     def get_value(self, key, args, kwds):
-        return render(BaseElement(super().get_value(key, args, kwds)), self.context)
+        return conditional_escape(
+            super().get_value(
+                key,
+                [resolve_lazy(arg, self.context) for arg in args],
+                {k: resolve_lazy(v) for k, v in kwds.items()},
+            )
+        )
 
 
 class FormatString(BaseElement):
