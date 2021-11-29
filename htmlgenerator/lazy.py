@@ -79,6 +79,12 @@ def resolve_lookup(
 class Lazy:
     """Lazy values will be evaluated at render time via the resolve method."""
 
+    def __getattr__(self, name):
+        return ContextFunction(lambda c: getattr(self.resolve(c), name))
+
+    def __call__(self, *args, **kwargs):
+        return ContextFunction(lambda c: self.resolve(c)(*args, **kwargs))
+
     def resolve(self, context: dict) -> typing.Any:
         raise NotImplementedError("Lazy needs to be subclassed")
 
