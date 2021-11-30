@@ -204,8 +204,8 @@ class If(BaseElement):
     def __init__(
         self,
         condition: typing.Union[bool, Lazy],
-        true_child: BaseElement,
-        false_child: typing.Optional[BaseElement] = None,
+        true_child: typing.Any,
+        false_child: typing.Any = None,
     ):
         """
         condition: Value which determines which child to render
