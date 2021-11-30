@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import inspect
 import typing
+import warnings
 
 
 def resolve_lazy(value: typing.Any, context: dict):
@@ -10,19 +11,6 @@ def resolve_lazy(value: typing.Any, context: dict):
     while isinstance(value, Lazy):
         value = value.resolve(context)
     return value
-
-
-def getattr_lazy(lazyobject: Lazy, attr: str) -> F:
-    """
-    Takes a lazy object and returns a new lazy object which will
-    resolve the attribute on the object
-    """
-
-    def wrapper(c):
-        ret = getattr(resolve_lazy(lazyobject, c), attr)
-        return ret() if callable(ret) else ret
-
-    return F(wrapper)
 
 
 def resolve_lookup(
@@ -98,6 +86,9 @@ class Lazy:
 
         return ContextFunction(resolve_call)
 
+    def __getitem__(self, name):
+        return ContextFunction(lambda c: self.resolve(c)[name])
+
     def resolve(self, context: dict) -> typing.Any:
         raise NotImplementedError("Lazy needs to be subclassed")
 
@@ -125,3 +116,20 @@ class ContextFunction(Lazy):
 
 C = ContextValue
 F = ContextFunction
+
+
+def getattr_lazy(lazyobject: Lazy, attr: str) -> F:
+    """
+    Takes a lazy object and returns a new lazy object which will
+    resolve the attribute on the object
+    """
+    warnings.warn(
+        "getattr_lazy should no longer be used. Lazy objects support "
+        "now direct access to attributes of lazy objects"
+    )
+
+    def wrapper(c):
+        ret = getattr(resolve_lazy(lazyobject, c), attr)
+        return ret() if callable(ret) else ret
+
+    return F(wrapper)
