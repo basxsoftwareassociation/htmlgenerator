@@ -54,7 +54,16 @@ class VoidElement(HTMLElement):
         super().__init__(**kwargs)
 
     def render(self, context) -> typing.Generator[str, None, None]:
-        yield f"<{self.tag} {flatattrs(self.attributes, context)} />"
+        attr_str = flatattrs(
+            {
+                **self.attributes,
+                **(resolve_lazy(self.lazy_attributes, context) or {}),
+            },
+            context,
+        )
+        # quirk to prevent tags having a single space if there are no attributes
+        attr_str = (" " + attr_str) if attr_str else attr_str
+        yield f"<{self.tag} {attr_str} />"
 
 
 class A(HTMLElement):
