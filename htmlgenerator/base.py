@@ -338,7 +338,7 @@ class ContextFormatter(string.Formatter):
         super().__init__()
         self.context = context
 
-    def format(self, format_string, /, *args, **kwargs):
+    def format(self, format_string, *args, **kwargs):
         return mark_safe(super().format(format_string, *args, **kwargs))
 
     def parse(self, format_string):
