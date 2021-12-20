@@ -711,7 +711,26 @@ def flatattrs(attributes: dict, context: dict) -> str:
     return " ".join(attlist)
 
 
-def append_attribute(attrs, key, value, separator=None):
+def merge_html_attrs(
+    attrs: typing.Dict[str, typing.Any],
+    newattrs: typing.Dict[str, typing.Any],
+    separators: typing.Optional[typing.Dict[str, str]] = None,
+):
+    """
+    Will try to merge two dictionaries with html attributes
+    while preserving all values by concatenating them with the appropriate
+    separators
+    """
+    separators = separators or {}
+    ret = attrs
+    for key, value in newattrs.items():
+        ret = _append_attribute(ret, key, value, separators.get(key))
+    return ret
+
+
+def _append_attribute(
+    attrs: dict, key: str, value: typing.Any, separator: typing.Optional[str] = None
+):
     """
     In many cases we want a component to add e.g. something to the
     _class attribute of an HTML element but still allow the caller to
@@ -751,3 +770,4 @@ def append_attribute(attrs, key, value, separator=None):
         attrs[key] = BaseElement(attrs[key], separator or guess_separator(key), value)
     else:
         attrs[key] = value
+    return attrs
