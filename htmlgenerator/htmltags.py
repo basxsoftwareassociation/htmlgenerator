@@ -721,6 +721,10 @@ def merge_html_attrs(
     while preserving all values by concatenating them with the appropriate
     separators
     """
+    if attrs is None:
+        return newattrs
+    if newattrs is None:
+        return attrs
     separators = separators or {}
     ret = attrs
     for key, value in newattrs.items():
