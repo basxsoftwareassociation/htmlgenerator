@@ -348,11 +348,16 @@ class ContextFormatter(string.Formatter):
             yield conditional_escape(literal_text), field_name, format_spec, conversion
 
     def get_value(self, key, args, kwds):
+        def extract(value):
+            if isinstance(value, BaseElement):
+                return render(value, self.context)
+            return resolve_lazy(value, self.context)
+
         return conditional_escape(
             super().get_value(
                 key,
-                [resolve_lazy(arg, self.context) for arg in args],
-                {k: resolve_lazy(v) for k, v in kwds.items()},
+                [extract(arg) for arg in args],
+                {k: extract(v) for k, v in kwds.items()},
             )
         )
 
