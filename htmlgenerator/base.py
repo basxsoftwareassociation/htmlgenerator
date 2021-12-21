@@ -334,45 +334,58 @@ def html_id(object: typing.Any, prefix: str = "id") -> str:
 class ContextFormatter(string.Formatter):
     context: dict
 
-    def __init__(self, context: dict):
+    def __init__(self, context: dict, autoescape: bool):
         super().__init__()
         self.context = context
+        self.autoescape = autoescape
 
-    def format(self, format_string, /, *args, **kwargs):
+    def format(self, format_string, *args, **kwargs):
         return mark_safe(super().format(format_string, *args, **kwargs))
 
     def parse(self, format_string):
         for literal_text, field_name, format_spec, conversion in super().parse(
             format_string
         ):
-            yield conditional_escape(literal_text), field_name, format_spec, conversion
+            if self.autoescape:
+                yield conditional_escape(
+                    literal_text
+                ), field_name, format_spec, conversion
+            else:
+                yield literal_text, field_name, format_spec, conversion
 
     def get_value(self, key, args, kwds):
-        return conditional_escape(
-            super().get_value(
-                key,
-                [resolve_lazy(arg, self.context) for arg in args],
-                {k: resolve_lazy(v) for k, v in kwds.items()},
-            )
+        def extract(value):
+            if isinstance(value, BaseElement):
+                return render(value, self.context)
+            return resolve_lazy(value, self.context)
+
+        ret = super().get_value(
+            key,
+            [extract(arg) for arg in args],
+            {k: extract(v) for k, v in kwds.items()},
         )
+        return conditional_escape(ret) if self.autoescape else ret
 
 
 class FormatString(BaseElement):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, autoescape, **kwargs):
         super().__init__()
         self.args = args
         self.kwargs = kwargs
+        self.autoescape = autoescape
 
     def render(self, context):
         yield from self._try_render(
-            ContextFormatter(context).format(*self.args, **self.kwargs),
+            ContextFormatter(context, autoescape=self.autoescape).format(
+                *self.args, **self.kwargs
+            ),
             context,
             stringify=True,
         )
 
 
-def format(*args, **kwargs):
-    return FormatString(*args, **kwargs)
+def format(*args, autoescape=True, **kwargs):
+    return FormatString(*args, autoescape=autoescape, **kwargs)
 
 
 def _handle_exception(exception, context):
