@@ -7,6 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Install mypy
-    - run: pip install mypy
+      run: pip install mypy
     - name: Check types
       run: mypy .
