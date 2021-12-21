@@ -9,4 +9,4 @@ jobs:
     - name: Install mypy
       run: pip install mypy
     - name: Check types
-      run: mypy .
+      run: mypy ${{ github.workspace }}
