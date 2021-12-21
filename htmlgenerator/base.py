@@ -264,13 +264,13 @@ class WithContext(BaseElement):
 
 
 def treewalk(
-    element: typing.List,
+    element: BaseElement,
     ancestors: typing.Tuple[BaseElement, ...],
     filter_func: typing.Optional[
         typing.Callable[[BaseElement, typing.Tuple[BaseElement, ...]], bool]
     ],
     apply: typing.Optional[
-        typing.Callable[[typing.List, int, BaseElement], None]
+        typing.Callable[[BaseElement, int, BaseElement], None]
     ] = None,
 ) -> typing.Generator[BaseElement, None, None]:
     from .htmltags import HTMLElement
@@ -284,7 +284,7 @@ def treewalk(
                 matchelements.append((i, e))
             if isinstance(e, HTMLElement):
                 yield from treewalk(
-                    list(e.attributes.values()),
+                    BaseElement(*e.attributes.values()),
                     ancestors + (e,),
                     filter_func=filter_func,
                     apply=apply,
