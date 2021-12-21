@@ -30,6 +30,6 @@ jobs:
     - name: Run isort --check-only .
       run: isort --check-only --profile=black .
     - name: Check types
-      run: mypy ${{ github.workspace }}
+      run: mypy .
     - name: pytest
-      run: mypy ${{ github.workspace }}
+      run: pytest .
