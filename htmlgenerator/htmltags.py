@@ -41,7 +41,10 @@ class HTMLElement(BaseElement):
     def __repr__(self) -> str:
         return (
             f"<{self.tag} "
-            + " ".join(f"{k.lstrip('_')}=\"{v}\"" for k, v in self.attributes.items())
+            + " ".join(
+                f"{k.lstrip('_')}=\"{v}\""
+                for k, v in getattr(self, "attributes", {}).items()
+            )
             + f"> ({self.__class__})"
         )
 
