@@ -23,7 +23,9 @@ class HTMLElement(BaseElement):
         super().__init__(*children)
         self.lazy_attributes = lazy_attributes
 
-    def render(self, context: dict) -> typing.Generator[str, None, None]:
+    def render(
+        self, context: dict, stringify: bool = True
+    ) -> typing.Generator[str, None, None]:
         attr_str = flatattrs(
             {
                 **self.attributes,
@@ -53,7 +55,9 @@ class VoidElement(HTMLElement):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def render(self, context) -> typing.Generator[str, None, None]:
+    def render(
+        self, context, stringify: bool = True
+    ) -> typing.Generator[str, None, None]:
         attr_str = flatattrs(
             {
                 **self.attributes,
@@ -338,7 +342,9 @@ class HTML(HTMLElement):
         super().__init__(*args, **kwargs)
         self.doctype = doctype
 
-    def render(self, context: dict) -> typing.Generator[str, None, None]:
+    def render(
+        self, context: dict, stringify: bool = True
+    ) -> typing.Generator[str, None, None]:
         if self.doctype:
             yield "<!DOCTYPE html>"
         yield from super().render(context)

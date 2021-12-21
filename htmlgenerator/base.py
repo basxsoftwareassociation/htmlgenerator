@@ -270,7 +270,7 @@ def treewalk(
         typing.Callable[[BaseElement, typing.Tuple[BaseElement, ...]], bool]
     ],
     apply: typing.Optional[
-        typing.Callable[[BaseElement, int, BaseElement], None]
+        typing.Callable[[typing.List, int, BaseElement], None]
     ] = None,
 ) -> typing.Generator[BaseElement, None, None]:
     from .htmltags import HTMLElement
