@@ -392,10 +392,6 @@ def _handle_exception(exception, context):
     import sys
     import traceback
 
-    def default_handler(context, message):
-        traceback.print_exc()
-        print(message, file=sys.stderr)
-
     last_obj = None
     indent = 0
     message = []
@@ -417,7 +413,7 @@ def _handle_exception(exception, context):
     message.append(" " * indent + str(exception))
     message = "\n".join(message)
 
-    context.get(EXCEPTION_HANDLER_NAME, default_handler)(context, message)
+    context.get(EXCEPTION_HANDLER_NAME, default_exception_handler)(context, message)
 
     yield (
         '<pre style="border: solid 1px red; color: red; padding: 1rem; '
@@ -426,3 +422,11 @@ def _handle_exception(exception, context):
         "</pre>"
         f'<script>alert("Error: {conditional_escape(exception)}")</script>'
     )
+
+
+def default_exception_handler(context, message):
+    import sys
+    import traceback
+
+    traceback.print_exc()
+    print(message, file=sys.stderr)
