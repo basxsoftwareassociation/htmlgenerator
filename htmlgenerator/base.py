@@ -229,7 +229,7 @@ class Iterator(BaseElement):
         self,
         iterator: typing.Union[typing.Iterable, Lazy],
         loopvariable: str,
-        content: BaseElement,
+        content: typing.Union[BaseElement, Lazy],
     ):
         self.iterator = iterator
         self.loopvariable = loopvariable
