@@ -33,8 +33,7 @@ jobs:
     - name: Run bandit
       run: bandit -c .bandit -r .
     - name: Run Safety
-      # there is no allow-failure yet. see https://github.com/actions/toolkit/issues/399
-      run: safety check || true
+      run: safety check
     - name: pytest
       run: pytest .
     - name: Check types
