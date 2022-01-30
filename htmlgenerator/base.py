@@ -7,15 +7,12 @@ import typing
 
 from .lazy import Lazy, resolve_lazy
 
+# for integration with the django safe string objects, compatible with Django
+from .safestring import conditional_escape, mark_safe
+
 EXCEPTION_HANDLER_NAME = "_htmlgenerator_exception_handler"
 "Must be a function without arguments, will be called when an "
 "exception happens during rendering an element"
-
-# for integration with the django safe string objects, optional
-try:
-    from django.utils.html import conditional_escape, mark_safe  # type: ignore
-except ImportError:
-    from .safestring import conditional_escape, mark_safe
 
 
 class BaseElement(list):

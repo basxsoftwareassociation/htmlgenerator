@@ -1,7 +1,7 @@
 import typing
 import warnings
 
-from .base import BaseElement, If
+from .base import BaseElement, If, conditional_escape
 from .lazy import Lazy, resolve_lazy
 
 
@@ -714,9 +714,9 @@ def flatattrs(attributes: dict, context: dict) -> str:
         key = key.replace("_", "-")
         if isinstance(value, bool) and key != "value":
             if value is True:
-                attlist.append(f"{key}")
+                attlist.append(f"{conditional_escape(key)}")
         else:
-            attlist.append(f'{key}="{value}"')
+            attlist.append(f'{conditional_escape(key)}="{conditional_escape(value)}"')
     return " ".join(attlist)
 
 
