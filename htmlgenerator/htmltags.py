@@ -10,9 +10,7 @@ class HTMLElement(BaseElement):
 
     tag: str = ""
 
-    def __init__(
-        self, *children, lazy_attributes: typing.Optional[Lazy] = None, **attributes
-    ):
+    def __init__(self, *children, lazy_attributes=None, **attributes):
         assert self.tag != ""
         if any(attr == "class" for attr in attributes.keys()):
             warnings.warn(
