@@ -1,7 +1,7 @@
 import typing
 import warnings
 
-from .base import BaseElement, If, conditional_escape
+from .base import BaseElement, If, conditional_escape, mark_safe
 from .lazy import Lazy, resolve_lazy
 
 
@@ -702,10 +702,10 @@ def flatattrs(attributes: dict, context: dict) -> str:
                 value = rendered[0]
             else:
                 rendered = list(value.render(context))
-                value = "".join(rendered) if rendered else None
+                value = mark_safe("".join(rendered)) if rendered else None
         elif isinstance(value, BaseElement):
             rendered = list(value.render(context))
-            value = "".join(rendered) if rendered else None
+            value = mark_safe("".join(rendered)) if rendered else None
         if value is None:
             continue
 

@@ -297,7 +297,7 @@ def treewalk(
 
 def render(root: BaseElement, basecontext: dict) -> str:
     """Shortcut to serialize an object tree into a string"""
-    return "".join(root.render(basecontext))
+    return mark_safe("").join(root.render(basecontext))
 
 
 html_id_cache = set()
