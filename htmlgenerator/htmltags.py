@@ -2,7 +2,7 @@ import typing
 import warnings
 
 from .base import BaseElement, If, conditional_escape, mark_safe
-from .lazy import Lazy, resolve_lazy
+from .lazy import make_lazy, resolve_lazy
 
 
 class HTMLElement(BaseElement):
@@ -718,6 +718,7 @@ def flatattrs(attributes: dict, context: dict) -> str:
     return " ".join(attlist)
 
 
+@make_lazy
 def merge_html_attrs(
     attrs: typing.Dict[str, typing.Any],
     newattrs: typing.Dict[str, typing.Any],

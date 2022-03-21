@@ -5,6 +5,26 @@ import typing
 import warnings
 
 
+def make_lazy(func):
+    """
+    Decorator which allows any function to be converted to a lazy
+    ContextFunction object if any of the passed arguments are of type Lazy. If
+    no argument is of type Lazy, the function is called directly.
+    """
+
+    def lazy_wrapper(*args, **kwargs):
+        if any(isinstance(arg, Lazy) for arg in args + tuple(kwargs.values())):
+            return F(
+                lambda c: func(
+                    *[resolve_lazy(arg, c) for arg in args],
+                    **{k: resolve_lazy(v, c) for k, v in kwargs.items()},
+                )
+            )
+        return func(*args, **kwargs)
+
+    return lazy_wrapper
+
+
 def resolve_lazy(value: typing.Any, context: dict):
     """Shortcut to resolve a value in case it is a Lazy value"""
 
