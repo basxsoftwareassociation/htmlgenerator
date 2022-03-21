@@ -89,6 +89,9 @@ class Lazy:
     def __getitem__(self, name):
         return ContextFunction(lambda c: self.resolve(c)[name])
 
+    def __iter__(self):
+        raise NotImplementedError("Can not iterate over a lazy value")
+
     def resolve(self, context: dict) -> typing.Any:
         raise NotImplementedError("Lazy needs to be subclassed")
 
