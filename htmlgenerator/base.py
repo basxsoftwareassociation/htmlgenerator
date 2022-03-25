@@ -341,7 +341,7 @@ class ContextFormatter(string.Formatter):
 
     def parse(self, format_string):
         for literal_text, field_name, format_spec, conversion in super().parse(
-            format_string
+            str(format_string)
         ):
             if self.autoescape:
                 yield conditional_escape(
