@@ -156,3 +156,17 @@ def getattr_lazy(lazyobject: Lazy, attr: str) -> F:
         return ret() if callable(ret) else ret
 
     return F(wrapper)
+
+
+def lazify(func):
+    """Automatically wraps any function with a ContextFunction and resolves all arguments on call"""
+
+    def lazywrapper(*args, **kwargs):
+        return F(
+            lambda c: func(
+                *[resolve_lazy(arg, c) for arg in args],
+                **{k: resolve_lazy(v, c) for k, v in kwargs.items()},
+            )
+        )
+
+    return lazywrapper
