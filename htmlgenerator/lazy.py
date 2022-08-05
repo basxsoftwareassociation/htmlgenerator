@@ -87,6 +87,10 @@ def resolve_lookup(
 class Lazy:
     """Lazy values will be evaluated at render time via the resolve method."""
 
+    def __deepcopy__(self, memo):
+        # deep copy not supported, sorry
+        return self
+
     def __getattr__(self, name):
         return ContextFunction(lambda c: getattr(self.resolve(c), name))
 
