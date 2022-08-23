@@ -417,7 +417,7 @@ def _handle_exception(exception, context):
         'background-color: #ffdddd">'
         f"    <code>~~~ Exception: {conditional_escape(exception)} ~~~</code>"
         "</pre>"
-        f'<script>alert("Error: {conditional_escape(exception)}")</script>'
+        f'<script>console.log("Error: {conditional_escape(exception)}")</script>'
     )
 
 
