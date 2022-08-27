@@ -341,12 +341,12 @@ class ContextFormatter(string.Formatter):
     def parse(self, format_string):
         # need to preserve type of the original format_string in order to
         # be able to return correctly typed splitted literals
-        format_string_type = type(format_string)
+        is_safe = hasattr(format_string, "__html__")
         for literal_text, field_name, format_spec, conversion in super().parse(
             str(format_string)
         ):
             yield conditional_escape(
-                format_string_type(literal_text)
+                mark_safe(literal_text) if is_safe else literal_text
             ), field_name, format_spec, conversion
 
     def get_value(self, key, args, kwds):
