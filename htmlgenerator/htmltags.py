@@ -730,11 +730,11 @@ def merge_html_attrs(
     separators
     """
     if attrs is None:
-        return newattrs
+        return dict(newattrs)
     if newattrs is None:
-        return attrs
+        return dict(attrs)
     separators = separators or {}
-    ret = attrs
+    ret = dict(attrs)
     for key, value in newattrs.items():
         ret = _append_attribute(ret, key, value, separators.get(key))
     return ret
