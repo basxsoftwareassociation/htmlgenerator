@@ -353,7 +353,8 @@ class ContextFormatter(string.Formatter):
         def extract(value):
             if isinstance(value, BaseElement):
                 return render(value, self.context)
-            return resolve_lazy(value, self.context) or ""
+            v = resolve_lazy(value, self.context)
+            return "" if v is None else v
 
         ret = super().get_value(
             key,
