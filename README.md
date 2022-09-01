@@ -3,8 +3,6 @@ HTML Generator
 
 A python package to generate HTML from a template which is defined through a tree of render-elements.
 
-(Warning: Since the whole value-binding seems a bit clumsy at times it might be reworked in the future)
-
 Getting started
 ---------------
 
