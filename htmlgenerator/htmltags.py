@@ -22,20 +22,27 @@ class HTMLElement(BaseElement):
         self.lazy_attributes = lazy_attributes
 
     def render(
-        self, context: dict, stringify: bool = True
+        self,
+        context: dict,
+        stringify: bool = True,
+        fragment: typing.Optional[str] = None,
     ) -> typing.Generator[str, None, None]:
-        attr_str = flatattrs(
-            {
-                **self.attributes,
-                **(resolve_lazy(self.lazy_attributes, context) or {}),
-            },
-            context,
+        if fragment is None:
+            attr_str = flatattrs(
+                {
+                    **self.attributes,
+                    **(resolve_lazy(self.lazy_attributes, context) or {}),
+                },
+                context,
+            )
+            # quirk to prevent tags having a single space if there are no attributes
+            attr_str = (" " + attr_str) if attr_str else attr_str
+            yield f"<{self.tag}{attr_str}>"
+        yield from super().render_children(
+            context, stringify=stringify, fragment=fragment
         )
-        # quirk to prevent tags having a single space if there are no attributes
-        attr_str = (" " + attr_str) if attr_str else attr_str
-        yield f"<{self.tag}{attr_str}>"
-        yield from super().render_children(context)
-        yield f"</{self.tag}>"
+        if fragment is None:
+            yield f"</{self.tag}>"
 
     # mostly for debugging purposes
     def __repr__(self) -> str:
@@ -57,8 +64,13 @@ class VoidElement(HTMLElement):
         super().__init__(**kwargs)
 
     def render(
-        self, context, stringify: bool = True
+        self,
+        context,
+        stringify: bool = True,
+        fragment: typing.Optional[str] = None,
     ) -> typing.Generator[str, None, None]:
+        if fragment is not None:
+            return
         attr_str = flatattrs(
             {
                 **self.attributes,
@@ -344,11 +356,14 @@ class HTML(HTMLElement):
         self.doctype = doctype
 
     def render(
-        self, context: dict, stringify: bool = True
+        self,
+        context: dict,
+        stringify: bool = True,
+        fragment: typing.Optional[str] = None,
     ) -> typing.Generator[str, None, None]:
-        if self.doctype:
+        if self.doctype and fragment is None:
             yield "<!DOCTYPE html>"
-        yield from super().render(context)
+        yield from super().render(context, stringify=stringify, fragment=fragment)
 
 
 class I(HTMLElement):  # noqa

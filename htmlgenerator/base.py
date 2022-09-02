@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import copy
 import string
-import typing
+from typing import Any, Callable, Generator, Iterable, List, Optional, Tuple, Union
 
 from .lazy import Lazy, resolve_lazy
 
@@ -15,8 +15,8 @@ EXCEPTION_HANDLER_NAME = "_htmlgenerator_exception_handler"
 
 
 def _render_element(
-    element: typing.Any, context: dict, stringify: bool
-) -> typing.Generator[str, None, None]:
+    element: Any, context: dict, stringify: bool, fragment: Optional[str]
+) -> Generator[str, None, None]:
     """Renders an element as a generator which yields strings
     The stringify parameter should normally be true in order return
     escaped strings. In some circumstances if is however desirable to
@@ -32,8 +32,8 @@ def _render_element(
         while isinstance(element, Lazy):
             element = element.resolve(context)
         if isinstance(element, BaseElement):
-            yield from element.render(context)
-        elif element is not None:
+            yield from element.render(context, stringify=stringify, fragment=fragment)
+        elif element is not None and fragment is None:
             yield conditional_escape(element) if stringify else element
     except (Exception, RuntimeError) as e:
         yield from _handle_exception(e, context)
@@ -53,24 +53,24 @@ class BaseElement(list):
         super().__init__(children)
 
     def render_children(
-        self, context: dict, stringify: bool = True
-    ) -> typing.Generator[str, None, None]:
+        self, context: dict, stringify: bool = True, fragment: Optional[str] = None
+    ) -> Generator[str, None, None]:
         """
         Renders all elements inside the list.
         Can be used by subclassing elements if they need to controll
         where child elements are rendered.
         """
         for element in self:
-            yield from _render_element(element, context, stringify)
+            yield from _render_element(element, context, stringify, fragment)
 
     def render(
-        self, context: dict, stringify: bool = True
-    ) -> typing.Generator[str, None, None]:
+        self, context: dict, stringify: bool = True, fragment: Optional[str] = None
+    ) -> Generator[str, None, None]:
         """
         Renders this element and its children.
         Can be overwritten by subclassing elements.
         """
-        yield from self.render_children(context, stringify)
+        yield from self.render_children(context, stringify, fragment)
 
     """
     Tree functions
@@ -90,10 +90,8 @@ class BaseElement(list):
 
     def filter(
         self,
-        filter_func: typing.Callable[
-            [BaseElement, typing.Tuple[BaseElement, ...]], bool
-        ],
-    ) -> typing.Generator[BaseElement, None, None]:
+        filter_func: Callable[[BaseElement, Tuple[BaseElement, ...]], bool],
+    ) -> Generator[BaseElement, None, None]:
         """
         Walks through the tree (including self) and yields each
         element for which a call to filter_func evaluates to True.
@@ -105,9 +103,7 @@ class BaseElement(list):
 
     def wrap(
         self,
-        filter_func: typing.Callable[
-            [BaseElement, typing.Tuple[BaseElement, ...]], bool
-        ],
+        filter_func: Callable[[BaseElement, Tuple[BaseElement, ...]], bool],
         wrapperelement: BaseElement,
     ) -> list[BaseElement]:
         """
@@ -128,9 +124,7 @@ class BaseElement(list):
 
     def delete(
         self,
-        filter_func: typing.Callable[
-            [BaseElement, typing.Tuple[BaseElement, ...]], bool
-        ],
+        filter_func: Callable[[BaseElement, Tuple[BaseElement, ...]], bool],
     ) -> list[BaseElement]:
         """
         Walks through the tree (including self) and removes each element
@@ -150,7 +144,7 @@ class BaseElement(list):
 
     # untested code
     def _replace(
-        self, select_func: typing.Callable, replacement: BaseElement, all: bool = False
+        self, select_func: Callable, replacement: BaseElement, all: bool = False
     ):
         """Replaces an element which matches a certain condition with another element"""
         from .htmltags import HTMLElement
@@ -158,7 +152,7 @@ class BaseElement(list):
         class ReachFirstException(Exception):
             pass
 
-        def walk(element: typing.List, ancestors: typing.Tuple[BaseElement, ...]):
+        def walk(element: List, ancestors: Tuple[BaseElement, ...]):
             replacment_indices = []
             for i, e in enumerate(element):
                 if isinstance(e, BaseElement):
@@ -186,9 +180,9 @@ class BaseElement(list):
 class If(BaseElement):
     def __init__(
         self,
-        condition: typing.Union[bool, Lazy],
-        true_child: typing.Any,
-        false_child: typing.Any = None,
+        condition: Union[bool, Lazy],
+        true_child: Any,
+        false_child: Any = None,
     ):
         """
         condition: Value which determines which child to render
@@ -199,35 +193,35 @@ class If(BaseElement):
         self.condition = condition
 
     def render(
-        self, context: dict, stringify: bool = True
-    ) -> typing.Generator[str, None, None]:
+        self, context: dict, stringify: bool = True, fragment: Optional[str] = None
+    ) -> Generator[str, None, None]:
         """The stringy argument can be set to False in order to get a python object
         instead of a rendered string returned. This is usefull when evaluating"""
         if resolve_lazy(self.condition, context):
-            yield from _render_element(self[0], context, stringify)
+            yield from _render_element(self[0], context, stringify, fragment)
         elif len(self) > 1:
-            yield from _render_element(self[1], context, stringify)
+            yield from _render_element(self[1], context, stringify, fragment)
 
 
 class Iterator(BaseElement):
     def __init__(
         self,
-        iterator: typing.Union[typing.Iterable, Lazy],
+        iterator: Union[Iterable, Lazy],
         loopvariable: str,
-        content: typing.Union[BaseElement, Lazy],
+        content: Union[BaseElement, Lazy],
     ):
         self.iterator = iterator
         self.loopvariable = loopvariable
         super().__init__(content)
 
     def render(
-        self, context: dict, stringify: bool = True
-    ) -> typing.Generator[str, None, None]:
+        self, context: dict, stringify: bool = True, fragment: Optional[str] = None
+    ) -> Generator[str, None, None]:
         context = dict(context)
         for i, value in enumerate(resolve_lazy(self.iterator, context)):
             context[self.loopvariable] = value
             context[self.loopvariable + "_index"] = i
-            yield from self.render_children(context, stringify)
+            yield from self.render_children(context, stringify, fragment)
 
 
 class WithContext(BaseElement):
@@ -247,23 +241,37 @@ class WithContext(BaseElement):
         super().__init__(*children)
 
     def render(
-        self, context: dict, stringify: bool = True
-    ) -> typing.Generator[str, None, None]:
+        self, context: dict, stringify: bool = True, fragment: Optional[str] = None
+    ) -> Generator[str, None, None]:
         yield from super().render(
-            {**context, **self.additional_context}, stringify=stringify
+            {**context, **self.additional_context},
+            stringify=stringify,
+            fragment=fragment,
         )
+
+
+class Fragment(BaseElement):
+    def __init__(self, name, *children):
+        super().__init__(*children)
+        self.name = name
+
+    def render(
+        self, context: dict, stringify: bool = True, fragment: Optional[str] = None
+    ) -> Generator[str, None, None]:
+        if fragment is None or fragment == self.name:
+            yield from super().render(
+                context,
+                stringify=stringify,
+                fragment=None,  # must be None, render all subsequent elements
+            )
 
 
 def treewalk(
     element: BaseElement,
-    ancestors: typing.Tuple[BaseElement, ...],
-    filter_func: typing.Optional[
-        typing.Callable[[BaseElement, typing.Tuple[BaseElement, ...]], bool]
-    ],
-    apply: typing.Optional[
-        typing.Callable[[BaseElement, int, BaseElement], None]
-    ] = None,
-) -> typing.Generator[BaseElement, None, None]:
+    ancestors: Tuple[BaseElement, ...],
+    filter_func: Optional[Callable[[BaseElement, Tuple[BaseElement, ...]], bool]],
+    apply: Optional[Callable[[BaseElement, int, BaseElement], None]] = None,
+) -> Generator[BaseElement, None, None]:
     from .htmltags import HTMLElement
 
     matchelements = []
@@ -289,15 +297,17 @@ def treewalk(
             apply(element, i, e)
 
 
-def render(root: BaseElement, basecontext: dict) -> str:
+def render(root: BaseElement, basecontext: dict, fragment: Optional[str] = None) -> str:
     """Shortcut to serialize an object tree into a string"""
-    return mark_safe("").join(root.render(basecontext))
+    return mark_safe("").join(
+        root.render(basecontext, stringify=True, fragment=fragment)
+    )
 
 
 html_id_cache = set()
 
 
-def html_id(object: typing.Any, prefix: str = "id") -> str:
+def html_id(object: Any, prefix: str = "id") -> str:
     """Generate a unique HTML id from an object"""
     # Explanation of the chained call:
     # 1. id: We want a guaranteed unique ID. Since the lifespan of an HTML-response is
@@ -365,12 +375,13 @@ class FormatString(BaseElement):
         self.kwargs = kwargs
 
     def render(
-        self, context: dict, stringify: bool = True
-    ) -> typing.Generator[str, None, None]:
+        self, context: dict, stringify: bool = True, fragment: Optional[str] = None
+    ) -> Generator[str, None, None]:
         yield from _render_element(
             ContextFormatter(context).format(*self.args, **self.kwargs),
             context,
             stringify=True,  # must always be string
+            fragment=fragment,
         )
 
 

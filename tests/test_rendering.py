@@ -68,3 +68,23 @@ def test_html_id():
     assert hg.html_id(object()) != hg.html_id(object())
     o = object()
     assert hg.html_id(o) != hg.html_id(o)
+
+
+def test_fragments():
+    tree = hg.DIV(
+        hg.Fragment("redpill", hg.DIV("RED!")), hg.Fragment("bluepill", hg.DIV("BLUE!"))
+    )
+    output_nofragment = "<div><div>RED!</div><div>BLUE!</div></div>"
+    output_fragment_red = "<div>RED!</div>"
+    output_fragment_blue = "<div>BLUE!</div>"
+    output_fragment_other = ""
+    assert hg.render(tree, {}) == output_nofragment, "no fragment"
+    assert (
+        hg.render(tree, {}, fragment="redpill") == output_fragment_red
+    ), "red fragment"
+    assert (
+        hg.render(tree, {}, fragment="bluepill") == output_fragment_blue
+    ), "blue fragment"
+    assert (
+        hg.render(tree, {}, fragment="greenpill") == output_fragment_other
+    ), "unknown fragment"
