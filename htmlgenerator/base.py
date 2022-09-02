@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import copy
-import inspect
 import string
 import typing
 
@@ -13,6 +12,31 @@ from .safestring import conditional_escape, mark_safe
 EXCEPTION_HANDLER_NAME = "_htmlgenerator_exception_handler"
 "Must be a function without arguments, will be called when an "
 "exception happens during rendering an element"
+
+
+def _render_element(
+    element: typing.Any, context: dict, stringify: bool
+) -> typing.Generator[str, None, None]:
+    """Renders an element as a generator which yields strings
+    The stringify parameter should normally be true in order return
+    escaped strings. In some circumstances if is however desirable to
+    get the actual value and not a string returned. For such cases
+    stringify can be set to ``False``. An example are HTML attribute values
+    which us a ``hg.If`` element and return ``True`` or ``False`` to dynamically
+    control the appearance of the attribute.
+    The render_children method will use a default of ``True`` for strinfigy.
+    That behaviour should only be overriden by elements which consciously want
+    to be able to return non-string objects during rendering.
+    """
+    try:
+        while isinstance(element, Lazy):
+            element = element.resolve(context)
+        if isinstance(element, BaseElement):
+            yield from element.render(context)
+        elif element is not None:
+            yield conditional_escape(element) if stringify else element
+    except (Exception, RuntimeError) as e:
+        yield from _handle_exception(e, context)
 
 
 class BaseElement(list):
@@ -27,44 +51,6 @@ class BaseElement(list):
         represents the child objects
         """
         super().__init__(children)
-        from . import DEBUG
-
-        if DEBUG:
-            # This will add the source location of where this element has
-            # been instantiated as a data attributte and a python attribute
-            # _src_location with (filename, linenumber, functionname) to this object
-            for frame in inspect.stack():
-                if frame.function != "__init__":
-                    break
-            if hasattr(self, "attributes"):
-                self.attributes[
-                    "data_source_location"
-                ] = f"{frame.filename}:{frame.lineno} in {frame.function}"
-            self._src_location = (frame.filename, frame.lineno, frame.function)
-
-    def _try_render(
-        self, element: typing.Any, context: dict, stringify: bool
-    ) -> typing.Generator[str, None, None]:
-        """Renders an element as a generator which yields strings
-        The stringify parameter should normally be true in order return
-        escaped strings. In some circumstances if is however desirable to
-        get the actual value and not a string returned. For such cases
-        stringify can be set to ``False``. An example are HTML attribute values
-        which us a ``hg.If`` element and return ``True`` or ``False`` to dynamically
-        control the appearance of the attribute.
-        The render_children method will use a default of ``True`` for strinfigy.
-        That behaviour should only be overriden by elements which consciously want
-        to be able to return non-string objects during rendering.
-        """
-        try:
-            while isinstance(element, Lazy):
-                element = element.resolve(context)
-            if isinstance(element, BaseElement):
-                yield from element.render(context)
-            elif element is not None:
-                yield conditional_escape(element) if stringify else element
-        except (Exception, RuntimeError) as e:
-            yield from _handle_exception(e, context)
 
     def render_children(
         self, context: dict, stringify: bool = True
@@ -75,7 +61,7 @@ class BaseElement(list):
         where child elements are rendered.
         """
         for element in self:
-            yield from self._try_render(element, context, stringify)
+            yield from _render_element(element, context, stringify)
 
     def render(
         self, context: dict, stringify: bool = True
@@ -216,9 +202,9 @@ class If(BaseElement):
         """The stringy argument can be set to False in order to get a python object
         instead of a rendered string returned. This is usefull when evaluating"""
         if resolve_lazy(self.condition, context):
-            yield from self._try_render(self[0], context, stringify)
+            yield from _render_element(self[0], context, stringify)
         elif len(self) > 1:
-            yield from self._try_render(self[1], context, stringify)
+            yield from _render_element(self[1], context, stringify)
 
 
 class Iterator(BaseElement):
@@ -371,7 +357,7 @@ class FormatString(BaseElement):
         self.kwargs = kwargs
 
     def render(self, context):
-        yield from self._try_render(
+        yield from _render_element(
             ContextFormatter(context).format(*self.args, **self.kwargs),
             context,
             stringify=True,
