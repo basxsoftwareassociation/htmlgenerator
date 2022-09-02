@@ -198,7 +198,9 @@ class If(BaseElement):
         super().__init__(true_child, false_child)
         self.condition = condition
 
-    def render(self, context: dict, stringify=True):
+    def render(
+        self, context: dict, stringify: bool = True
+    ) -> typing.Generator[str, None, None]:
         """The stringy argument can be set to False in order to get a python object
         instead of a rendered string returned. This is usefull when evaluating"""
         if resolve_lazy(self.condition, context):
@@ -218,7 +220,9 @@ class Iterator(BaseElement):
         self.loopvariable = loopvariable
         super().__init__(content)
 
-    def render(self, context: dict, stringify: bool = True):
+    def render(
+        self, context: dict, stringify: bool = True
+    ) -> typing.Generator[str, None, None]:
         context = dict(context)
         for i, value in enumerate(resolve_lazy(self.iterator, context)):
             context[self.loopvariable] = value
@@ -242,8 +246,12 @@ class WithContext(BaseElement):
         self.additional_context = kwargs
         super().__init__(*children)
 
-    def render(self, context):
-        return super().render({**context, **self.additional_context})
+    def render(
+        self, context: dict, stringify: bool = True
+    ) -> typing.Generator[str, None, None]:
+        yield from super().render(
+            {**context, **self.additional_context}, stringify=stringify
+        )
 
 
 def treewalk(
@@ -356,11 +364,13 @@ class FormatString(BaseElement):
         self.args = args
         self.kwargs = kwargs
 
-    def render(self, context):
+    def render(
+        self, context: dict, stringify: bool = True
+    ) -> typing.Generator[str, None, None]:
         yield from _render_element(
             ContextFormatter(context).format(*self.args, **self.kwargs),
             context,
-            stringify=True,
+            stringify=True,  # must always be string
         )
 
 
