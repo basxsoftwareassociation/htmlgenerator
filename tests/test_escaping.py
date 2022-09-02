@@ -7,7 +7,9 @@ def test_escaping():
     AMP = "&amp;"
     testdata = (
         # test basic behaviour
-        (hg.format("xkcd is great"), "xkcd is great"),
+        (hg.format("xkcd and xhtml are great"), "xkcd and xhtml are great"),
+        (hg.format('"'), "&quot;"),
+        (hg.format(hg.mark_safe('"')), '"'),
         (hg.format("<>"), f"{LT}{GT}"),
         (hg.format("&"), AMP),
         (hg.format(hg.mark_safe("<&>")), "<&>"),
@@ -23,6 +25,9 @@ def test_escaping():
         (hg.format(hg.mark_safe("<>: {}"), hg.mark_safe("&")), "<>: &"),
         # test with keyword args
         (hg.format(hg.mark_safe("<>: {test}"), test=hg.mark_safe("&")), "<>: &"),
+        (hg.DIV("hello world", id=1), '<div id="1">hello world</div>'),
+        (hg.DIV(attr='"'), '<div attr="&quot;"></div>'),
+        (hg.DIV(attr=hg.mark_safe('"')), '<div attr="""></div>'),
     )
     for input, output in testdata:
         assert hg.render(input, {}) == output
