@@ -6,13 +6,13 @@ A python package to generate HTML from a template which is defined through a tre
 Why
 ---
 
-- Guaranteed correct markup: Don't worry about correct markup-structure anymore, never again count closing divs or get upset about a missing slash.
-- Code formatting included (if you format your Python code): Don't worry what would be the correct and most consisten way of formatting your HTML, never again  search desperately for a django-template-language-formatter for your IDE. (:heart: black).
-- Easily generate and modify any template: Don't worry about overwritting 3rd-party html templates just to change a single letter anymore, never again cramp your templates with an infinite number of ```{% if feat %}```-statements trying to cover all possible use cases.
+- **Guaranteed correct markup**: Don't worry about correct markup-structure anymore, never again count closing divs or get upset about a missing slash.
+- **Code formatting included** (if you format your Python code): Don't worry what would be the correct and most consisten way of formatting your HTML, never again  search desperately for a django-template-language-formatter for your IDE. (:heart: black).
+- **Easily generate and modify any template**: Don't worry about overwritting 3rd-party html templates just to change a single letter anymore, never again cramp your templates with an infinite number of ```{% if feat %}```-statements trying to cover all possible use cases.
 
-- Generate HTML in the same manner that you write Python code: Use functions to generate parameterized html objects or build a custom declarativ-like system to compose output
-- Keep the advantages of lazy rendering: Render contexts and lazy values allow for implicit dependencies, like traditional templates.
-- Define your own components: Subclassing the base elements allows for easy implementation of e.g. a custom design or layout system.
+- **Generate HTML in the same manner that you write Python code**: Use functions to generate parameterized html objects or build a custom declarativ-like system to compose output
+- **Keep the advantages of lazy rendering**: Render contexts and lazy values allow for implicit dependencies, like traditional templates.
+- **Define your own components**: Subclassing the base elements allows for easy implementation of e.g. a custom design or layout system.
 
 Getting started
 ---------------
