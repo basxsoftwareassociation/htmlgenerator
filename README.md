@@ -215,11 +215,12 @@ In order to allow the building of a dynamic page virtual elements need to be use
 - ```htmlgenerator.BaseElement```: The base for all elements, can also be used to group elements without generating output by itself
 - ```htmlgenerator.If```: Lazy evaluates the first argument at render time and returns the first child on true and the second child on false
 - ```htmlgenerator.Iterator```: Takes an iterator which can be a lazy value and renders the child element for each iteration
+- ```htmlgenerator.Fragment```: Allows to name a part of the tree which can then selectively be rendered by passing setting the ```fragment``` parameter when calling ```hg.render```
 
 Example:
 
 ```python
-from htmlgenerator import render, SPAN, BaseElement, If, C, Iterator
+from htmlgenerator import render, SPAN, BaseElement, If, C, Iterator, Fragment, DIV, BODY
 
 print(
     render(BaseElement("Just", SPAN("some"), "elements", SPAN("without"), "parent"), {})
@@ -227,6 +228,9 @@ print(
 print(render(If(C("cold"), "It is cold", "It is not cold"), {"cold": True}))
 print(render(If(C("cold"), "It is cold", "It is not cold"), {"cold": False}))
 print(render(Iterator(range(7), SPAN("I love loops ")), {}))
+
+print(render(BODY("HTML body", Fragment("content", DIV("Content of my page"))), {}))
+print(render(BODY("HTML body", Fragment("content", DIV("Content of my page"))), {}, fragment="content"))
 ```
 
 Output:
@@ -236,6 +240,9 @@ Just<span>some</span>elements<span>without</span>parent
 It is cold
 It is not cold
 <span>I love loops </span><span>I love loops </span><span>I love loops </span><span>I love loops </span><span>I love loops </span><span>I love loops </span><span>I love loops </span>
+
+<body>HTML body<div>Content of my page</div></body>
+<div>Content of my page</div>
 ```
 
 Converting existing HTML source
