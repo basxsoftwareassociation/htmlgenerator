@@ -7,7 +7,10 @@ from typing import Any, Callable, Generator, Iterable, List, Optional, Tuple, Un
 from .lazy import Lazy, resolve_lazy
 
 # for integration with the django safe string objects, compatible with Django
-from .safestring import conditional_escape, mark_safe
+try:
+    from django.utils.text import SafeString, conditional_escape, mark_safe
+except ImportError:
+    from .safestring import SafeString, conditional_escape, mark_safe
 
 EXCEPTION_HANDLER_NAME = "_htmlgenerator_exception_handler"
 "Must be a function without arguments, will be called when an "
@@ -175,6 +178,9 @@ class BaseElement(list):
 
     def copy(self) -> BaseElement:
         return copy.deepcopy(self)
+
+    def __repr__(self) -> str:
+        return f"{type(self).__name__}{super().__repr__()}"
 
 
 class If(BaseElement):
@@ -356,7 +362,7 @@ class ContextFormatter(string.Formatter):
     def get_value(self, key, args, kwds):
         def extract(value):
             if isinstance(value, BaseElement):
-                return render(value, self.context)
+                return mark_safe(render(value, self.context))
             v = resolve_lazy(value, self.context)
             return "" if v is None else v
 
