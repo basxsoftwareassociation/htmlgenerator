@@ -129,7 +129,7 @@ class ContextValue(Lazy):
             return resolve_lookup(context, self.value)
         return self.value
 
-    def __str__(self):
+    def __repr__(self):
         return f"{self.__class__.__name__}(value='{self.value}')"
 
 
@@ -143,7 +143,7 @@ class ContextFunction(Lazy):
     def resolve(self, context: dict) -> typing.Any:
         return self.func(context)
 
-    def __str__(self):
+    def __repr__(self):
         return f"{self.__class__.__name__}(func='{self.func}')"
 
 
