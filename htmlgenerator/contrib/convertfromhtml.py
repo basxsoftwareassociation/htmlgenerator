@@ -1,4 +1,5 @@
 import codecs
+import os
 
 import black  # type: ignore
 from bs4 import BeautifulSoup, Comment, Doctype, NavigableString, Tag  # type: ignore
@@ -122,10 +123,12 @@ from htmlgenerator import mark_safe as s
 html = hg.BaseElement(""",
     ]
 
-    soup = BeautifulSoup(
-        html,
-        "lxml",
-    )
+    if os.name == "nt":
+        parser = "html.parser"
+    else:
+        parser = "lxml"
+
+    soup = BeautifulSoup(html, parser)
     for subtag in soup.contents:
         tags = convert(subtag, 1, compact)
         if tags:
@@ -146,6 +149,7 @@ def main():
 
     formatflag = "--no-formatting"
     compactflag = "--compact"
+    encodingflag = "--encoding"
 
     files = sys.argv[1:]
     formatting = formatflag not in files
@@ -154,10 +158,15 @@ def main():
         files.remove(formatflag)
     if compactflag in files:
         files.remove(compactflag)
+    if encodingflag in files:
+        encoding = files[files.index(encodingflag) + 1]
+        files.remove(encodingflag)
+        files.remove(encoding)
+
     if not files:
         print(parsehtml(sys.stdin.read(), formatting, compact), end="")
     for _file in files:
-        with open(_file) as rf:
+        with open(_file, encoding=encoding) as rf:
             with open(_file + ".py", "w") as wf:
                 wf.write(parsehtml(rf.read(), formatting, compact))
 
