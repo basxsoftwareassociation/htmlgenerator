@@ -249,6 +249,7 @@ Converting existing HTML source
 -------------------------------
 
 htmlgenerator comes with a handy commandline tool to convert existing HTML-code into htmlgenerator python objects.
+In order to get all the dependencies for the tool, install it with ```pip install htmlgenerator[all]```
 
 It can be used with standard input or with a list of files as arguments:
 
@@ -260,11 +261,19 @@ By default the generated python files are formatted with black.
 Python code which has been generated from very large files, e.g. complete websites, might take multiple minutes to be formated.
 In order to get unformatted but still valid python code add the flag ```--no-formatting```.
 This will not run black on the generated python code and therefore be very fast.
-In order to generate more compact code the flag ```--compact``` can be passed to convertfromhtml.
+In order to generate more compact code the flag ```--compact``` can be passed to ```convertfromhtml```.
 This will generate the most compact python code and works with and without ```--no-formatting```.
 In order to get human readable code the flag ```--compact``` is recommended.
 In order to get code fast (especially for big pages) the flag ```--no-formatting``` is recommended.
-In order to get a one-liner us ```--compact``` and ```--no-formatting```.
+In order to get a one-liner use ```--compact``` and ```--no-formatting```.
+
+*Notes regarding the encoding of the input file:*
+
+In case the encoding of the input HTML source file differs from the default
+encoding of the operating system, there is the flag ```--encoding <encoding>```
+which allows to enforce the given encoding when reading the file. This is
+likely the case on Windows systems. It is therefore recommended to use
+```--encoding utf8``` when using ```convertfromhtml``` on windows.
 
 
 Django integration
