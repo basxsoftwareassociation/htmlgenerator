@@ -150,6 +150,7 @@ def main():
     formatflag = "--no-formatting"
     compactflag = "--compact"
     encodingflag = "--encoding"
+    encoding = sys.getdefaultencoding()
 
     files = sys.argv[1:]
     formatting = formatflag not in files
