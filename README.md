@@ -14,6 +14,8 @@ Why
 - **Keep the advantages of lazy rendering**: Render contexts and lazy values allow for implicit dependencies, like traditional templates.
 - **Define your own components**: Subclassing the base elements allows for easy implementation of e.g. a custom design or layout system.
 
+For more in depth reasoning and thoughts check out this great articel: (https://www.devever.net/~hl/stringtemplates)
+
 Getting started
 ---------------
 
