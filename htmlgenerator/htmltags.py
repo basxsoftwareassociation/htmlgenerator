@@ -625,6 +625,10 @@ class SUP(HTMLElement):
 class SVG(HTMLElement):
     tag = "svg"
 
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("xmlns", "http://www.w3.org/2000/svg")
+        super().__init__(*args, **kwargs)
+
 
 class TABLE(HTMLElement):
     tag = "table"
