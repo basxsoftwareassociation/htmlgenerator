@@ -126,7 +126,7 @@ from htmlgenerator import render, DIV
 
 
 class DoStuff:
-    # be aware that all yielded strings will not be seperated by spaces but concatenated directly
+    # be aware that all yielded strings will not be separated by spaces but concatenated directly
     def render(self, context):
         yield "eat "
         yield "sleep "
