@@ -1,3 +1,4 @@
+import base64
 import typing
 import warnings
 
@@ -380,6 +381,17 @@ class IMAGE(HTMLElement):
 
 class IMG(VoidElement):
     tag = "img"
+
+    def __init__(self, *args, embed_as=None, **kwargs):
+        if embed_as is not None:
+            if not isinstance(kwargs.get("src", None), bytes):
+                raise Exception(
+                    "An embeded image must have a bytes value set for the 'src' attribute"
+                )
+            kwargs[
+                "src"
+            ] = f"data:image/{embed_as};base64,{base64.b64encode(kwargs['src']).decode()}"
+        super().__init__(*args, **kwargs)
 
 
 class INPUT(VoidElement):
