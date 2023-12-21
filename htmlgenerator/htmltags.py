@@ -738,9 +738,10 @@ def flatattrs(attributes: dict, context: dict) -> str:
         if value is None:
             continue
 
-        if key[0] == "_":
-            key = key[1:]
-        key = key.replace("_", "-")
+        if key != "_":
+            if key[0] == "_":
+                key = key[1:]
+            key = key.replace("_", "-")
         if isinstance(value, bool) and key != "value":
             if value is True:
                 attlist.append(f"{conditional_escape(key)}")
