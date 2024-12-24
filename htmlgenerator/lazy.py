@@ -119,6 +119,18 @@ class Lazy:
     def resolve(self, context: dict) -> typing.Any:
         raise NotImplementedError("Lazy needs to be subclassed")
 
+    def __bool__(self):
+        return F(lambda c: bool(resolve_lazy(self, c)))
+
+    def __or__(self, other):  # this is the `|` operator, but will act like `or`
+        return F(lambda c: resolve_lazy(self, c) or resolve_lazy(other, c))
+
+    def __and__(self, other):  # this is the `&` operator but will act like `and`
+        return F(lambda c: resolve_lazy(self, c) and resolve_lazy(other, c))
+
+    def __not__(self):  # this is the `not` operator
+        return F(lambda c: not resolve_lazy(self, c))
+
 
 class ContextValue(Lazy):
     def __init__(self, value: str):

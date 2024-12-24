@@ -388,9 +388,9 @@ class IMG(VoidElement):
                 raise Exception(
                     "An embeded image must have a bytes value set for the 'src' attribute"
                 )
-            kwargs[
-                "src"
-            ] = f"data:image/{embed_as};base64,{base64.b64encode(kwargs['src']).decode()}"
+            kwargs["src"] = (
+                f"data:image/{embed_as};base64,{base64.b64encode(kwargs['src']).decode()}"
+            )
         super().__init__(*args, **kwargs)
 
 

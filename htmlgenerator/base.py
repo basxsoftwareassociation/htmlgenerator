@@ -8,9 +8,9 @@ from .lazy import Lazy, resolve_lazy
 
 # for integration with the django safe string objects, compatible with Django
 try:
-    from django.utils.text import SafeString, conditional_escape, mark_safe
+    from django.utils.text import conditional_escape, mark_safe
 except ImportError:
-    from .safestring import SafeString, conditional_escape, mark_safe
+    from .safestring import conditional_escape, mark_safe
 
 EXCEPTION_HANDLER_NAME = "_htmlgenerator_exception_handler"
 "Must be a function without arguments, will be called when an "
@@ -40,6 +40,10 @@ def _render_element(
             yield conditional_escape(element) if stringify else element
     except (Exception, RuntimeError) as e:
         yield from _handle_exception(e, context)
+
+
+def join(iter):
+    return BaseElement(*iter)
 
 
 class BaseElement(list):
@@ -178,6 +182,16 @@ class BaseElement(list):
 
     def copy(self) -> BaseElement:
         return copy.deepcopy(self)
+
+    def __add__(self, other):
+        return BaseElement(self, other)
+
+    def __radd__(self, other):
+        return BaseElement(self, other)
+
+    def __iadd__(self, other):
+        self.append(other)
+        return self
 
     def __repr__(self) -> str:
         return f"{type(self).__name__}{super().__repr__()}"
