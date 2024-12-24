@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import string
+import types
 from typing import Any, Callable, Generator, Iterable, List, Optional, Tuple, Union
 
 from .lazy import Lazy, resolve_lazy
@@ -57,7 +58,14 @@ class BaseElement(list):
         Uses the given arguments to initialize the list which
         represents the child objects
         """
-        super().__init__(children)
+        child_elements = []
+        for c in children:
+            if isinstance(c, types.GeneratorType):
+                child_elements.extend(c)
+            else:
+                child_elements.append(c)
+
+        super().__init__(child_elements)
 
     def render_children(
         self, context: dict, stringify: bool = True, fragment: Optional[str] = None
