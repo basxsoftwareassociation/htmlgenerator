@@ -1,7 +1,7 @@
 from .base import *  # noqa
 from .htmltags import *  # noqa
 from .lazy import *  # noqa
-from .safestring import mark_safe  # noqa
+from .safestring import mark_safe as mark_safe # noqa
 
 __version__ = "1.2.32"
 
