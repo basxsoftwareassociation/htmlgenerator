@@ -20,13 +20,11 @@ def multiline(s):
         if s.endswith('"'):
             s = s[:-1] + "\\" + s[-1]  # this will likely not work well...
         return f"'''{s}'''"
-    raise RuntimeError(
-        f"""
+    raise RuntimeError(f"""
 The following string could not be escaped.
 Please open an issue on https://github.com/basxsoftwareassociation/htmlgenerator/issues
 {s}
-"""
-    )
+""")
 
 
 def marksafestring(func):
